@@ -8,7 +8,6 @@ namespace CSCImiamiWarehouseSimulation
 {
     internal class Warehouse
     {
-        
 
         List<Dock> docks = new List<Dock>();
         Queue<Truck> entrance = new Queue<Truck>();
