@@ -19,8 +19,9 @@ namespace CSCImiamiWarehouseSimulation
             to back
         */
 
-        public string driver;
-        public string deliveryCompany;
+        public string driver { get; private set; }
+        public string deliveryCompany { get; private set; }
+
         public Stack<Crate> Trailer;
 
         public Truck()
