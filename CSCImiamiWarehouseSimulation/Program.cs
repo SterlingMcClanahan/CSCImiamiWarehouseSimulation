@@ -13,7 +13,7 @@ namespace CSCImiamiWarehouseSimulation
     {
         static void Main(string[] args)
         {
-            
+            Warehouse.Run();
         }
     }
 }

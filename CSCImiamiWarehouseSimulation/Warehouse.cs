@@ -15,7 +15,7 @@ namespace CSCImiamiWarehouseSimulation
         List<Dock> docks = new List<Dock>();
         Queue<Truck> entrance = new Queue<Truck>();
 
-        static void Run()
+        public static void Run()
         {
             //run the simulation
         }
