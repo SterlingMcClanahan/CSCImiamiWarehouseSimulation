@@ -8,7 +8,10 @@ namespace CSCImiamiWarehouseSimulation
 {
     internal class Dock
     {
+        private static int crateCounter = 0;
+
         public string Id { get; private set; }
+
         public Queue<Truck> Line { get; private set; } = new Queue<Truck>();
         public double TotalSales { get; private set; }
         public int TotalCrates { get; private set; }
@@ -18,7 +21,7 @@ namespace CSCImiamiWarehouseSimulation
 
         public Dock()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = $"Crate_{crateCounter++}";
         }
 
         public void JoinLine(Truck truck)
