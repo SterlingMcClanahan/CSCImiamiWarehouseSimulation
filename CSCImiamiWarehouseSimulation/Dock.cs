@@ -26,11 +26,29 @@ namespace CSCImiamiWarehouseSimulation
         /// </summary>
         public Queue<Truck> Line { get; private set; } = new Queue<Truck>();
 
-
+        /// <summary>
+        /// The total amount of sales as a double
+        /// </summary>
         public double TotalSales { get; private set; }
+
+        /// <summary>
+        /// The integer total of crates
+        /// </summary>
         public int TotalCrates { get; private set; }
+
+        /// <summary>
+        /// The integer total of trucks
+        /// </summary>
         public int TotalTrucks { get; private set; }
+
+        /// <summary>
+        /// How long a dock has been in use as a int
+        /// </summary>
         public int TimeInUse { get; private set; }
+
+        /// <summary>
+        /// How long a dock has not been used as a int
+        /// </summary>
         public int TimeNotInUse { get; private set; }
 
         public Dock()
