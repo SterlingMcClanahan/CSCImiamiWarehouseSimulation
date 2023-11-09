@@ -18,5 +18,8 @@ namespace CSCImiamiWarehouseSimulation
             Crate Unload() – Removes a crate from the front of the truck’s trailer, moving from front
             to back
         */
+
+
+
     }
 }

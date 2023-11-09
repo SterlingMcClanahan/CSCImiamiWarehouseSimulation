@@ -8,14 +8,17 @@ namespace CSCImiamiWarehouseSimulation
 {
     internal class Warehouse
     {
-        /*
-         *  List<Dock> Docks - The warehouse’s docks, up to a maximum of 15.
-            Queue<Truck> Entrance – All trucks must pass through the warehouse entrance before
-            being joining a line at a Dock.
-            Any properties you deem necessary to complete a run of the simulation.
-            The Warehouse class should implement the following methods:
-            void Run() - Runs the simulation. More details below.
-            Any methods you deem necessary to complete a run of the simulation
-        */
+        
+        List<Dock> docks = new List<Dock>();
+        Queue<Truck> entrance = new Queue<Truck>();
+
+        static void Run()
+        {
+            //run the simulation
+        }
+
+
+
+
     }
 }
