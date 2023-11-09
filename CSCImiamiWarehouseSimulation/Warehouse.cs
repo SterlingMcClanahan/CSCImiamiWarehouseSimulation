@@ -17,5 +17,14 @@ namespace CSCImiamiWarehouseSimulation
             void Run() - Runs the simulation. More details below.
             Any methods you deem necessary to complete a run of the simulation
         */
+
+        List<Dock> docks = new List<Dock>();
+        Queue<Truck> entrance = new Queue<Truck>();
+
+        static void Run()
+        {
+            //run the simulation
+        }
+
     }
 }
