@@ -8,18 +8,28 @@ namespace CSCImiamiWarehouseSimulation
 {
     internal class Dock
     {
-        /*
-            String Id – The dock’s unique identification number.
-            Queue<Truck> Line - The trucks in the dock’s line.
-            double TotalSales - The total cost of all crates unloaded at this dock.
-            int TotalCrates – The total number of crates unloaded at this dock.
-            int TotalTrucks – The total number of trucks processed at this dock.
-            int TimeInUse – The total number of time increments this dock was loading a truck.
-            int TimeNotInUse – The total number of time increments this dock was NOT loading a
-            truck.
-            The Dock class should implement the following methods:
-            void JoinLine(Truck truck) - Adds a truck to the dock’s line.
-            Truck SendOff() - Removes and returns the first Truck from the register's line.
-         */
+        public string Id { get; private set; }
+        public Queue<Truck> Line { get; private set; } = new Queue<Truck>();
+        public double TotalSales { get; private set; }
+        public int TotalCrates { get; private set; }
+        public int TotalTrucks { get; private set; }
+        public int TimeInUse { get; private set; }
+        public int TimeNotInUse { get; private set; }
+
+        public Dock()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+
+        public void JoinLine(Truck truck)
+        {
+            Line.Enqueue(truck);
+        }
+
+        public Truck SendOff()
+        {
+            TotalTrucks++;
+            return Line.Dequeue();
+        }
     }
 }
