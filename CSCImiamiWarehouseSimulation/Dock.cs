@@ -56,14 +56,22 @@ namespace CSCImiamiWarehouseSimulation
             Id = $"Crate_{dockCounter++}";
         }
 
+        /// <summary>
+        /// Adds a truck to the line
+        /// </summary>
+        /// <param name="truck">The truck being added</param>
         public void JoinLine(Truck truck)
         {
             Line.Enqueue(truck);
         }
 
+        /// <summary>
+        /// Removes a truck from the line
+        /// </summary>
+        /// <returns></returns>
         public Truck SendOff()
         {
-            TotalTrucks++;
+            TotalTrucks--;
             return Line.Dequeue();
         }
     }
