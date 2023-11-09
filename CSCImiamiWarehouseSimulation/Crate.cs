@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace CSCImiamiWarehouseSimulation
 {
-    internal class Crate
+    public class Crate
     {
-        /*
-         *  string Id - The crate’s unique identification number.
-         *  double Price - The cost of the crate’s contents.
-         *    The price will be a random value from $50 to $500
-        */
+        private static int crateCounter = 0;
+
+        public string Id { get; private set; }
+        public double Price { get; private set; }
 
 
-
-        
+        public Crate()
+        {
+            Id = $"Crate_{crateCounter++}";
+            Price = new Random().Next(50, 501); // Random value from $50 to $500
+        }
 
     }
 }
