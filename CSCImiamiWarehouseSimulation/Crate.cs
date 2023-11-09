@@ -14,7 +14,7 @@ namespace CSCImiamiWarehouseSimulation
          *    The price will be a random value from $50 to $500
         */
 
-
+        //womp womp
 
     }
 }
