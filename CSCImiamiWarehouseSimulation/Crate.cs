@@ -16,7 +16,7 @@ namespace CSCImiamiWarehouseSimulation
         public Crate()
         {
             Id = $"Crate_{crateCounter++}";
-            Price = new Random().Next(50, 501); // Random value from $50 to $500
+            Price = new Random().Next(50, 500); // Random value from $50 to $500
         }
     }
 }
