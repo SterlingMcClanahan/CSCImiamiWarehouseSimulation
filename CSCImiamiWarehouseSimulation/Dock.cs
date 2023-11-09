@@ -11,11 +11,22 @@ namespace CSCImiamiWarehouseSimulation
 {
     internal class Dock
     {
-        private static int crateCounter = 0;
+        /// <summary>
+        /// A integer that counts docks
+        /// </summary>
+        private static int dockCounter = 0;
 
+        /// <summary>
+        /// A string of ID's gotten by dockCounter
+        /// </summary>
         public string Id { get; private set; }
 
+        /// <summary>
+        /// A queue of trucks 
+        /// </summary>
         public Queue<Truck> Line { get; private set; } = new Queue<Truck>();
+
+
         public double TotalSales { get; private set; }
         public int TotalCrates { get; private set; }
         public int TotalTrucks { get; private set; }
@@ -24,7 +35,7 @@ namespace CSCImiamiWarehouseSimulation
 
         public Dock()
         {
-            Id = $"Crate_{crateCounter++}";
+            Id = $"Crate_{dockCounter++}";
         }
 
         public void JoinLine(Truck truck)

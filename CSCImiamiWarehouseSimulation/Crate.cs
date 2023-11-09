@@ -11,9 +11,18 @@ namespace CSCImiamiWarehouseSimulation
 {
     public class Crate
     {
+        /// <summary>
+        /// A integer that counts crates
+        /// </summary>
         private static int crateCounter = 0;
 
+        /// <summary>
+        /// A string of ID's gotten by crateCounter
+        /// </summary>
         public string Id { get; private set; }
+        /// <summary>
+        /// The Price of the crate between $50 and $500
+        /// </summary>
         public double Price { get; private set; }
 
         public Crate()
