@@ -51,9 +51,12 @@ namespace CSCImiamiWarehouseSimulation
         /// </summary>
         public int TimeNotInUse { get; private set; }
 
+        /// <summary>
+        /// The dock ID representation
+        /// </summary>
         public Dock()
         {
-            Id = $"Crate_{dockCounter++}";
+            Id = $"Dock_{dockCounter++}";
         }
 
         /// <summary>
