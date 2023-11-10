@@ -48,9 +48,26 @@ namespace CSCImiamiWarehouseSimulation
         }
 
         //might have to do a special case to check if there is any item to remove (not sure)
-        public Crate Unload(Crate crate)
+        public Crate Unload()
         {
-            return Trailer.Pop();
+            if (HasMoreCrates())
+            {
+                return Trailer.Pop();
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+            
+        }
+
+        public bool HasMoreCrates()
+        {
+            if (Trailer.Count > 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
