@@ -35,7 +35,7 @@ namespace CSCImiamiWarehouseSimulation
         /// <summary>
         /// The stack of crates inside of the truck.
         /// </summary>
-        public Stack<Crate> Trailer;
+        public Stack<Crate> Trailer = new Stack<Crate>();
 
         /// <summary>
         /// A list of potential driver names from the 1994 Japanese Baseball game "Fighting Baseball".
