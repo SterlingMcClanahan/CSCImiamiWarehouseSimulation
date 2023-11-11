@@ -47,6 +47,11 @@ namespace CSCImiamiWarehouseSimulation
             //Setup of Trucks
             List<Truck>[] trucks = new List<Truck>[timeIncrements];
 
+            for (int i = 0; i < timeIncrements; i++)
+            {
+                trucks[i] = new List<Truck>();
+            }
+
             //For the number of Time Increments.
             for(int i = 0; i < timeIncrements; i++)
             {
@@ -133,7 +138,7 @@ namespace CSCImiamiWarehouseSimulation
                                 //And another truck is already in the Dock
                                 //Do nothing currently, but eventually add logging info here and nothing else.
                             }
-                            else if (dock.Line.Count = 0)
+                            else if (dock.Line.Count == 0)
                             {
                                 //But another truck is NOT already in the Dock
                                 //Do nothing currently, but eventually add logging info here and nothing else.

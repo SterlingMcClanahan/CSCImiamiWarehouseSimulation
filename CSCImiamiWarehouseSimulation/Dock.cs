@@ -19,37 +19,37 @@ namespace CSCImiamiWarehouseSimulation
         /// <summary>
         /// A string of ID's gotten by dockCounter
         /// </summary>
-        public string Id { get; private set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// A queue of trucks 
         /// </summary>
-        public Queue<Truck> Line { get; private set; } = new Queue<Truck>();
+        public Queue<Truck> Line { get; set; } = new Queue<Truck>();
 
         /// <summary>
         /// The total amount of sales as a double
         /// </summary>
-        public double TotalSales { get; private set; }
+        public double TotalSales { get;  set; }
 
         /// <summary>
         /// The integer total of crates
         /// </summary>
-        public int TotalCrates { get; private set; }
+        public int TotalCrates { get; set; }
 
         /// <summary>
         /// The integer total of trucks
         /// </summary>
-        public int TotalTrucks { get; private set; }
+        public int TotalTrucks { get; set; }
 
         /// <summary>
         /// How long a dock has been in use as a int
         /// </summary>
-        public int TimeInUse { get; private set; }
+        public int TimeInUse { get; set; }
 
         /// <summary>
         /// How long a dock has not been used as a int
         /// </summary>
-        public int TimeNotInUse { get; private set; }
+        public int TimeNotInUse { get; set; }
 
         /// <summary>
         /// The dock ID representation
