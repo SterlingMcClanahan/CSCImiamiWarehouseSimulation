@@ -24,9 +24,10 @@ namespace CSCImiamiWarehouseSimulation
         public float chanceOfGeneratingTruck { get; set; } = 0;
         public int maxPossibleTrucksPerTimeIncrement { get; set; } = 5;
 
-        public int timeInUse;
+        public double allDockSales = 0;
 
-        //Warehouse warehouse = new Warehouse();
+        public int longestLine = 0;
+
 
         public Warehouse()
         {
@@ -37,19 +38,7 @@ namespace CSCImiamiWarehouseSimulation
         public static void Run(Warehouse warehouse)
         {
             //Initial Setup of Simulation and its parameters.
-
-            //int timeIncrements = 48; //Each increment represents 10 minutes out of an 8 hour shift.
-            //int currentTime = 0;
-            //int numberOfDocks = 10;
-            //int numberOfTrucks = 0;
-            //float chanceOfGeneratingTruck = 0;
-            //int maxPossibleTrucksPerTimeIncrement = 5;
-
-            
-
-            //Setup of Warehouse
-            //Warehouse warehouse = new Warehouse();
-
+            // might need to set parameters back to starting point here
 
             //Setup of Docks
             for (int i = 0; i < warehouse.numberOfDocks; i++)
@@ -215,15 +204,28 @@ namespace CSCImiamiWarehouseSimulation
             // total revenue                     //
             ///////////////////////////////////////
 
-            
-            Console.WriteLine("Each Docks Total Time Used: ");
+
+            foreach(Dock dock in warehouse.docks)
+            {
+                warehouse.allDockSales += dock.TotalSales;
+                if(dock.lineLength > warehouse.longestLine)
+                {
+                    warehouse.longestLine = dock.lineLength;
+                }
+            }
+            Console.WriteLine("Total Sales From all Docks: " + warehouse.allDockSales);
+            Console.WriteLine("Longest Line: " + warehouse.longestLine);
+
+
+            Console.WriteLine("Each Docks Time & Sales: ");
             foreach (Dock dock in warehouse.docks)
             {
                 
                 Console.WriteLine("  Dock " + dock.Id +":");
                 Console.WriteLine("    Time in use: " + dock.TimeInUse);
+                Console.WriteLine("    Time not in use: " + dock.TimeNotInUse);
                 Console.WriteLine("    Sales: " + dock.TotalSales);
-
+                Console.WriteLine("    Longest Line: " + dock.lineLength);
                 //total cost of operating dock
 
                 foreach (Truck truck in dock.Line)
@@ -248,4 +250,5 @@ namespace CSCImiamiWarehouseSimulation
         }
 
     }
+
 }
