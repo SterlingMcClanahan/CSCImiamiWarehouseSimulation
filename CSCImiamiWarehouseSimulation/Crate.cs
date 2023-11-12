@@ -14,7 +14,7 @@ namespace CSCImiamiWarehouseSimulation
         /// <summary>
         /// A integer that counts crates
         /// </summary>
-        private static int crateCounter = 0;
+        public static int crateCounter = 0;
 
         /// <summary>
         /// A string of ID's gotten by crateCounter

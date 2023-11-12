@@ -14,7 +14,7 @@ namespace CSCImiamiWarehouseSimulation
         /// <summary>
         /// A integer that counts docks
         /// </summary>
-        private static int dockCounter = 0;
+        private static int dockCounter = 1;
 
         /// <summary>
         /// A string of ID's gotten by dockCounter
@@ -56,7 +56,7 @@ namespace CSCImiamiWarehouseSimulation
         /// </summary>
         public Dock()
         {
-            Id = $"Dock_{dockCounter++}";
+            Id = $"{dockCounter++}";
         }
 
         /// <summary>

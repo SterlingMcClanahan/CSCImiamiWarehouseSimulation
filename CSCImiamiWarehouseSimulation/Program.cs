@@ -13,7 +13,15 @@ namespace CSCImiamiWarehouseSimulation
     {
         static void Main(string[] args)
         {
-            Warehouse.Run();
+            Warehouse warehouse = new Warehouse();
+            //make it simple to check output
+            warehouse.numberOfDocks = 5;
+            warehouse.numberOfTrucks = 1;
+            warehouse.chanceOfGeneratingTruck = 5;
+            warehouse.maxPossibleTrucksPerTimeIncrement = 1;
+
+            Warehouse.Run(warehouse);
+            Warehouse.PrintEverything(warehouse);
         }
     }
 }
