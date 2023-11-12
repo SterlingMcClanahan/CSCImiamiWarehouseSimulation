@@ -17,6 +17,7 @@ namespace CSCImiamiWarehouseSimulation
         List<Dock> docks = new List<Dock>();
         Queue<Truck> entrance = new Queue<Truck>();
 
+        public double dockCost = 100;
         public int timeIncrements { get; set; } = 48;
         public int currentTime { get; set; } = 0;
         public int numberOfDocks { get; set; } = 10;
@@ -32,7 +33,10 @@ namespace CSCImiamiWarehouseSimulation
         public int totalUnusedDockTime;
         public int totalProcessedTrucks;
         public int totalCratesProcessed;
-
+        public double avgDockTimeUse;
+        public double avgValueOfCrates;
+        public double totalCostOfOperatingEachDock;
+        public double revenue;
         public Warehouse()
         {
             docks.Clear();
@@ -190,22 +194,12 @@ namespace CSCImiamiWarehouseSimulation
             Console.WriteLine("REPORT: ");
             Console.WriteLine("Number of Docks: " + warehouse.numberOfDocks);
             
-              //////////////////
-             // longest line //
-            //////////////////
+
 
             Console.WriteLine("Number of Trucks: " + warehouse.numberOfTrucks);
 
             ///////////////////////////////////////
-            // need total number of crates       //
-            // need total value of crates        //
-            // avg value of each crate           //
-            // avg val of each truck             //
-            // total time a dock was in use      //
-            // total time a dock is not in use   //
-            // avg time a dock was in use        // 
-            // total cost of operating each dock //
-            // total revenue                     //
+            // avg val of each truck             // 
             ///////////////////////////////////////
 
 
@@ -227,6 +221,20 @@ namespace CSCImiamiWarehouseSimulation
             Console.WriteLine("Total Time Unused by Docks: " + warehouse.totalUnusedDockTime);
             Console.WriteLine("Toal Processed Trucks: " + warehouse.totalProcessedTrucks);
             Console.WriteLine("Total Crates Processed: " + warehouse.totalCratesProcessed);
+
+            warehouse.avgValueOfCrates = warehouse.allDockSales / warehouse.totalCratesProcessed;
+            Console.WriteLine("Average Value of All Crates: " + warehouse.avgValueOfCrates);
+
+            warehouse.avgDockTimeUse = warehouse.totalUsedDockTime / warehouse.numberOfDocks;
+            Console.WriteLine("Average Time Each Dock Was in Use: " + warehouse.avgDockTimeUse);
+
+            warehouse.totalCostOfOperatingEachDock = warehouse.dockCost * warehouse.numberOfDocks * warehouse.timeIncrements;
+            Console.WriteLine("Total Cost of Operating Each Dock: " + warehouse.totalCostOfOperatingEachDock);
+
+            warehouse.revenue = warehouse.allDockSales - warehouse.totalCostOfOperatingEachDock;
+            Console.WriteLine("Total Revenue: " + warehouse.revenue);
+
+            Console.WriteLine();
 
             Console.WriteLine("Each Docks Time & Sales: ");
             foreach (Dock dock in warehouse.docks)
