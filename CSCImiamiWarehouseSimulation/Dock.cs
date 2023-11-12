@@ -11,7 +11,9 @@ namespace CSCImiamiWarehouseSimulation
 {
     internal class Dock
     {
-        public int lineLength = 0; 
+        public int lineLength = 0;
+        public int numberOfTrucksEmptied;
+
 
         /// <summary>
         /// A integer that counts docks
@@ -81,6 +83,7 @@ namespace CSCImiamiWarehouseSimulation
         public Truck SendOff()
         {
             TotalTrucks--;
+            numberOfTrucksEmptied++;
             return Line.Dequeue();
         }
 

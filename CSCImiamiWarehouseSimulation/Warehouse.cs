@@ -28,6 +28,10 @@ namespace CSCImiamiWarehouseSimulation
 
         public int longestLine = 0;
 
+        public int totalUsedDockTime;
+        public int totalUnusedDockTime;
+        public int totalProcessedTrucks;
+        public int totalCratesProcessed;
 
         public Warehouse()
         {
@@ -212,10 +216,17 @@ namespace CSCImiamiWarehouseSimulation
                 {
                     warehouse.longestLine = dock.lineLength;
                 }
+                warehouse.totalUsedDockTime += dock.TimeInUse;
+                warehouse.totalUnusedDockTime += dock.TimeNotInUse;
+                warehouse.totalProcessedTrucks += dock.numberOfTrucksEmptied;
+                warehouse.totalCratesProcessed += dock.TotalCrates;
             }
             Console.WriteLine("Total Sales From all Docks: " + warehouse.allDockSales);
             Console.WriteLine("Longest Line: " + warehouse.longestLine);
-
+            Console.WriteLine("Total Time Used by Docks: " + warehouse.totalUsedDockTime);
+            Console.WriteLine("Total Time Unused by Docks: " + warehouse.totalUnusedDockTime);
+            Console.WriteLine("Toal Processed Trucks: " + warehouse.totalProcessedTrucks);
+            Console.WriteLine("Total Crates Processed: " + warehouse.totalCratesProcessed);
 
             Console.WriteLine("Each Docks Time & Sales: ");
             foreach (Dock dock in warehouse.docks)
