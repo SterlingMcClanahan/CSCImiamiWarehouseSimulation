@@ -65,7 +65,13 @@ namespace CSCImiamiWarehouseSimulation
                 "Genco Pura Olive Oil Company", "The New York Inquirer"
             };
 
+        /// <summary>
+        /// Minimum number of crates for simulation
+        /// </summary>
         public static int minimumCrateNumber = 3;
+        /// <summary>
+        /// Maximum number of crates for simulation
+        /// </summary>
         public static int maximumCrateNumber = 8;
 
         /// <summary>
