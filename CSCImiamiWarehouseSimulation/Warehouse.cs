@@ -67,7 +67,7 @@ namespace CSCImiamiWarehouseSimulation
             }
 
             //Creates the normal distribution for the truck arrival
-            NormalDistribution truckArrivalDistribution = new NormalDistribution(timeIncrements / 2, 5); //<--Needs to be adjusted <--!!!NEW CODE!!!
+            NormalDistribution truckArrivalDistribution = new NormalDistribution(warehouse.timeIncrements / 2, 5); //<--Needs to be adjusted <--!!!NEW CODE!!!
 
             //For the number of Time Increments.
             for(int i = 0; i < warehouse.timeIncrements; i++)
@@ -76,7 +76,7 @@ namespace CSCImiamiWarehouseSimulation
                 int trucksThisIncrement = (int)Math.Round(truckArrivalDistribution.Sample(new Random())); //<--!!!NEW CODE!!!
 
                 //Makes sure the number of trucks does not exceed the maximum possible 
-                trucksThisIncrement = Math.Min(trucksThisIncrement, maxPossibleTrucksPerTimeIncrement); //<--!!!NEW CODE!!!
+                trucksThisIncrement = Math.Min(trucksThisIncrement, warehouse.maxPossibleTrucksPerTimeIncrement); //<--!!!NEW CODE!!!
 
                 //This is where we need to do the normal distribution code.
                 if(i < warehouse.timeIncrements / 2)
