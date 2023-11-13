@@ -7,6 +7,7 @@
 //              in the form of a warehouse simulation.
 //
 ///////////////////////////////////////////////////////////////////////////////
+using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 
 namespace CSCImiamiWarehouseSimulation
@@ -19,6 +20,7 @@ namespace CSCImiamiWarehouseSimulation
 
         List<Truck> allTrucks = new List<Truck>();
 
+        List<Crate> allDeliveredCrates = new List<Crate>();
         
 
         public double dockCost { get; set; } = 100;
@@ -145,13 +147,14 @@ namespace CSCImiamiWarehouseSimulation
                             warehouse.allTrucks.Add(currentTruck);
                         }
                         
-                        while(currentTruck.HasMoreCrates())
+                        if(currentTruck.HasMoreCrates())
                         {
                             Crate currentCrate = currentTruck.Unload();
                             currentCrate.timeIncrementDelivered = warehouse.currentTime;
                             dock.TotalCrates++;
                             dock.TotalSales += currentCrate.Price;
                             currentTruck.truckWorth += currentCrate.Price;
+                            warehouse.allDeliveredCrates.Add(currentCrate);
                         }
 
                         if (currentTruck.HasMoreCrates())
@@ -251,7 +254,18 @@ namespace CSCImiamiWarehouseSimulation
                 Console.WriteLine("    Longest Line: " + dock.lineLength);
             }
 
-            
+            foreach(Crate crate in warehouse.allDeliveredCrates)
+            {
+               
+                // crates id number
+                Console.WriteLine("    " + crate.Id);
+               
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("///////////////////////////////////////////////////////////////////////////");
+            Console.WriteLine();
+            // need to print this stuff to a csv file
             foreach (Truck truck in warehouse.allTrucks)
             {
                 warehouse.totalTruckValue += truck.truckWorth;
@@ -275,6 +289,7 @@ namespace CSCImiamiWarehouseSimulation
 
                     //help
 
+                    
                 }
             }
 
