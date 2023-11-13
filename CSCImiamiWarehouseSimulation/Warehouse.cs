@@ -267,11 +267,12 @@ namespace CSCImiamiWarehouseSimulation
             }
 
             Console.WriteLine();
-
             Console.WriteLine();
             Console.WriteLine("///////////////////////////////////////////////////////////////////////////");
             Console.WriteLine();
             // need to print this stuff to a csv file
+
+            Console.WriteLine("Crate Info to CSV File:");
             foreach (Truck truck in warehouse.allTrucks)
             {
                 warehouse.totalTruckValue += truck.truckWorth;
