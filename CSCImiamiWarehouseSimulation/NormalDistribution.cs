@@ -19,8 +19,6 @@ namespace CSCImiamiWarehouseSimulation
         public double Mean { get; set; }
         public double Variance { get; set; }
         public double StandardDev { get; set; }
-        private bool hasPreviousValue;
-        private double previousRandomY;
 
         public NormalDistribution(double mean, double standardDev)
         {
@@ -31,15 +29,9 @@ namespace CSCImiamiWarehouseSimulation
 
         public double Sample(Random rand)
         {
-            double x1, x2, w, y1;
+            double x1, x2, w, y1, y2;
 
-            if (hasPreviousValue)
-            {
-                y1 = previousRandomY;
-                hasPreviousValue = false;
-            }
-            else
-            {
+    
                 do
                 {
                     x1 = 2.0 * rand.NextDouble() - 1.0;
@@ -50,11 +42,23 @@ namespace CSCImiamiWarehouseSimulation
 
                 w = Math.Sqrt(-2.0 * Math.Log(w) / w);
                 y1 = x1 * w;
-                previousRandomY = x2 * w;
-                hasPreviousValue = true;
-            }
+            
 
             return Mean + y1 * StandardDev;
+        }
+
+        /// <summary>
+        /// <seealso cref="https://www.scirp.org/journal/paperinformation.aspx?paperid=96275"/>
+        /// 
+        /// </summary>
+        /// <param name="rand"></param>
+        /// <returns></returns>
+        public double SampleRev2(Random rand)
+        {
+            var zeroToOne = rand.NextDouble();
+            var result = Math.Log(1 - zeroToOne);
+            var lambda = -1;
+            return lambda * result
         }
 
     }

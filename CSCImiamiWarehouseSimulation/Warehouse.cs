@@ -78,7 +78,7 @@ namespace CSCImiamiWarehouseSimulation
             for(int i = 0; i < warehouse.timeIncrements; i++)
             {
                 //Determine how many trucks per time increment using Normal Distribution.
-                int trucksThisIncrement = (int)Math.Round(truckArrivalDistribution.Sample(new Random())); //<--!!!NEW CODE!!!
+                int trucksThisIncrement = (int)Math.Round(truckArrivalDistribution.SampleRev2(new Random())); //<--!!!NEW CODE!!!
 
                 //Makes sure the number of trucks does not exceed the maximum possible 
                 trucksThisIncrement = Math.Min(trucksThisIncrement, warehouse.maxPossibleTrucksPerTimeIncrement); //<--!!!NEW CODE!!!
