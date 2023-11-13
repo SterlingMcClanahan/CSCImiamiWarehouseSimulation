@@ -262,9 +262,11 @@ namespace CSCImiamiWarehouseSimulation
             {
                
                 // crates id number
-                Console.WriteLine("    " + crate.Id);
+                Console.Write(crate.Id + ", ");
                
             }
+
+            Console.WriteLine();
 
             Console.WriteLine();
             Console.WriteLine("///////////////////////////////////////////////////////////////////////////");
@@ -280,15 +282,15 @@ namespace CSCImiamiWarehouseSimulation
                     //////////////////////////////////
 
                     //time increment crate was unloaded
-                    Console.WriteLine(crate.timeIncrementDelivered);
+                    Console.Write(crate.timeIncrementDelivered + ", ");
                     // truck drivers name
-                    Console.WriteLine("  " + truck.driver);
+                    Console.Write("" + truck.driver + ", ");
                     // delivery companies name
-                    Console.WriteLine("  " + truck.deliveryCompany);
+                    Console.Write("" + truck.deliveryCompany + ", ");
                     // crates id number
-                    Console.WriteLine("    " + crate.Id);
+                    Console.Write("" + crate.Id + ", ");
                     // crates value 
-                    Console.WriteLine("    " + crate.Price);
+                    Console.WriteLine("" + crate.Price);
                     // string status after crate is unloaded
 
                     //help
