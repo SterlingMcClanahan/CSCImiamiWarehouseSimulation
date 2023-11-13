@@ -11,7 +11,6 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace CSCImiamiWarehouseSimulation
 {
-    //Needs to be tested to ensure it actually works. I also still need to go to Gillenwater's office hours to see if this is the correct way to do this.
     //Where I discovered how to do this --> https://forum.unity.com/threads/random-number-with-normal-distribution-passing-average-value.1229193/
     public class NormalDistribution
     {
@@ -58,7 +57,7 @@ namespace CSCImiamiWarehouseSimulation
             var zeroToOne = rand.NextDouble();
             var result = Math.Log(1 - zeroToOne);
             var lambda = -1;
-            return lambda * result
+            return lambda * result;
         }
 
     }
