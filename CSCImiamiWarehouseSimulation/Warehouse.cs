@@ -228,7 +228,7 @@ namespace CSCImiamiWarehouseSimulation
             Console.WriteLine("Total Time Used by Docks: " + warehouse.totalUsedDockTime);
             Console.WriteLine("Total Time Unused by Docks: " + warehouse.totalUnusedDockTime);
             Console.WriteLine("Toal Processed Trucks: " + warehouse.totalProcessedTrucks);
-            Console.WriteLine("Total Crates Processed: " + warehouse.totalCratesProcessed);
+            Console.WriteLine("Total Crates Processed: " + warehouse.allDeliveredCrates.Count());
 
             warehouse.avgValueOfCrates = warehouse.allDockSales / warehouse.totalCratesProcessed;
             Console.WriteLine("Average Value of All Crates: " + warehouse.avgValueOfCrates);
@@ -254,7 +254,10 @@ namespace CSCImiamiWarehouseSimulation
                 Console.WriteLine("    Longest Line: " + dock.lineLength);
             }
 
-            foreach(Crate crate in warehouse.allDeliveredCrates)
+            Console.WriteLine();
+
+            Console.WriteLine("Delivered Crates: ");
+            foreach (Crate crate in warehouse.allDeliveredCrates)
             {
                
                 // crates id number
