@@ -58,7 +58,7 @@ namespace CSCImiamiWarehouseSimulation
             var zeroToOne = rand.NextDouble();
             var result = Math.Log(1 - zeroToOne);
             var lambda = -1;
-            return lambda * result
+            return lambda * result;
         }
 
     }
