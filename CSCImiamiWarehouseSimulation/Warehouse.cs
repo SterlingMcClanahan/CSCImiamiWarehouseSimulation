@@ -45,6 +45,7 @@ namespace CSCImiamiWarehouseSimulation
         public double totalCostOfOperatingEachDock;
         public double revenue;
         public double totalTruckValue;
+        public string scenario = null;
         public Warehouse()
         {
             docks.Clear();
@@ -162,6 +163,7 @@ namespace CSCImiamiWarehouseSimulation
                         {
                             //Situation where crate has been unloaded and there are more crates to unload.
                             //Do nothing currently, but eventually add logging info here and nothing else.
+                            warehouse.scenario = "HasMoreCrates";
                         }
                         else
                         {
@@ -173,11 +175,13 @@ namespace CSCImiamiWarehouseSimulation
                             {
                                 //And another truck is already in the Dock
                                 //Do nothing currently, but eventually add logging info here and nothing else.
+                                warehouse.scenario = "WaitingForNextTruck";
                             }
                             else if (dock.Line.Count == 0)
                             {
                                 //But another truck is NOT already in the Dock
                                 //Do nothing currently, but eventually add logging info here and nothing else.
+                                warehouse.scenario = "NoNextTruck";
                             }
                         }
 
@@ -291,19 +295,40 @@ namespace CSCImiamiWarehouseSimulation
                     // crates id number
                     Console.Write("" + crate.Id + ", ");
                     // crates value 
-                    Console.WriteLine("" + crate.Price);
+                    Console.WriteLine("" + crate.Price + ", ");
                     // string status after crate is unloaded
+                    Console.WriteLine("" + warehouse.scenario);
+                    warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate, warehouse.scenario);
+                    //hel
 
-                    //help
-
-                    
                 }
             }
 
             Console.WriteLine("Average Truck Value: " + warehouse.totalTruckValue / warehouse.allTrucks.Count);
 
         }
+        private void LogToCSV(int timeIncrement, string driver, string company, Crate crate, string scenario)
+        {
+            //Does not clear the previous CSV file before making a new one
 
+            // Replace "yourfile.csv" with the actual path and filename you want to use
+            string filePath = "yourfile.csv";
+
+            // Check if the file exists; if not, create it and write the header
+            if (!File.Exists(filePath))
+            {
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine("Time Increment,Driver,Delivery Company,Crate ID,Crate Value,Scenario");
+                }
+            }
+
+            // Append the new log entry
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                writer.WriteLine($"{timeIncrement},{driver},{company},{crate?.Id ?? "N/A"},{crate?.Price ?? 0},{scenario}");
+            }
+        }
     }
 
 }
