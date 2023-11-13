@@ -69,10 +69,8 @@ namespace CSCImiamiWarehouseSimulation
         /// <param name="truck">The truck being added</param>
         public void JoinLine(Truck truck)
         {
-            if (Line.Count() > lineLength)
-            {
-                lineLength = Line.Count();
-            }
+
+            lineLength += 1;           
             Line.Enqueue(truck);
         }
 

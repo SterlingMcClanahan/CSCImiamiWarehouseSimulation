@@ -16,6 +16,7 @@ namespace CSCImiamiWarehouseSimulation
     {
 
         List<Dock> docks = new List<Dock>();
+
         Queue<Truck> entrance = new Queue<Truck>();
 
         List<Truck> allTrucks = new List<Truck>();
@@ -251,7 +252,7 @@ namespace CSCImiamiWarehouseSimulation
                 Console.WriteLine("    Time in use: " + dock.TimeInUse);
                 Console.WriteLine("    Time not in use: " + dock.TimeNotInUse);
                 Console.WriteLine("    Sales: " + dock.TotalSales);
-                Console.WriteLine("    Longest Line: " + dock.lineLength);
+                Console.WriteLine("    Line Length: " + dock.lineLength);
             }
 
             Console.WriteLine();
