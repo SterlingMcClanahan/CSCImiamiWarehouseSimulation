@@ -17,7 +17,11 @@ namespace CSCImiamiWarehouseSimulation
         List<Dock> docks = new List<Dock>();
         Queue<Truck> entrance = new Queue<Truck>();
 
-        public double dockCost = 100;
+        List<Truck> allTrucks = new List<Truck>();
+
+        
+
+        public double dockCost { get; set; } = 100;
         public int timeIncrements { get; set; } = 48;
         public int currentTime { get; set; } = 0;
         public int numberOfDocks { get; set; } = 10;
@@ -37,6 +41,7 @@ namespace CSCImiamiWarehouseSimulation
         public double avgValueOfCrates;
         public double totalCostOfOperatingEachDock;
         public double revenue;
+        public double totalTruckValue;
         public Warehouse()
         {
             docks.Clear();
@@ -131,14 +136,22 @@ namespace CSCImiamiWarehouseSimulation
                 foreach (Dock dock in warehouse.docks)
                 {
                     Truck currentTruck;
+                    
                     if (dock.Line.Count > 0)
                     {
                         currentTruck = dock.Line.Peek();
-                        if (currentTruck.HasMoreCrates())
+                        if(!warehouse.allTrucks.Contains(currentTruck))
+                        {
+                            warehouse.allTrucks.Add(currentTruck);
+                        }
+                        
+                        while(currentTruck.HasMoreCrates())
                         {
                             Crate currentCrate = currentTruck.Unload();
+                            currentCrate.timeIncrementDelivered = warehouse.currentTime;
                             dock.TotalCrates++;
                             dock.TotalSales += currentCrate.Price;
+                            currentTruck.truckWorth += currentCrate.Price;
                         }
 
                         if (currentTruck.HasMoreCrates())
@@ -193,15 +206,7 @@ namespace CSCImiamiWarehouseSimulation
             //  required for report //
             Console.WriteLine("REPORT: ");
             Console.WriteLine("Number of Docks: " + warehouse.numberOfDocks);
-            
-
-
             Console.WriteLine("Number of Trucks: " + warehouse.numberOfTrucks);
-
-            ///////////////////////////////////////
-            // avg val of each truck             // 
-            ///////////////////////////////////////
-
 
             foreach(Dock dock in warehouse.docks)
             {
@@ -239,32 +244,41 @@ namespace CSCImiamiWarehouseSimulation
             Console.WriteLine("Each Docks Time & Sales: ");
             foreach (Dock dock in warehouse.docks)
             {
-                
                 Console.WriteLine("  Dock " + dock.Id +":");
                 Console.WriteLine("    Time in use: " + dock.TimeInUse);
                 Console.WriteLine("    Time not in use: " + dock.TimeNotInUse);
                 Console.WriteLine("    Sales: " + dock.TotalSales);
                 Console.WriteLine("    Longest Line: " + dock.lineLength);
-                //total cost of operating dock
+            }
 
-                foreach (Truck truck in dock.Line)
+            
+            foreach (Truck truck in warehouse.allTrucks)
+            {
+                warehouse.totalTruckValue += truck.truckWorth;
+                foreach (Crate crate in truck.deliveredCrates)
                 {
-                    // need average value of truck
+                    //////////////////////////////////
+                    // log each crate to a csv file //
+                    //////////////////////////////////
 
-                    foreach (Crate crate in truck.Trailer)
-                    {
-                        // log each crate to a csv file
-                            //time increment crate was unloaded
-                            // truck drivers name
-                            // delivery companies name
-                            // crates id number
-                            // crates value 
-                            // string status after crate is unloaded
-                    }
+                    //time increment crate was unloaded
+                    Console.WriteLine(crate.timeIncrementDelivered);
+                    // truck drivers name
+                    Console.WriteLine("  " + truck.driver);
+                    // delivery companies name
+                    Console.WriteLine("  " + truck.deliveryCompany);
+                    // crates id number
+                    Console.WriteLine("    " + crate.Id);
+                    // crates value 
+                    Console.WriteLine("    " + crate.Price);
+                    // string status after crate is unloaded
+
+                    //help
 
                 }
-
             }
+
+            Console.WriteLine("Average Truck Value: " + warehouse.totalTruckValue / warehouse.allTrucks.Count);
 
         }
 

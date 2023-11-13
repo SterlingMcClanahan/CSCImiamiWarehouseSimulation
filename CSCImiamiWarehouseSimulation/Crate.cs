@@ -11,6 +11,8 @@ namespace CSCImiamiWarehouseSimulation
 {
     public class Crate
     {
+
+        public int timeIncrementDelivered;
         /// <summary>
         /// A integer that counts crates
         /// </summary>
