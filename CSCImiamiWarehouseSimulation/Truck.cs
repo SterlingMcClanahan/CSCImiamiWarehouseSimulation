@@ -102,7 +102,7 @@ namespace CSCImiamiWarehouseSimulation
 
             //Generate random driver and company names and use the parameterized constructor.
             Truck truck = new Truck(driverNames[random.Next(0, Truck.driverNames.Count - 1)], deliveryCompanies[random.Next(0, Truck.deliveryCompanies.Count - 1)]);
-
+            
             //Add a random amount of crates to the truck.
             for (int i = 0; i < new Random().Next(minimumCrateNumber, maximumCrateNumber); i++)
             {
