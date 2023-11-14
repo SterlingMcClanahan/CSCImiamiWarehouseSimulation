@@ -49,10 +49,10 @@ namespace CSCImiamiWarehouseSimulation
 
         /// <summary>
         /// <seealso cref="https://www.scirp.org/journal/paperinformation.aspx?paperid=96275"/>
-        /// 
+        /// Samples a random variable using the inverse transform method (Normal Distribution)
         /// </summary>
-        /// <param name="rand"></param>
-        /// <returns></returns>
+        /// <param name="rand">A Random object used to generate random numbers</param>
+        /// <returns>A random number distributed according to the exponential density function</returns>
         public double SampleRev2(Random rand)
         {
             var zeroToOne = rand.NextDouble();
