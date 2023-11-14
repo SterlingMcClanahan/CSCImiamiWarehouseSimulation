@@ -288,6 +288,14 @@ namespace CSCImiamiWarehouseSimulation
                 Console.WriteLine("    Line Length: " + dock.lineLength);
             }
 
+
+            foreach (Truck truck in warehouse.allTrucks)
+            {
+                warehouse.totalTruckValue += truck.truckWorth;
+            }
+            Console.WriteLine("Average Truck Value: " + warehouse.totalTruckValue / warehouse.allTrucks.Count);
+
+            Console.WriteLine();
             Console.WriteLine();
 
             Console.WriteLine("Delivered Crates: ");
@@ -336,7 +344,7 @@ namespace CSCImiamiWarehouseSimulation
                 }
             }
 
-            Console.WriteLine("Average Truck Value: " + warehouse.totalTruckValue / warehouse.allTrucks.Count);
+            //Console.WriteLine("Average Truck Value: " + warehouse.totalTruckValue / warehouse.allTrucks.Count);
 
         }
         private void LogToCSV(int timeIncrement, string driver, string company, string id, double price,string scenario)
