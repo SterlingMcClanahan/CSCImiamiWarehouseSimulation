@@ -161,7 +161,7 @@ namespace CSCImiamiWarehouseSimulation
                             currentTruck.truckWorth += currentCrate.Price;
                             warehouse.allDeliveredCrates.Add(currentCrate);
                         }
-                        else if (warehouse.allDeliveredCrates.Count() > 0 && currentTruck.Trailer.Count() == 0)
+                        if (warehouse.allDeliveredCrates.Count() > 0 && currentTruck.Trailer.Count() == 0)
                         {
                             lastDeliveredCrate = warehouse.allDeliveredCrates.Last();
                             if (currentTruck.HasMoreCrates())
@@ -182,14 +182,13 @@ namespace CSCImiamiWarehouseSimulation
                                 {
                                     //And another truck is already in the Dock
                                     //Do nothing currently, but eventually add logging info here and nothing else.
-                                    //warehouse.scenario = "WaitingForNextTruck";
                                     lastDeliveredCrate.scenario = "WaitingForNextTruck";
                                 }
                                 else if (dock.Line.Count == 0)
                                 {
                                     //But another truck is NOT already in the Dock
                                     //Do nothing currently, but eventually add logging info here and nothing else.
-                                    //warehouse.scenario = "NoNextTruck";
+
                                     lastDeliveredCrate.scenario = "NoNextTruck";
                                 }
                             }
