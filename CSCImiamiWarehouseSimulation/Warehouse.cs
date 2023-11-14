@@ -329,7 +329,8 @@ namespace CSCImiamiWarehouseSimulation
                     Console.WriteLine("" + crate.scenario);
 
 
-                    warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate, crate.scenario);
+                    //warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate, crate.scenario);
+                    warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate.Id, crate.Price, crate.scenario);
                     //hel
 
                 }
@@ -338,7 +339,7 @@ namespace CSCImiamiWarehouseSimulation
             Console.WriteLine("Average Truck Value: " + warehouse.totalTruckValue / warehouse.allTrucks.Count);
 
         }
-        private void LogToCSV(int timeIncrement, string driver, string company, Crate crate, string scenario)
+        private void LogToCSV(int timeIncrement, string driver, string company, string id, double price,string scenario)
         {
             //Does not clear the previous CSV file before making a new one
 
@@ -357,7 +358,8 @@ namespace CSCImiamiWarehouseSimulation
             // Append the new log entry
             using (StreamWriter writer = new StreamWriter(filePath, true))
             {
-                writer.WriteLine($"{timeIncrement},{driver},{company},{crate?.Id ?? "N/A"},{crate?.Price ?? 0},{scenario}");
+                //writer.WriteLine($"{timeIncrement},{driver},{company},{crate?.Id ?? "N/A"},{crate?.Price ?? 0},{scenario}");
+                writer.WriteLine($"{timeIncrement},{driver},{company},{id},{price},{scenario}");
             }
         }
     }
