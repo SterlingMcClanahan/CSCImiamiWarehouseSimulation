@@ -11,9 +11,11 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace CSCImiamiWarehouseSimulation
 {
-    //Where I discovered how to do this --> https://forum.unity.com/threads/random-number-with-normal-distribution-passing-average-value.1229193/
     public class NormalDistribution
     {
+        /*
+        //Where I discovered how to do this --> https://forum.unity.com/threads/random-number-with-normal-distribution-passing-average-value.1229193/
+
         private double prevRandomValue;
         public double Mean { get; set; }
         public double Variance { get; set; }
@@ -30,21 +32,20 @@ namespace CSCImiamiWarehouseSimulation
         {
             double x1, x2, w, y1, y2;
 
-    
-                do
-                {
-                    x1 = 2.0 * rand.NextDouble() - 1.0;
-                    x2 = 2.0 * rand.NextDouble() - 1.0;
-                    w = x1 * x1 + x2 * x2;
-                }
-                while (w >= 1.0);
+            do
+            {
+                x1 = 2.0 * rand.NextDouble() - 1.0;
+                x2 = 2.0 * rand.NextDouble() - 1.0;
+                w = x1 * x1 + x2 * x2;
+            }
+            while (w >= 1.0);
 
-                w = Math.Sqrt(-2.0 * Math.Log(w) / w);
-                y1 = x1 * w;
-            
+            w = Math.Sqrt(-2.0 * Math.Log(w) / w);
+            y1 = x1 * w;
+
 
             return Mean + y1 * StandardDev;
-        }
+        }*/
 
         /// <summary>
         /// <seealso cref="https://www.scirp.org/journal/paperinformation.aspx?paperid=96275"/>
