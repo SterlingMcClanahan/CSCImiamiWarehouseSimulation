@@ -80,6 +80,7 @@ namespace CSCImiamiWarehouseSimulation
         /// <returns></returns>
         public Truck SendOff()
         {
+            lineLength--;
             TotalTrucks--;
             numberOfTrucksEmptied++;
             return Line.Dequeue();

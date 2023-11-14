@@ -23,7 +23,9 @@ namespace CSCImiamiWarehouseSimulation
         List<int> allTruckIds = new List<int>();
 
         List<Crate> allDeliveredCrates = new List<Crate>();
-        
+
+        List<Truck> allProcessedTrucks = new List<Truck>();
+
         public double dockCost { get; set; } = 100;
         public int timeIncrements { get; set; } = 48;
         public int currentTime = 0;
@@ -171,6 +173,7 @@ namespace CSCImiamiWarehouseSimulation
                         {
                             //Situation where crate has been unloaded and the truck has no more crates to unload.
                             dock.SendOff();
+                            warehouse.allProcessedTrucks.Add(currentTruck);
                             //dock.TotalTrucks++;
 
                             if (dock.Line.Count > 0)
@@ -268,7 +271,7 @@ namespace CSCImiamiWarehouseSimulation
 
             // the dock processed truck counter is off, which means trucks are being processed wrong
             Console.WriteLine("Toal Processed Trucks by dock counter: " + warehouse.totalProcessedTrucks);
-            Console.WriteLine("Total processed trucks by warehouse list: " + warehouse.allTrucks.Count());
+            Console.WriteLine("Total processed trucks by warehouse list: " + warehouse.allProcessedTrucks.Count());
 
             Console.WriteLine("Total Crates Processed: " + warehouse.allDeliveredCrates.Count());
 
@@ -343,9 +346,8 @@ namespace CSCImiamiWarehouseSimulation
                     warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate.Id, crate.Price, crate.scenario);
                 }
             }
-
-
         }
+
         private void LogToCSV(int timeIncrement, string driver, string company, string id, double price,string scenario)
         {
             //Does not clear the previous CSV file before making a new one
@@ -370,5 +372,4 @@ namespace CSCImiamiWarehouseSimulation
             }
         }
     }
-
 }
