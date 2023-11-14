@@ -11,16 +11,15 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace CSCImiamiWarehouseSimulation
 {
-    //Needs to be tested to ensure it actually works. I also still need to go to Gillenwater's office hours to see if this is the correct way to do this.
-    //Where I discovered how to do this --> https://forum.unity.com/threads/random-number-with-normal-distribution-passing-average-value.1229193/
     public class NormalDistribution
     {
+        /*
+        //Where I discovered how to do this --> https://forum.unity.com/threads/random-number-with-normal-distribution-passing-average-value.1229193/
+
         private double prevRandomValue;
         public double Mean { get; set; }
         public double Variance { get; set; }
         public double StandardDev { get; set; }
-        private bool hasPreviousValue;
-        private double previousRandomY;
 
         public NormalDistribution(double mean, double standardDev)
         {
@@ -31,30 +30,35 @@ namespace CSCImiamiWarehouseSimulation
 
         public double Sample(Random rand)
         {
-            double x1, x2, w, y1;
+            double x1, x2, w, y1, y2;
 
-            if (hasPreviousValue)
+            do
             {
-                y1 = previousRandomY;
-                hasPreviousValue = false;
+                x1 = 2.0 * rand.NextDouble() - 1.0;
+                x2 = 2.0 * rand.NextDouble() - 1.0;
+                w = x1 * x1 + x2 * x2;
             }
-            else
-            {
-                do
-                {
-                    x1 = 2.0 * rand.NextDouble() - 1.0;
-                    x2 = 2.0 * rand.NextDouble() - 1.0;
-                    w = x1 * x1 + x2 * x2;
-                }
-                while (w >= 1.0);
+            while (w >= 1.0);
 
-                w = Math.Sqrt(-2.0 * Math.Log(w) / w);
-                y1 = x1 * w;
-                previousRandomY = x2 * w;
-                hasPreviousValue = true;
-            }
+            w = Math.Sqrt(-2.0 * Math.Log(w) / w);
+            y1 = x1 * w;
+
 
             return Mean + y1 * StandardDev;
+        }*/
+
+        /// <summary>
+        /// <seealso cref="https://www.scirp.org/journal/paperinformation.aspx?paperid=96275"/>
+        /// Samples a random variable using the inverse transform method (Normal Distribution)
+        /// </summary>
+        /// <param name="rand">A Random object used to generate random numbers</param>
+        /// <returns>A random number distributed according to the exponential density function</returns>
+        public double SampleRev2(Random rand)
+        {
+            var zeroToOne = rand.NextDouble();
+            var result = Math.Log(1 - zeroToOne);
+            var lambda = -1;
+            return lambda * result;
         }
 
     }

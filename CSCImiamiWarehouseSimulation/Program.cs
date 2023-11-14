@@ -15,9 +15,8 @@ namespace CSCImiamiWarehouseSimulation
         {
             Warehouse warehouse = new Warehouse();
             //make it simple to check output
-            warehouse.numberOfDocks = 5;
+            warehouse.numberOfDocks = 3;
             warehouse.numberOfTrucks = 1;
-            warehouse.chanceOfGeneratingTruck = 5;
             warehouse.maxPossibleTrucksPerTimeIncrement = 1;
 
             Warehouse.Run(warehouse);

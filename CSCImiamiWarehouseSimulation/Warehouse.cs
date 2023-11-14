@@ -7,6 +7,7 @@
 //              in the form of a warehouse simulation.
 //
 ///////////////////////////////////////////////////////////////////////////////
+using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 
 namespace CSCImiamiWarehouseSimulation
@@ -15,8 +16,15 @@ namespace CSCImiamiWarehouseSimulation
     {
 
         List<Dock> docks = new List<Dock>();
+
         Queue<Truck> entrance = new Queue<Truck>();
 
+        List<Truck> allTrucks = new List<Truck>();
+
+        List<Crate> allDeliveredCrates = new List<Crate>();
+        
+
+        public double dockCost { get; set; } = 100;
         public int timeIncrements { get; set; } = 48;
         public int currentTime { get; set; } = 0;
         public int numberOfDocks { get; set; } = 10;
@@ -24,10 +32,20 @@ namespace CSCImiamiWarehouseSimulation
         public float chanceOfGeneratingTruck { get; set; } = 0;
         public int maxPossibleTrucksPerTimeIncrement { get; set; } = 5;
 
-        public int timeInUse;
+        public double allDockSales = 0;
 
-        //Warehouse warehouse = new Warehouse();
+        public int longestLine = 0;
 
+        public int totalUsedDockTime;
+        public int totalUnusedDockTime;
+        public int totalProcessedTrucks;
+        public int totalCratesProcessed;
+        public double avgDockTimeUse;
+        public double avgValueOfCrates;
+        public double totalCostOfOperatingEachDock;
+        public double revenue;
+        public double totalTruckValue;
+        //public string scenario = null;
         public Warehouse()
         {
             docks.Clear();
@@ -37,19 +55,7 @@ namespace CSCImiamiWarehouseSimulation
         public static void Run(Warehouse warehouse)
         {
             //Initial Setup of Simulation and its parameters.
-
-            //int timeIncrements = 48; //Each increment represents 10 minutes out of an 8 hour shift.
-            //int currentTime = 0;
-            //int numberOfDocks = 10;
-            //int numberOfTrucks = 0;
-            //float chanceOfGeneratingTruck = 0;
-            //int maxPossibleTrucksPerTimeIncrement = 5;
-
-            
-
-            //Setup of Warehouse
-            //Warehouse warehouse = new Warehouse();
-
+            // might need to set parameters back to starting point here
 
             //Setup of Docks
             for (int i = 0; i < warehouse.numberOfDocks; i++)
@@ -67,18 +73,18 @@ namespace CSCImiamiWarehouseSimulation
             }
 
             //Creates the normal distribution for the truck arrival
-            NormalDistribution truckArrivalDistribution = new NormalDistribution(warehouse.timeIncrements / 2, 5); //<--Needs to be adjusted <--!!!NEW CODE!!!
+            NormalDistribution truckArrivalDistribution = new NormalDistribution(); //Updated based on office hours w/ Gillenwater
 
             //For the number of Time Increments.
-            for(int i = 0; i < warehouse.timeIncrements; i++)
+            for (int i = 0; i < warehouse.timeIncrements; i++)
             {
                 //Determine how many trucks per time increment using Normal Distribution.
-                int trucksThisIncrement = (int)Math.Round(truckArrivalDistribution.Sample(new Random())); //<--!!!NEW CODE!!!
+                int trucksThisIncrement = (int)Math.Round(truckArrivalDistribution.SampleRev2(new Random())); //Updated based on office hours w/ Gillenwater
 
                 //Makes sure the number of trucks does not exceed the maximum possible 
-                trucksThisIncrement = Math.Min(trucksThisIncrement, warehouse.maxPossibleTrucksPerTimeIncrement); //<--!!!NEW CODE!!!
+                trucksThisIncrement = Math.Min(trucksThisIncrement, warehouse.maxPossibleTrucksPerTimeIncrement); //Still need?
 
-                //This is where we need to do the normal distribution code.
+                //This is where we need to do the normal distribution code. <--Might need this
                 if(i < warehouse.timeIncrements / 2)
                 {
                     warehouse.chanceOfGeneratingTruck = i / warehouse.timeIncrements;
@@ -134,38 +140,91 @@ namespace CSCImiamiWarehouseSimulation
                 foreach (Dock dock in warehouse.docks)
                 {
                     Truck currentTruck;
+                    Crate currentCrate;
+                    Crate lastDeliveredCrate;
+                    
                     if (dock.Line.Count > 0)
                     {
                         currentTruck = dock.Line.Peek();
-                        if (currentTruck.HasMoreCrates())
+                        if(!warehouse.allTrucks.Contains(currentTruck))
                         {
-                            Crate currentCrate = currentTruck.Unload();
+                            warehouse.allTrucks.Add(currentTruck);
+                        }
+                       
+                        if(currentTruck.HasMoreCrates())
+                        {
+                            
+                            currentCrate = currentTruck.Unload();
+                            currentCrate.timeIncrementDelivered = warehouse.currentTime;
                             dock.TotalCrates++;
                             dock.TotalSales += currentCrate.Price;
+                            currentTruck.truckWorth += currentCrate.Price;
+                            warehouse.allDeliveredCrates.Add(currentCrate);
                         }
+                        else if (warehouse.allDeliveredCrates.Count() > 0 && currentTruck.Trailer.Count() == 0)
+                        {
+                            lastDeliveredCrate = warehouse.allDeliveredCrates.Last();
+                            if (currentTruck.HasMoreCrates())
+                            {
 
-                        if (currentTruck.HasMoreCrates())
-                        {
-                            //Situation where crate has been unloaded and there are more crates to unload.
-                            //Do nothing currently, but eventually add logging info here and nothing else.
-                        }
-                        else
-                        {
-                            //Situation where crate has been unloaded and the truck has no more crates to unload.
-                            dock.SendOff();
-                            dock.TotalTrucks++;
-                            
-                            if (dock.Line.Count > 0)
-                            {
-                                //And another truck is already in the Dock
+                                //Situation where crate has been unloaded and there are more crates to unload.
                                 //Do nothing currently, but eventually add logging info here and nothing else.
+                                //warehouse.scenario = "HasMoreCrates";
+                                lastDeliveredCrate.scenario = "HasMoreCrates";
                             }
-                            else if (dock.Line.Count == 0)
+                            else
                             {
-                                //But another truck is NOT already in the Dock
-                                //Do nothing currently, but eventually add logging info here and nothing else.
+                                //Situation where crate has been unloaded and the truck has no more crates to unload.
+                                dock.SendOff();
+                                dock.TotalTrucks++;
+
+                                if (dock.Line.Count > 0)
+                                {
+                                    //And another truck is already in the Dock
+                                    //Do nothing currently, but eventually add logging info here and nothing else.
+                                    //warehouse.scenario = "WaitingForNextTruck";
+                                    lastDeliveredCrate.scenario = "WaitingForNextTruck";
+                                }
+                                else if (dock.Line.Count == 0)
+                                {
+                                    //But another truck is NOT already in the Dock
+                                    //Do nothing currently, but eventually add logging info here and nothing else.
+                                    //warehouse.scenario = "NoNextTruck";
+                                    lastDeliveredCrate.scenario = "NoNextTruck";
+                                }
                             }
                         }
+                        // I was having trouble referencing the variable of the same crate
+
+                        //if (currentTruck.HasMoreCrates())
+                        //{
+
+                        //    //Situation where crate has been unloaded and there are more crates to unload.
+                        //    //Do nothing currently, but eventually add logging info here and nothing else.
+                        //    //warehouse.scenario = "HasMoreCrates";
+                        //    lastDeliveredCrate.scenario = "HasMoreCrates";
+                        //}
+                        //else
+                        //{
+                        //    //Situation where crate has been unloaded and the truck has no more crates to unload.
+                        //    dock.SendOff();
+                        //    dock.TotalTrucks++;
+
+                        //    if (dock.Line.Count > 0)
+                        //    {
+                        //        //And another truck is already in the Dock
+                        //        //Do nothing currently, but eventually add logging info here and nothing else.
+                        //        //warehouse.scenario = "WaitingForNextTruck";
+                        //        currentCrate.scenario = "WaitingForNextTruck";
+                        //    }
+                        //    else if (dock.Line.Count == 0)
+                        //    {
+                        //        //But another truck is NOT already in the Dock
+                        //        //Do nothing currently, but eventually add logging info here and nothing else.
+                        //        //warehouse.scenario = "NoNextTruck";
+                        //        currentCrate.scenario = "NoNextTruck";
+                        //    }
+                        //}
 
                         dock.TimeInUse++;
                     }
@@ -196,56 +255,133 @@ namespace CSCImiamiWarehouseSimulation
             //  required for report //
             Console.WriteLine("REPORT: ");
             Console.WriteLine("Number of Docks: " + warehouse.numberOfDocks);
-            
-              //////////////////
-             // longest line //
-            //////////////////
-
             Console.WriteLine("Number of Trucks: " + warehouse.numberOfTrucks);
 
-            ///////////////////////////////////////
-            // need total number of crates       //
-            // need total value of crates        //
-            // avg value of each crate           //
-            // avg val of each truck             //
-            // total time a dock was in use      //
-            // total time a dock is not in use   //
-            // avg time a dock was in use        // 
-            // total cost of operating each dock //
-            // total revenue                     //
-            ///////////////////////////////////////
-
-            
-            Console.WriteLine("Each Docks Total Time Used: ");
-            foreach (Dock dock in warehouse.docks)
+            foreach(Dock dock in warehouse.docks)
             {
-                
-                Console.WriteLine("  Dock " + dock.Id +":");
-                Console.WriteLine("    Time in use: " + dock.TimeInUse);
-                Console.WriteLine("    Sales: " + dock.TotalSales);
-
-                //total cost of operating dock
-
-                foreach (Truck truck in dock.Line)
+                warehouse.allDockSales += dock.TotalSales;
+                if(dock.lineLength > warehouse.longestLine)
                 {
-                    // need average value of truck
-
-                    foreach (Crate crate in truck.Trailer)
-                    {
-                        // log each crate to a csv file
-                            //time increment crate was unloaded
-                            // truck drivers name
-                            // delivery companies name
-                            // crates id number
-                            // crates value 
-                            // string status after crate is unloaded
-                    }
-
+                    warehouse.longestLine = dock.lineLength;
                 }
-
+                warehouse.totalUsedDockTime += dock.TimeInUse;
+                warehouse.totalUnusedDockTime += dock.TimeNotInUse;
+                warehouse.totalProcessedTrucks += dock.numberOfTrucksEmptied;
+                warehouse.totalCratesProcessed += dock.TotalCrates;
             }
 
-        }
+            Console.WriteLine("Total Sales From all Docks: " + warehouse.allDockSales);
+            Console.WriteLine("Longest Line: " + warehouse.longestLine);
+            Console.WriteLine("Total Time Used by Docks: " + warehouse.totalUsedDockTime);
+            Console.WriteLine("Total Time Unused by Docks: " + warehouse.totalUnusedDockTime);
+            Console.WriteLine("Toal Processed Trucks: " + warehouse.totalProcessedTrucks);
+            Console.WriteLine("Total Crates Processed: " + warehouse.allDeliveredCrates.Count());
 
+            warehouse.avgValueOfCrates = warehouse.allDockSales / warehouse.totalCratesProcessed;
+            Console.WriteLine("Average Value of All Crates: " + warehouse.avgValueOfCrates);
+
+            warehouse.avgDockTimeUse = warehouse.totalUsedDockTime / warehouse.numberOfDocks;
+            Console.WriteLine("Average Time Each Dock Was in Use: " + warehouse.avgDockTimeUse);
+
+            warehouse.totalCostOfOperatingEachDock = warehouse.dockCost * warehouse.numberOfDocks * warehouse.timeIncrements;
+            Console.WriteLine("Total Cost of Operating Each Dock: " + warehouse.totalCostOfOperatingEachDock);
+
+            warehouse.revenue = warehouse.allDockSales - warehouse.totalCostOfOperatingEachDock;
+            Console.WriteLine("Total Revenue: " + warehouse.revenue);
+
+            foreach (Truck truck in warehouse.allTrucks)
+            {
+                warehouse.totalTruckValue += truck.truckWorth;
+            }
+            Console.WriteLine("Average Truck Value: " + warehouse.totalTruckValue / warehouse.allTrucks.Count);
+
+            Console.WriteLine();
+
+            Console.WriteLine("Each Docks Time & Sales: ");
+            foreach (Dock dock in warehouse.docks)
+            {
+                Console.WriteLine("  Dock " + dock.Id +":");
+                Console.WriteLine("    Time in use: " + dock.TimeInUse);
+                Console.WriteLine("    Time not in use: " + dock.TimeNotInUse);
+                Console.WriteLine("    Sales: " + dock.TotalSales);
+                Console.WriteLine("    Line Length: " + dock.lineLength);
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            Console.WriteLine("Delivered Crates: ");
+            foreach (Crate crate in warehouse.allDeliveredCrates)
+            {
+               
+                // crates id number
+                Console.Write(crate.Id + ", ");
+               
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("///////////////////////////////////////////////////////////////////////////");
+            Console.WriteLine();
+            // need to print this stuff to a csv file
+
+            Console.WriteLine("Crate Info to CSV File:");
+            foreach (Truck truck in warehouse.allTrucks)
+            {
+                warehouse.totalTruckValue += truck.truckWorth;
+                foreach (Crate crate in truck.deliveredCrates)
+                {
+                    //////////////////////////////////
+                    // log each crate to a csv file //
+                    //////////////////////////////////
+
+                    //time increment crate was unloaded
+                    Console.Write(crate.timeIncrementDelivered + ", ");
+                    // truck drivers name
+                    Console.Write("" + truck.driver + ", ");
+                    // delivery companies name
+                    Console.Write("" + truck.deliveryCompany + ", ");
+                    // crates id number
+                    Console.Write("" + crate.Id + ", ");
+                    // crates value 
+                    Console.Write("" + crate.Price + ", ");
+                    // string status after crate is unloaded
+                    Console.WriteLine("" + crate.scenario);
+
+
+                    //warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate, crate.scenario);
+                    warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate.Id, crate.Price, crate.scenario);
+                    //hel
+
+                }
+            }
+
+            //Console.WriteLine("Average Truck Value: " + warehouse.totalTruckValue / warehouse.allTrucks.Count);
+
+        }
+        private void LogToCSV(int timeIncrement, string driver, string company, string id, double price,string scenario)
+        {
+            //Does not clear the previous CSV file before making a new one
+
+            // Replace "yourfile.csv" with the actual path and filename you want to use
+            string filePath = "yourfile.csv";
+
+            // Check if the file exists; if not, create it and write the header
+            if (!File.Exists(filePath))
+            {
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine("Time Increment,Driver,Delivery Company,Crate ID,Crate Value,Scenario");
+                }
+            }
+
+            // Append the new log entry
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                //writer.WriteLine($"{timeIncrement},{driver},{company},{crate?.Id ?? "N/A"},{crate?.Price ?? 0},{scenario}");
+                writer.WriteLine($"{timeIncrement},{driver},{company},{id},{price},{scenario}");
+            }
+        }
     }
+
 }
