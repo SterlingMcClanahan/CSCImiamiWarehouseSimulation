@@ -11,6 +11,7 @@ namespace CSCImiamiWarehouseSimulation
 {
     public class Crate
     {
+        public string scenario = null;
 
         public int timeIncrementDelivered;
         /// <summary>

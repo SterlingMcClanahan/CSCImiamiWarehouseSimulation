@@ -45,7 +45,7 @@ namespace CSCImiamiWarehouseSimulation
         public double totalCostOfOperatingEachDock;
         public double revenue;
         public double totalTruckValue;
-        public string scenario = null;
+        //public string scenario = null;
         public Warehouse()
         {
             docks.Clear();
@@ -151,39 +151,68 @@ namespace CSCImiamiWarehouseSimulation
                         
                         if(currentTruck.HasMoreCrates())
                         {
+                            
                             Crate currentCrate = currentTruck.Unload();
                             currentCrate.timeIncrementDelivered = warehouse.currentTime;
                             dock.TotalCrates++;
                             dock.TotalSales += currentCrate.Price;
                             currentTruck.truckWorth += currentCrate.Price;
                             warehouse.allDeliveredCrates.Add(currentCrate);
+
+                            if (currentTruck.HasMoreCrates())
+                            {
+                                //Crate crate = currentTruck.Trailer.Peek();
+                                currentCrate.scenario = "HasMoreCrates";
+
+                            }
+                            else
+                            {
+                                //Situation where crate has been unloaded and the truck has no more crates to unload.
+                                dock.SendOff();
+                                dock.TotalTrucks++;
+
+                                if (dock.Line.Count > 0)
+                                {
+                                    currentCrate.scenario = "WaitingForNextTruck";
+                                }
+                                else if (dock.Line.Count == 0)
+                                {
+                                    
+                                    currentCrate.scenario = "NoNextTruck";
+                                }
+                            }
                         }
 
-                        if (currentTruck.HasMoreCrates())
-                        {
-                            //Situation where crate has been unloaded and there are more crates to unload.
-                            //Do nothing currently, but eventually add logging info here and nothing else.
-                            warehouse.scenario = "HasMoreCrates";
-                        }
-                        else
-                        {
-                            //Situation where crate has been unloaded and the truck has no more crates to unload.
-                            dock.SendOff();
-                            dock.TotalTrucks++;
+                        // let me know if moving this messes things up, I think it should still work within the if statement
+                        // I was having trouble referencing the variable of the same crate
+
+                        //if (currentTruck.HasMoreCrates())
+                        //{
                             
-                            if (dock.Line.Count > 0)
-                            {
-                                //And another truck is already in the Dock
-                                //Do nothing currently, but eventually add logging info here and nothing else.
-                                warehouse.scenario = "WaitingForNextTruck";
-                            }
-                            else if (dock.Line.Count == 0)
-                            {
-                                //But another truck is NOT already in the Dock
-                                //Do nothing currently, but eventually add logging info here and nothing else.
-                                warehouse.scenario = "NoNextTruck";
-                            }
-                        }
+                        //    //Situation where crate has been unloaded and there are more crates to unload.
+                        //    //Do nothing currently, but eventually add logging info here and nothing else.
+                        //    warehouse.scenario = "HasMoreCrates";
+                        //}
+                        //else
+                        //{
+                        //    //Situation where crate has been unloaded and the truck has no more crates to unload.
+                        //    dock.SendOff();
+                        //    dock.TotalTrucks++;
+                            
+                        //    if (dock.Line.Count > 0)
+                        //    {
+                        //        Crate crate = 
+                        //        //And another truck is already in the Dock
+                        //        //Do nothing currently, but eventually add logging info here and nothing else.
+                        //        warehouse.scenario = "WaitingForNextTruck";
+                        //    }
+                        //    else if (dock.Line.Count == 0)
+                        //    {
+                        //        //But another truck is NOT already in the Dock
+                        //        //Do nothing currently, but eventually add logging info here and nothing else.
+                        //        warehouse.scenario = "NoNextTruck";
+                        //    }
+                        //}
 
                         dock.TimeInUse++;
                     }
@@ -295,10 +324,12 @@ namespace CSCImiamiWarehouseSimulation
                     // crates id number
                     Console.Write("" + crate.Id + ", ");
                     // crates value 
-                    Console.WriteLine("" + crate.Price + ", ");
+                    Console.Write("" + crate.Price + ", ");
                     // string status after crate is unloaded
-                    Console.WriteLine("" + warehouse.scenario);
-                    warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate, warehouse.scenario);
+                    Console.WriteLine("" + crate.scenario);
+
+
+                    warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate, crate.scenario);
                     //hel
 
                 }
