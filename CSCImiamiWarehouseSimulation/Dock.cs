@@ -12,7 +12,7 @@ namespace CSCImiamiWarehouseSimulation
     internal class Dock
     {
         public int lineLength = 0;
-        public int numberOfTrucksEmptied;
+        public int numberOfTrucksEmptied = 0;
 
 
         /// <summary>

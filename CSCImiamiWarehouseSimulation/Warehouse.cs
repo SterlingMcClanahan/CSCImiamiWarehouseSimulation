@@ -14,18 +14,16 @@ namespace CSCImiamiWarehouseSimulation
 {
     internal class Warehouse
     {
-
         List<Dock> docks = new List<Dock>();
 
         Queue<Truck> entrance = new Queue<Truck>();
 
         List<Truck> allTrucks = new List<Truck>();
-        List<int> allTruckIds = new List<int>();
 
+        List<int> allTruckIds = new List<int>();
 
         List<Crate> allDeliveredCrates = new List<Crate>();
         
-
         public double dockCost { get; set; } = 100;
         public int timeIncrements { get; set; } = 48;
         public int currentTime { get; set; } = 0;
@@ -35,9 +33,7 @@ namespace CSCImiamiWarehouseSimulation
         public int maxPossibleTrucksPerTimeIncrement { get; set; } = 5;
 
         public double allDockSales = 0;
-
         public int longestLine = 0;
-
         public int totalUsedDockTime;
         public int totalUnusedDockTime;
         public int totalProcessedTrucks;
@@ -47,7 +43,7 @@ namespace CSCImiamiWarehouseSimulation
         public double totalCostOfOperatingEachDock;
         public double revenue;
         public double totalTruckValue;
-        //public string scenario = null;
+
         public Warehouse()
         {
             docks.Clear();
@@ -156,7 +152,6 @@ namespace CSCImiamiWarehouseSimulation
                        
                         if(currentTruck.HasMoreCrates())
                         {
-                            
                             currentCrate = currentTruck.Unload();
                             currentCrate.timeIncrementDelivered = warehouse.currentTime;
                             dock.TotalCrates++;
@@ -164,34 +159,31 @@ namespace CSCImiamiWarehouseSimulation
                             currentTruck.truckWorth += currentCrate.Price;
                             warehouse.allDeliveredCrates.Add(currentCrate);
                         }
-                        if (warehouse.allDeliveredCrates.Count() > 0)
+
+                        lastDeliveredCrate = warehouse.allDeliveredCrates.Last();
+                        if (currentTruck.HasMoreCrates())
                         {
-                            lastDeliveredCrate = warehouse.allDeliveredCrates.Last();
-                            if (currentTruck.HasMoreCrates())
-                            {
 
-                                //Situation where crate has been unloaded and there are more crates to unload.
-                                lastDeliveredCrate.scenario = "HasMoreCrates";
-                            }
-                            else
-                            {
-                                //Situation where crate has been unloaded and the truck has no more crates to unload.
-                                dock.SendOff();
-                                dock.TotalTrucks++;
-                                //warehouse.totalProcessedTrucks++;
+                            //Situation where crate has been unloaded and there are more crates to unload.
+                            lastDeliveredCrate.scenario = "HasMoreCrates";
+                        }
+                        else if (!currentTruck.HasMoreCrates())
+                        {
+                            //Situation where crate has been unloaded and the truck has no more crates to unload.
+                            dock.SendOff();
+                            //dock.TotalTrucks++;
 
-                                if (dock.Line.Count > 0)
-                                {
-                                    //And another truck is already in the Dock
-                                    lastDeliveredCrate.scenario = "WaitingForNextTruck";
-                                }
-                                else if (dock.Line.Count == 0)
-                                {
-                                    //But another truck is NOT already in the Dock
-                                    lastDeliveredCrate.scenario = "NoNextTruck";
-                                }
+                            if (dock.Line.Count > 0)
+                            {
+                                //And another truck is already in the Dock
+                                lastDeliveredCrate.scenario = "WaitingForNextTruck";
                             }
                         }
+                        else
+                        {
+                            lastDeliveredCrate.scenario = "NoNextTruck";
+                        }
+                        
                         // I was having trouble referencing the variable of the same crate
 
                         //if (currentTruck.HasMoreCrates())
@@ -274,7 +266,9 @@ namespace CSCImiamiWarehouseSimulation
             Console.WriteLine("Total Time Used by Docks: " + warehouse.totalUsedDockTime);
             Console.WriteLine("Total Time Unused by Docks: " + warehouse.totalUnusedDockTime);
 
-            Console.WriteLine("Toal Processed Trucks: " + warehouse.totalProcessedTrucks);
+            // the dock processed truck counter is off, which means trucks are being processed wrong
+            Console.WriteLine("Toal Processed Trucks by dock counter: " + warehouse.totalProcessedTrucks);
+            Console.WriteLine("Total processed trucks by warehouse list: " + warehouse.allTrucks.Count());
 
             Console.WriteLine("Total Crates Processed: " + warehouse.allDeliveredCrates.Count());
 
