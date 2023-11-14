@@ -178,6 +178,7 @@ namespace CSCImiamiWarehouseSimulation
                                 //Situation where crate has been unloaded and the truck has no more crates to unload.
                                 dock.SendOff();
                                 dock.TotalTrucks++;
+                                //warehouse.totalProcessedTrucks++;
 
                                 if (dock.Line.Count > 0)
                                 {
@@ -341,8 +342,9 @@ namespace CSCImiamiWarehouseSimulation
                     Console.Write("" + truck.driver + ", ");
                     // delivery companies name
                     Console.Write("" + truck.deliveryCompany + ", ");
-                    // crates id number
+                    // trucks id number
                     Console.Write("TruckId: " + truck.id + ", ");
+                    // crates id number
                     Console.Write("" + crate.Id + ", ");
                     // crates value 
                     Console.Write("" + crate.Price + ", ");

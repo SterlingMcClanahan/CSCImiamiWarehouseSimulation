@@ -12,7 +12,7 @@ namespace CSCImiamiWarehouseSimulation
     internal class Truck
     {
         public List<Crate> deliveredCrates = new List<Crate>();
-        public int truckCounter = 0;
+        public static int truckCounter = 0;
         public int id;
 
         public double truckWorth = 0;
