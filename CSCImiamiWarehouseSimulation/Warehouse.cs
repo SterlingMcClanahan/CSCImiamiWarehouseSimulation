@@ -164,7 +164,7 @@ namespace CSCImiamiWarehouseSimulation
                             currentTruck.truckWorth += currentCrate.Price;
                             warehouse.allDeliveredCrates.Add(currentCrate);
                         }
-                        if (warehouse.allDeliveredCrates.Count() > 0 && currentTruck.Trailer.Count() == 0)
+                        if (warehouse.allDeliveredCrates.Count() > 0)
                         {
                             lastDeliveredCrate = warehouse.allDeliveredCrates.Last();
                             if (currentTruck.HasMoreCrates())
