@@ -270,6 +270,7 @@ namespace CSCImiamiWarehouseSimulation
                 warehouse.totalProcessedTrucks += dock.numberOfTrucksEmptied;
                 warehouse.totalCratesProcessed += dock.TotalCrates;
             }
+
             Console.WriteLine("Total Sales From all Docks: " + warehouse.allDockSales);
             Console.WriteLine("Longest Line: " + warehouse.longestLine);
             Console.WriteLine("Total Time Used by Docks: " + warehouse.totalUsedDockTime);
@@ -306,9 +307,6 @@ namespace CSCImiamiWarehouseSimulation
                 Console.WriteLine("    Sales: " + dock.TotalSales);
                 Console.WriteLine("    Line Length: " + dock.lineLength);
             }
-
-
-            
 
             Console.WriteLine();
             Console.WriteLine();
