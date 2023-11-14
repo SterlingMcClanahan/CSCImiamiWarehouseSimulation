@@ -26,10 +26,10 @@ namespace CSCImiamiWarehouseSimulation
         
         public double dockCost { get; set; } = 100;
         public int timeIncrements { get; set; } = 48;
-        public int currentTime { get; set; } = 0;
-        public int numberOfDocks { get; set; } = 10;
+        public int currentTime = 0;
+        public int numberOfDocks { get; set; }
         public int numberOfTrucks { get; set; } = 0;
-        public float chanceOfGeneratingTruck { get; set; } = 0;
+        public float chanceOfGeneratingTruck;
         public int maxPossibleTrucksPerTimeIncrement { get; set; } = 5;
 
         public double allDockSales = 0;
@@ -318,7 +318,6 @@ namespace CSCImiamiWarehouseSimulation
             Console.WriteLine();
             Console.WriteLine("///////////////////////////////////////////////////////////////////////////");
             Console.WriteLine();
-            // need to print this stuff to a csv file
 
             Console.WriteLine("Crate Info to CSV File:");
             foreach (Truck truck in warehouse.allTrucks)
@@ -326,10 +325,6 @@ namespace CSCImiamiWarehouseSimulation
                 warehouse.totalTruckValue += truck.truckWorth;
                 foreach (Crate crate in truck.deliveredCrates)
                 {
-                    //////////////////////////////////
-                    // log each crate to a csv file //
-                    //////////////////////////////////
-
                     //time increment crate was unloaded
                     Console.Write(crate.timeIncrementDelivered + ", ");
                     // truck drivers name
@@ -345,11 +340,7 @@ namespace CSCImiamiWarehouseSimulation
                     // string status after crate is unloaded
                     Console.WriteLine("" + crate.scenario);
 
-
-                    //warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate, crate.scenario);
                     warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate.Id, crate.Price, crate.scenario);
-                    //hel
-
                 }
             }
 

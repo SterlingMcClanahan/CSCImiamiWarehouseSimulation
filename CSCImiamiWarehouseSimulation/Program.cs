@@ -18,7 +18,7 @@ namespace CSCImiamiWarehouseSimulation
             warehouse.numberOfDocks = 1;
             warehouse.numberOfTrucks = 1;
             warehouse.maxPossibleTrucksPerTimeIncrement = 1;
-            warehouse.chanceOfGeneratingTruck = 1;
+        
 
             Warehouse.Run(warehouse);
             Warehouse.PrintEverything(warehouse);
