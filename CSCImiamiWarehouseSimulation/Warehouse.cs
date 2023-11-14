@@ -289,6 +289,12 @@ namespace CSCImiamiWarehouseSimulation
             warehouse.revenue = warehouse.allDockSales - warehouse.totalCostOfOperatingEachDock;
             Console.WriteLine("Total Revenue: " + warehouse.revenue);
 
+            foreach (Truck truck in warehouse.allTrucks)
+            {
+                warehouse.totalTruckValue += truck.truckWorth;
+            }
+            Console.WriteLine("Average Truck Value: " + warehouse.totalTruckValue / warehouse.allTrucks.Count);
+
             Console.WriteLine();
 
             Console.WriteLine("Each Docks Time & Sales: ");
@@ -302,11 +308,7 @@ namespace CSCImiamiWarehouseSimulation
             }
 
 
-            foreach (Truck truck in warehouse.allTrucks)
-            {
-                warehouse.totalTruckValue += truck.truckWorth;
-            }
-            Console.WriteLine("Average Truck Value: " + warehouse.totalTruckValue / warehouse.allTrucks.Count);
+            
 
             Console.WriteLine();
             Console.WriteLine();
