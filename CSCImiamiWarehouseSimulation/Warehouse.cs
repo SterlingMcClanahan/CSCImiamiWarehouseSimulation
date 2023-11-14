@@ -20,6 +20,8 @@ namespace CSCImiamiWarehouseSimulation
         Queue<Truck> entrance = new Queue<Truck>();
 
         List<Truck> allTrucks = new List<Truck>();
+        List<int> allTruckIds = new List<int>();
+
 
         List<Crate> allDeliveredCrates = new List<Crate>();
         
@@ -149,6 +151,7 @@ namespace CSCImiamiWarehouseSimulation
                         if(!warehouse.allTrucks.Contains(currentTruck))
                         {
                             warehouse.allTrucks.Add(currentTruck);
+                            warehouse.allTruckIds.Add(currentTruck.id);
                         }
                        
                         if(currentTruck.HasMoreCrates())
@@ -168,8 +171,6 @@ namespace CSCImiamiWarehouseSimulation
                             {
 
                                 //Situation where crate has been unloaded and there are more crates to unload.
-                                //Do nothing currently, but eventually add logging info here and nothing else.
-                                //warehouse.scenario = "HasMoreCrates";
                                 lastDeliveredCrate.scenario = "HasMoreCrates";
                             }
                             else
@@ -181,14 +182,11 @@ namespace CSCImiamiWarehouseSimulation
                                 if (dock.Line.Count > 0)
                                 {
                                     //And another truck is already in the Dock
-                                    //Do nothing currently, but eventually add logging info here and nothing else.
                                     lastDeliveredCrate.scenario = "WaitingForNextTruck";
                                 }
                                 else if (dock.Line.Count == 0)
                                 {
                                     //But another truck is NOT already in the Dock
-                                    //Do nothing currently, but eventually add logging info here and nothing else.
-
                                     lastDeliveredCrate.scenario = "NoNextTruck";
                                 }
                             }
@@ -255,8 +253,9 @@ namespace CSCImiamiWarehouseSimulation
             Console.WriteLine("REPORT: ");
             Console.WriteLine("Number of Docks: " + warehouse.numberOfDocks);
             Console.WriteLine("Number of Trucks: " + warehouse.numberOfTrucks);
+            Console.WriteLine("Number of Truck Ids: " + warehouse.allTruckIds.Count());
 
-            foreach(Dock dock in warehouse.docks)
+            foreach (Dock dock in warehouse.docks)
             {
                 warehouse.allDockSales += dock.TotalSales;
                 if(dock.lineLength > warehouse.longestLine)
@@ -273,7 +272,9 @@ namespace CSCImiamiWarehouseSimulation
             Console.WriteLine("Longest Line: " + warehouse.longestLine);
             Console.WriteLine("Total Time Used by Docks: " + warehouse.totalUsedDockTime);
             Console.WriteLine("Total Time Unused by Docks: " + warehouse.totalUnusedDockTime);
+
             Console.WriteLine("Toal Processed Trucks: " + warehouse.totalProcessedTrucks);
+
             Console.WriteLine("Total Crates Processed: " + warehouse.allDeliveredCrates.Count());
 
             warehouse.avgValueOfCrates = warehouse.allDockSales / warehouse.totalCratesProcessed;
@@ -355,7 +356,6 @@ namespace CSCImiamiWarehouseSimulation
                 }
             }
 
-            //Console.WriteLine("Average Truck Value: " + warehouse.totalTruckValue / warehouse.allTrucks.Count);
 
         }
         private void LogToCSV(int timeIncrement, string driver, string company, string id, double price,string scenario)

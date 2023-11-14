@@ -12,7 +12,8 @@ namespace CSCImiamiWarehouseSimulation
     internal class Truck
     {
         public List<Crate> deliveredCrates = new List<Crate>();
-
+        public int truckCounter = 0;
+        public int id;
 
         public double truckWorth = 0;
         /// <summary>
@@ -74,6 +75,7 @@ namespace CSCImiamiWarehouseSimulation
         {
             driver = string.Empty;
             deliveryCompany = string.Empty;
+            id = truckCounter++;
             Stack<Crate> Trailer = new Stack<Crate>();
         }
 
