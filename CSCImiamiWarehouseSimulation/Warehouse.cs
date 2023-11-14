@@ -342,6 +342,7 @@ namespace CSCImiamiWarehouseSimulation
                     // delivery companies name
                     Console.Write("" + truck.deliveryCompany + ", ");
                     // crates id number
+                    Console.Write("TruckId: " + truck.id + ", ");
                     Console.Write("" + crate.Id + ", ");
                     // crates value 
                     Console.Write("" + crate.Price + ", ");
