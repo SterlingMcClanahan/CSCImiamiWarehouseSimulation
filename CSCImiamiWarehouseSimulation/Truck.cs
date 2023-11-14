@@ -88,6 +88,7 @@ namespace CSCImiamiWarehouseSimulation
         {
             this.driver = driver;
             this.deliveryCompany = deliveryCompany;
+            id = truckCounter++;
             Stack<Crate> Trailer = new Stack<Crate>();
         }
 
