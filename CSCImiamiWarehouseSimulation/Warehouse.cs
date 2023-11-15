@@ -57,6 +57,8 @@ namespace CSCImiamiWarehouseSimulation
             //Initial Setup of Simulation and its parameters.
             // might need to set parameters back to starting point here
 
+            ClearCSV();
+
             //Setup of Docks
             for (int i = 0; i < warehouse.numberOfDocks; i++)
             {
@@ -369,6 +371,15 @@ namespace CSCImiamiWarehouseSimulation
             {
                 //writer.WriteLine($"{timeIncrement},{driver},{company},{crate?.Id ?? "N/A"},{crate?.Price ?? 0},{scenario}");
                 writer.WriteLine($"{timeIncrement},{driver},{company},{id},{price},{scenario}");
+            }
+        }
+
+        static void ClearCSV()
+        {
+            // Replace "yourfile.csv" with the actual path and filename you want to use
+            using (StreamWriter writer = new StreamWriter(@"yourfile.csv", false))
+            {
+                
             }
         }
     }
