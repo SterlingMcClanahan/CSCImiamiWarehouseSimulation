@@ -181,8 +181,9 @@ namespace CSCImiamiWarehouseSimulation
                             }
                             else if (!currentTruck.HasMoreCrates() && dock.Line.Count() == 0) 
                             {
-                                dock.SendOff();
                                 currentCrate.scenario = "NoNextTruck";
+                                dock.SendOff();
+                                
                             }
                         }
                         else if(!currentTruck.HasMoreCrates())
