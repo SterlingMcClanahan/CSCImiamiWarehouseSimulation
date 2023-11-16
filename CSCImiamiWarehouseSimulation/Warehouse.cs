@@ -91,7 +91,8 @@ namespace CSCImiamiWarehouseSimulation
                 //trucksThisIncrement = Math.Min(trucksThisIncrement, warehouse.maxPossibleTrucksPerTimeIncrement); //Still need?
 
                 //This is where we need to do the normal distribution code. <--Might need this
-                if(i < warehouse.timeIncrements / 2)
+             
+                if(i <= warehouse.timeIncrements / 2)
                 {
                     warehouse.chanceOfGeneratingTruck = i / warehouse.timeIncrements;
                 }
@@ -193,7 +194,6 @@ namespace CSCImiamiWarehouseSimulation
                         }
                         else if(!currentTruck.HasMoreCrates() && dock.Line.Count() == 0) 
                         {
-
                             dock.SendOff();
                         }
                         dock.TimeInUse++;
