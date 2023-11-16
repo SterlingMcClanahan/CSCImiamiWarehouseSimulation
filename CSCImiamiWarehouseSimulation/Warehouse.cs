@@ -52,10 +52,16 @@ namespace CSCImiamiWarehouseSimulation
             entrance.Clear();
         }
 
+        /// <summary>
+        /// Runs the simulation
+        /// </summary>
+        /// <param name="warehouse">The warehouse the simulation is running</param>
         public static void Run(Warehouse warehouse)
         {
             //Initial Setup of Simulation and its parameters.
             // might need to set parameters back to starting point here
+
+            ClearCSV();
 
             //Setup of Docks
             for (int i = 0; i < warehouse.numberOfDocks; i++)
@@ -233,6 +239,10 @@ namespace CSCImiamiWarehouseSimulation
             
         }
 
+        /// <summary>
+        /// Prints the report as well as some other information 
+        /// </summary>
+        /// <param name="warehouse">the warehouse being reported</param>
         static public void PrintEverything(Warehouse warehouse)
         {
             //  confirm that all the time has passed 
@@ -348,6 +358,15 @@ namespace CSCImiamiWarehouseSimulation
             }
         }
 
+        /// <summary>
+        /// Logs information into a Comma Seperated list
+        /// </summary>
+        /// <param name="timeIncrement">the time increment</param>
+        /// <param name="driver">the truck driver</param>
+        /// <param name="company">the company the truck driver works for</param>
+        /// <param name="id">the ID for the crate being delivered</param>
+        /// <param name="price">the price of the crate being delivered</param>
+        /// <param name="scenario">Whethere the truck has more crates, has no crates and is waiting for the next truck, or has no crates and is not waiting</param>
         private void LogToCSV(int timeIncrement, string driver, string company, string id, double price,string scenario)
         {
             //Does not clear the previous CSV file before making a new one
@@ -369,6 +388,17 @@ namespace CSCImiamiWarehouseSimulation
             {
                 //writer.WriteLine($"{timeIncrement},{driver},{company},{crate?.Id ?? "N/A"},{crate?.Price ?? 0},{scenario}");
                 writer.WriteLine($"{timeIncrement},{driver},{company},{id},{price},{scenario}");
+            }
+        }
+        /// <summary>
+        /// Clears the previous data from the CSV so that new data can take its place.
+        /// </summary>
+        static void ClearCSV()
+        {
+            // Replace "yourfile.csv" with the actual path and filename you want to use
+            using (StreamWriter writer = new StreamWriter(@"yourfile.csv", false))
+            {
+                
             }
         }
     }
