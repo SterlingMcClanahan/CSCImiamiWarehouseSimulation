@@ -32,7 +32,7 @@ namespace CSCImiamiWarehouseSimulation
         public int numberOfDocks { get; set; }
         public int numberOfTrucks { get; set; } = 0;
         public float chanceOfGeneratingTruck;
-        public int maxPossibleTrucksPerTimeIncrement { get; set; } = 5;
+        public int maxPossibleTrucksPerTimeIncrement { get; set; } = 1;
 
         public double allDockSales = 0;
         public int longestLine = 0;
@@ -82,7 +82,7 @@ namespace CSCImiamiWarehouseSimulation
                 int trucksThisIncrement = (int)Math.Round(truckArrivalDistribution.SampleRev2(new Random())); //Updated based on office hours w/ Gillenwater
 
                 //Makes sure the number of trucks does not exceed the maximum possible 
-                trucksThisIncrement = Math.Min(trucksThisIncrement, warehouse.maxPossibleTrucksPerTimeIncrement); //Still need?
+                //trucksThisIncrement = Math.Min(trucksThisIncrement, warehouse.maxPossibleTrucksPerTimeIncrement); //Still need?
 
                 //This is where we need to do the normal distribution code. <--Might need this
                 if(i < warehouse.timeIncrements / 2)
@@ -128,7 +128,7 @@ namespace CSCImiamiWarehouseSimulation
                             indexOfDockWithSmallestLine = j;
                         }
                     }
-
+                    
                     //Add the truck to the Dock
                     warehouse.docks[indexOfDockWithSmallestLine].JoinLine(truck);
                     //Note: Trucks can be added to a dock every time increment, but it doesn't say whether multiple trucks
