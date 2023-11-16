@@ -15,7 +15,7 @@ namespace CSCImiamiWarehouseSimulation
         {
             Warehouse warehouse = new Warehouse();
             //make it simple to check output
-            warehouse.numberOfDocks = 5;
+            warehouse.numberOfDocks = 6;
             warehouse.numberOfTrucks = 1;
             //warehouse.maxPossibleTrucksPerTimeIncrement = 1;
         

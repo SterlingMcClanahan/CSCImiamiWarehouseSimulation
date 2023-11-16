@@ -171,7 +171,7 @@ namespace CSCImiamiWarehouseSimulation
                             {
                                 currentCrate.scenario = "HasMoreCrates";
                             }
-                            else if(!currentTruck.HasMoreCrates() && dock.Line.Count() > 1)
+                            else if(!currentTruck.HasMoreCrates() && dock.Line.Count() > 0)
                             {
                                 dock.SendOff();
                                 warehouse.allProcessedTrucks.Add(currentTruck);
@@ -187,9 +187,14 @@ namespace CSCImiamiWarehouseSimulation
                                 
                             }
                         }
-                        else if(!currentTruck.HasMoreCrates())
+                        else if(!currentTruck.HasMoreCrates() && dock.Line.Count() > 0)
                         {
-                            //dock.SendOff();
+                            dock.SendOff();
+                        }
+                        else if(!currentTruck.HasMoreCrates() && dock.Line.Count() == 0) 
+                        {
+
+                            dock.SendOff();
                         }
                         dock.TimeInUse++;
                     }
