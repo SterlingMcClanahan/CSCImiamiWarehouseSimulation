@@ -17,7 +17,7 @@ namespace CSCImiamiWarehouseSimulation
             //make it simple to check output
             warehouse.numberOfDocks = 10;
             warehouse.numberOfTrucks = 1;
-            warehouse.maxPossibleTrucksPerTimeIncrement = 10;
+            warehouse.maxPossibleTrucksPerTimeIncrement = 1;
         
 
             Warehouse.Run(warehouse);
