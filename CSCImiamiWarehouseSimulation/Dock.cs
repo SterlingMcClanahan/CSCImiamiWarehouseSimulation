@@ -11,8 +11,8 @@ namespace CSCImiamiWarehouseSimulation
 {
     internal class Dock
     {
-        public int lineLength = 0;
-        public int numberOfTrucksEmptied = 0;
+        public int lineLength { get { return Line.Count; } }
+        public int numberOfTrucksEmptied { get; set; } = 0;
 
 
         /// <summary>
@@ -68,9 +68,7 @@ namespace CSCImiamiWarehouseSimulation
         /// </summary>
         /// <param name="truck">The truck being added</param>
         public void JoinLine(Truck truck)
-        {
-
-            lineLength += 1;           
+        {       
             Line.Enqueue(truck);
         }
 
@@ -80,15 +78,8 @@ namespace CSCImiamiWarehouseSimulation
         /// <returns></returns>
         public Truck SendOff()
         {
-            lineLength--;
-            //TotalTrucks--;
             numberOfTrucksEmptied++;
             return Line.Dequeue();
-        }
-
-        public int LineLength()
-        {
-            return lineLength;
         }
     }
 }

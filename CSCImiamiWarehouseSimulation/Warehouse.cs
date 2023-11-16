@@ -34,17 +34,17 @@ namespace CSCImiamiWarehouseSimulation
         public float chanceOfGeneratingTruck;
         public int maxPossibleTrucksPerTimeIncrement { get; set; } = 2;
 
-        public double allDockSales = 0;
-        public int longestLine = 0;
-        public int totalUsedDockTime;
-        public int totalUnusedDockTime;
-        public int totalProcessedTrucks;
-        public int totalCratesProcessed;
-        public double avgDockTimeUse;
-        public double avgValueOfCrates;
-        public double totalCostOfOperatingEachDock;
-        public double revenue;
-        public double totalTruckValue;
+        public double allDockSales { get; set; } = 0;
+        public int longestLine { get; set; } = 0;
+        public int totalUsedDockTime { get; set; }
+        public int totalUnusedDockTime { get; set; }
+        public int totalProcessedTrucks { get; set; }
+        public int totalCratesProcessed { get; set; }
+        public double avgDockTimeUse { get; set; }
+        public double avgValueOfCrates { get; set; }
+        public double totalCostOfOperatingEachDock { get; set; }
+        public double revenue { get; set; }
+        public double totalTruckValue { get; set; }
 
         public Warehouse()
         {
@@ -140,6 +140,7 @@ namespace CSCImiamiWarehouseSimulation
                     //Note: Trucks can be added to a dock every time increment, but it doesn't say whether multiple trucks
                     //can be added to the same dock or not. This is assuming that they can in cases of small numbers of docks and a lot of trucks.
                 }
+                warehouse.entrance.Clear();
 
                 //Process the docks by unloading a crate.
                 //Handle the scenario of swapping to the next queued truck if last crate was unloaded.
