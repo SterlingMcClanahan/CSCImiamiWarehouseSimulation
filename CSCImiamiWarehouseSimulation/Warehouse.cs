@@ -240,7 +240,7 @@ namespace CSCImiamiWarehouseSimulation
         }
 
         /// <summary>
-        /// Prints the report 
+        /// Prints the report as well as some other information 
         /// </summary>
         /// <param name="warehouse">the warehouse being reported</param>
         static public void PrintEverything(Warehouse warehouse)
