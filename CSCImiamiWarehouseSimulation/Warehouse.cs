@@ -149,6 +149,11 @@ namespace CSCImiamiWarehouseSimulation
                 {
                     Truck currentTruck;
                     Crate currentCrate;
+                    Crate lastDeliveredCrate = null;
+                    if(warehouse.allDeliveredCrates.Count() > 0)
+                    {
+                        lastDeliveredCrate = warehouse.allDeliveredCrates.Last();
+                    }
 
                     if (dock.Line.Count > 0)
                     {
@@ -194,6 +199,10 @@ namespace CSCImiamiWarehouseSimulation
                         }
                         else if(!currentTruck.HasMoreCrates() && dock.Line.Count() == 0) 
                         {
+                            if (lastDeliveredCrate is not null)
+                            {
+                                lastDeliveredCrate.scenario = "NoNextTruck";
+                            }
                             dock.SendOff();
                         }
                         dock.TimeInUse++;
