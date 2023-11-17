@@ -8,6 +8,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 using System.Diagnostics;
+using System.IO.Compression;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Cryptography.X509Certificates;
 
@@ -345,7 +346,7 @@ namespace CSCImiamiWarehouseSimulation
             string filePath = "yourfile.csv";
 
             // Check if the file exists; if not, create it and write the header
-            if (!File.Exists(filePath))
+            if(File.ReadAllLines(filePath).Length == 0)
             {
                 using (StreamWriter writer = new StreamWriter(filePath, true))
                 {
