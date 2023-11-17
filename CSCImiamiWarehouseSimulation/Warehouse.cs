@@ -49,7 +49,6 @@ namespace CSCImiamiWarehouseSimulation
             docks.Clear();
             entrance.Clear();
         }
-
         /// <summary>
         /// Runs the simulation
         /// </summary>
@@ -125,7 +124,6 @@ namespace CSCImiamiWarehouseSimulation
                     warehouse.chanceOfGeneratingTruck = i / warehouse.timeIncrements;
                 else
                     warehouse.chanceOfGeneratingTruck = (warehouse.timeIncrements - i) / (warehouse.timeIncrements / 2);
-
                 //Attempt to make a truck a number of times equal to the max number of trucks possible per time increment.
                 for (int j = 0; j < warehouse.maxPossibleTrucksPerTimeIncrement; j++)
                     if (new Random().NextDouble() >= warehouse.chanceOfGeneratingTruck) {
@@ -136,7 +134,7 @@ namespace CSCImiamiWarehouseSimulation
                     }
             }
         }
-
+        
         static void AssignTrucksToDocks(Warehouse warehouse)
         {
             //Truck Arrivals at the Entrance
@@ -156,7 +154,6 @@ namespace CSCImiamiWarehouseSimulation
             }
             warehouse.entrance.Clear();
         }
-
         /// <summary>
         /// Logs information into a Comma Seperated list
         /// </summary>
@@ -189,7 +186,6 @@ namespace CSCImiamiWarehouseSimulation
                 writer.WriteLine($"{timeIncrement},{driver},{company},{id},{price},{scenario}");
             }
         }
-
         /// <summary>
         /// Clears the previous data from the CSV so that new data can take its place.
         /// </summary>
@@ -201,7 +197,6 @@ namespace CSCImiamiWarehouseSimulation
                 
             }
         }
-
         public static void CalculateData(Warehouse warehouse)
         {
             foreach (Dock dock in warehouse.docks)
@@ -227,7 +222,6 @@ namespace CSCImiamiWarehouseSimulation
             warehouse.revenue = warehouse.allDockSales - warehouse.totalCostOfOperatingEachDock;
             
         }
-
         /// <summary>
         /// Creates a report for the Warehouse 
         /// </summary>
@@ -248,10 +242,8 @@ namespace CSCImiamiWarehouseSimulation
                 $"Total Cost of Operating Each Dock: {warehouse.totalCostOfOperatingEachDock} \n" +
                 $"Total Revenue: {warehouse.revenue} \n"
                 );
-
             Console.WriteLine("All Dock Reports: ");
             foreach (Dock dock in warehouse.docks)
-            {
                 Console.WriteLine
                     ($"  Dock: {dock.Id}\n" +
                     $"    Total Trucks Processed: {dock.numberOfTrucksEmptied} \n" +
@@ -260,16 +252,11 @@ namespace CSCImiamiWarehouseSimulation
                     $"    Total Time Not Used: {dock.TimeNotInUse} \n" +
                     $"    Total Sales: {dock.TotalSales}"
                     );
-            }
-
             //this goes to the csv file
-            foreach (Truck truck in warehouse.allTrucks)
-            {
+            foreach (Truck truck in warehouse.allTrucks) {
                 warehouse.totalTruckValue += truck.truckWorth;
                 foreach (Crate crate in truck.deliveredCrates)
-                {
                     warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate.Id, crate.Price, crate.scenario);
-                }
             }
         }
     }
