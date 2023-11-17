@@ -293,30 +293,32 @@ namespace CSCImiamiWarehouseSimulation
         /// <param name="warehouse">the warehouse being reported</param>
         public static void GenerateReport(Warehouse warehouse)
         {
-            Console.WriteLine("REPORT: ");
-            Console.WriteLine("Number of Docks: " + warehouse.numberOfDocks);
-            Console.WriteLine("Longest Line: " + warehouse.longestLine);
-            Console.WriteLine("Toal Trucks Processed: " + warehouse.totalProcessedTrucks);
-            Console.WriteLine("Total Crates Processed: " + warehouse.allDeliveredCrates.Count());
-            Console.WriteLine("Total Sales From all Docks: " + warehouse.allDockSales);
-            Console.WriteLine("Average Value of Each Crate: " + warehouse.avgValueOfCrates);
-            Console.WriteLine("Average Value of Each Truck: " + warehouse.avgValueOfTrucks);
-            Console.WriteLine("Total Time Used by Docks: " + warehouse.totalUsedDockTime);
-            Console.WriteLine("Total Time Unused by Docks: " + warehouse.totalUnusedDockTime);
-            Console.WriteLine("Average Time Each Dock Was in Use: " + warehouse.avgDockTimeUse);
-            Console.WriteLine("Total Cost of Operating Each Dock: " + warehouse.totalCostOfOperatingEachDock);
-            Console.WriteLine("Total Revenue: " + warehouse.revenue);
-            Console.WriteLine();
+            Console.WriteLine("Report: \n" +
+                $"Number of Docks: {warehouse.numberOfDocks} \n" +
+                $"Longest Line: {warehouse.longestLine} \n" +
+                $"Toal Trucks Processed: {warehouse.totalProcessedTrucks} \n" +
+                $"Total Crates Processed: {warehouse.allDeliveredCrates.Count()}\n" +
+                $"Total Sales From all Docks: {warehouse.allDockSales} \n" +
+                $"Average Value of Each Crate: {warehouse.avgValueOfCrates} \n" +
+                $"Average Value of Each Truck: {warehouse.avgValueOfTrucks} \n" +
+                $"Total Time Used by Docks: { warehouse.totalUsedDockTime} \n" +
+                $"Total Time Unused by Docks: {warehouse.totalUnusedDockTime} \n" +
+                $"Average Time Each Dock Was in Use: {warehouse.avgDockTimeUse} \n" +
+                $"Total Cost of Operating Each Dock: {warehouse.totalCostOfOperatingEachDock} \n" +
+                $"Total Revenue: {warehouse.revenue} \n"
+                );
 
             Console.WriteLine("All Dock Reports: ");
             foreach (Dock dock in warehouse.docks)
             {
-                Console.WriteLine("  Dock: " + dock.Id);
-                Console.WriteLine("    Total Trucks Processed: " + dock.numberOfTrucksEmptied);
-                Console.WriteLine("    Total Crates Processed: " + dock.TotalCrates);
-                Console.WriteLine("    Total Time Used: " + dock.TimeInUse);
-                Console.WriteLine("    Total Time Not Used: " + dock.TimeNotInUse);
-                Console.WriteLine("    Total Sales: " + dock.TotalSales);
+                Console.WriteLine
+                    ($"  Dock: {dock.Id}\n" +
+                    $"    Total Trucks Processed: {dock.numberOfTrucksEmptied} \n" +
+                    $"    Total Crates Processed: {dock.TotalCrates} \n" +
+                    $"    Total Time Used: {dock.TimeInUse} \n" +
+                    $"    Total Time Not Used: {dock.TimeNotInUse} \n" +
+                    $"    Total Sales: {dock.TotalSales}"
+                    );
             }
 
             //this goes to the csv file
