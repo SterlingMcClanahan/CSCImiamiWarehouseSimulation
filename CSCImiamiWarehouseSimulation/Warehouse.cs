@@ -399,6 +399,10 @@ namespace CSCImiamiWarehouseSimulation
             
         }
 
+        /// <summary>
+        /// Creates a report for the Warehouse 
+        /// </summary>
+        /// <param name="warehouse">the warehouse being reported</param>
         public static void GenerateReport(Warehouse warehouse)
         {
             Console.WriteLine("REPORT:");
