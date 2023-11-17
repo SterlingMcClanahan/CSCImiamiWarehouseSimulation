@@ -208,127 +208,6 @@ namespace CSCImiamiWarehouseSimulation
         }
 
 
-
-        /// <summary>
-        /// Prints the report as well as some other information. this is for testing purposes
-        /// </summary>
-        /// <param name="warehouse">the warehouse being reported</param>
-        static public void PrintEverything(Warehouse warehouse)
-        {
-            //confirm that all the time has passed
-            Console.WriteLine("Total Time Increments: " + warehouse.timeIncrements);
-            Console.WriteLine("Current Time: " + warehouse.currentTime);
-            Console.WriteLine();
-
-            //extra information
-            Console.WriteLine("Chance of Generating Truck: " + warehouse.chanceOfGeneratingTruck);
-            Console.WriteLine("Max Possible Trucks Per Time Increment: " + warehouse.maxPossibleTrucksPerTimeIncrement);
-            Console.WriteLine();
-
-            //required for report //
-
-            Console.WriteLine("REPORT: ");
-            Console.WriteLine("Number of Docks: " + warehouse.numberOfDocks);
-            Console.WriteLine("Number of Trucks: " + warehouse.numberOfTrucks);
-            Console.WriteLine("Number of Truck Ids: " + warehouse.allTruckIds.Count());
-
-            foreach (Dock dock in warehouse.docks)
-            {
-                warehouse.allDockSales += dock.TotalSales;
-                if (dock.lineLength > warehouse.longestLine)
-                {
-                    warehouse.longestLine = dock.lineLength;
-                }
-                warehouse.totalUsedDockTime += dock.TimeInUse;
-                warehouse.totalUnusedDockTime += dock.TimeNotInUse;
-                warehouse.totalProcessedTrucks += dock.numberOfTrucksEmptied;
-                warehouse.totalCratesProcessed += dock.TotalCrates;
-            }
-
-            Console.WriteLine("Total Sales From all Docks: " + warehouse.allDockSales);
-            Console.WriteLine("Longest Line: " + warehouse.longestLine);
-            Console.WriteLine("Total Time Used by Docks: " + warehouse.totalUsedDockTime);
-            Console.WriteLine("Total Time Unused by Docks: " + warehouse.totalUnusedDockTime);
-
-            //the dock processed truck counter is off, which means trucks are being processed wrong
-            Console.WriteLine("Toal Processed Trucks by dock counter: " + warehouse.totalProcessedTrucks);
-            Console.WriteLine("Total processed trucks by warehouse list: " + warehouse.allProcessedTrucks.Count());
-
-            Console.WriteLine("Total Crates Processed: " + warehouse.allDeliveredCrates.Count());
-
-            warehouse.avgValueOfCrates = warehouse.allDockSales / warehouse.totalCratesProcessed;
-            Console.WriteLine("Average Value of All Crates: " + warehouse.avgValueOfCrates);
-
-            warehouse.avgDockTimeUse = warehouse.totalUsedDockTime / warehouse.numberOfDocks;
-            Console.WriteLine("Average Time Each Dock Was in Use: " + warehouse.avgDockTimeUse);
-
-            warehouse.totalCostOfOperatingEachDock = warehouse.dockCost * warehouse.numberOfDocks * warehouse.timeIncrements;
-            Console.WriteLine("Total Cost of Operating Each Dock: " + warehouse.totalCostOfOperatingEachDock);
-
-            warehouse.revenue = warehouse.allDockSales - warehouse.totalCostOfOperatingEachDock;
-            Console.WriteLine("Total Revenue: " + warehouse.revenue);
-
-            foreach (Truck truck in warehouse.allTrucks)
-            {
-                warehouse.totalTruckValue += truck.truckWorth;
-            }
-            Console.WriteLine("Average Truck Value: " + warehouse.totalTruckValue / warehouse.allTrucks.Count);
-
-            Console.WriteLine();
-
-            Console.WriteLine("Each Docks Time & Sales: ");
-            foreach (Dock dock in warehouse.docks)
-            {
-                Console.WriteLine("  Dock " + dock.Id +":");
-                Console.WriteLine("    Time in use: " + dock.TimeInUse);
-                Console.WriteLine("    Time not in use: " + dock.TimeNotInUse);
-                Console.WriteLine("    Sales: " + dock.TotalSales);
-                Console.WriteLine("    Line Length: " + dock.lineLength);
-            }
-
-            Console.WriteLine();
-            Console.WriteLine();
-
-            Console.WriteLine("Delivered Crates: ");
-            foreach (Crate crate in warehouse.allDeliveredCrates)
-            {
-                // crates id number
-                Console.Write(crate.Id + ", ");  
-            }
-
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("///////////////////////////////////////////////////////////////////////////");
-            Console.WriteLine();
-
-            Console.WriteLine("Crate Info to CSV File:");
-
-
-            foreach (Truck truck in warehouse.allTrucks)
-            {
-                warehouse.totalTruckValue += truck.truckWorth;
-                foreach (Crate crate in truck.deliveredCrates)
-                {
-                    //time increment crate was unloaded
-                    Console.Write(crate.timeIncrementDelivered + ", ");
-                    // truck drivers name
-                    Console.Write("" + truck.driver + ", ");
-                    // delivery companies name
-                    Console.Write("" + truck.deliveryCompany + ", ");
-                    // trucks id number
-                    Console.Write("TruckId: " + truck.id + ", ");
-                    // crates id number
-                    Console.Write("" + crate.Id + ", ");
-                    // crates value 
-                    Console.Write("" + crate.Price + ", ");
-                    // string status after crate is unloaded
-                    Console.WriteLine("" + crate.scenario);
-
-                    warehouse.LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate.Id, crate.Price, crate.scenario);
-                }
-            }
-        }
-
         /// <summary>
         /// Logs information into a Comma Seperated list
         /// </summary>
@@ -401,7 +280,7 @@ namespace CSCImiamiWarehouseSimulation
 
         public static void GenerateReport(Warehouse warehouse)
         {
-            Console.WriteLine("REPORT:");
+            Console.WriteLine("REPORT: ");
             Console.WriteLine("Number of Docks: " + warehouse.numberOfDocks);
             Console.WriteLine("Longest Line: " + warehouse.longestLine);
             Console.WriteLine("Toal Trucks Processed: " + warehouse.totalProcessedTrucks);

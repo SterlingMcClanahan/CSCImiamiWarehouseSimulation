@@ -18,7 +18,6 @@ namespace CSCImiamiWarehouseSimulation
             warehouse.numberOfTrucks = 1;
 
             Warehouse.Run(warehouse);
-            //Warehouse.PrintEverything(warehouse);
             Warehouse.CalculateData(warehouse);
             Warehouse.GenerateReport(warehouse);
         }
