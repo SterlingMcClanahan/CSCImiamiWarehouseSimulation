@@ -386,15 +386,16 @@ namespace CSCImiamiWarehouseSimulation
                 warehouse.totalProcessedTrucks += dock.numberOfTrucksEmptied;
                 warehouse.totalCratesProcessed += dock.TotalCrates;
             }
+            foreach (Truck truck in warehouse.allTrucks)
+            {
+                warehouse.totalTruckValue += truck.truckWorth;
+            }
             warehouse.avgValueOfCrates = Math.Round(warehouse.allDockSales / warehouse.totalCratesProcessed, 2);
             warehouse.avgValueOfTrucks = Math.Round(warehouse.totalTruckValue / warehouse.allTrucks.Count, 2);
             warehouse.avgDockTimeUse = warehouse.totalUsedDockTime / warehouse.numberOfDocks;
             warehouse.totalCostOfOperatingEachDock = warehouse.dockCost * warehouse.numberOfDocks * warehouse.timeIncrements;
             warehouse.revenue = warehouse.allDockSales - warehouse.totalCostOfOperatingEachDock;
-            foreach (Truck truck in warehouse.allTrucks)
-            {
-                warehouse.totalTruckValue += truck.truckWorth;
-            }
+            
         }
 
         public static void GenerateReport(Warehouse warehouse)
