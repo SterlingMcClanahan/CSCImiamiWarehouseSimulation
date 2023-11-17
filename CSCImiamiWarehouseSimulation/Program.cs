@@ -14,7 +14,7 @@ namespace CSCImiamiWarehouseSimulation
         static void Main(string[] args)
         {
             Warehouse warehouse = new Warehouse();
-            warehouse.numberOfDocks = 9;
+            warehouse.numberOfDocks = 5;
             warehouse.numberOfTrucks = 1;
 
             Warehouse.Run(warehouse);
