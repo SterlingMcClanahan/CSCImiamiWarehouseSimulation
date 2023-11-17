@@ -177,34 +177,24 @@ namespace CSCImiamiWarehouseSimulation
                             {
                                 currentCrate.scenario = "HasMoreCrates";
                             }
-                            else if(!currentTruck.HasMoreCrates() && dock.Line.Count() > 0)
+                            else if(!currentTruck.HasMoreCrates() && dock.Line.Count() > 1)
                             {
-                                dock.SendOff();
+                                
                                 warehouse.allProcessedTrucks.Add(currentTruck);
                                 if (dock.Line.Count > 0)
                                 {
                                     currentCrate.scenario = "WaitingForNextTruck";
                                 }
+                                dock.SendOff();
                             }
-                            else if (!currentTruck.HasMoreCrates() && dock.Line.Count() == 0) 
+                            else
                             {
                                 currentCrate.scenario = "NoNextTruck";
                                 dock.SendOff();
                                 
                             }
                         }
-                        else if(!currentTruck.HasMoreCrates() && dock.Line.Count() > 0)
-                        {
-                            dock.SendOff();
-                        }
-                        else if(!currentTruck.HasMoreCrates() && dock.Line.Count() == 0) 
-                        {
-                            if (lastDeliveredCrate is not null)
-                            {
-                                lastDeliveredCrate.scenario = "NoNextTruck";
-                            }
-                            dock.SendOff();
-                        }
+                        
                         dock.TimeInUse++;
                     }
                     else
@@ -214,6 +204,8 @@ namespace CSCImiamiWarehouseSimulation
                 }
             }
         }
+
+
 
         /// <summary>
         /// Prints the report as well as some other information 
@@ -297,10 +289,8 @@ namespace CSCImiamiWarehouseSimulation
             Console.WriteLine("Delivered Crates: ");
             foreach (Crate crate in warehouse.allDeliveredCrates)
             {
-               
                 // crates id number
-                Console.Write(crate.Id + ", ");
-               
+                Console.Write(crate.Id + ", ");  
             }
 
             Console.WriteLine();
@@ -366,6 +356,7 @@ namespace CSCImiamiWarehouseSimulation
                 writer.WriteLine($"{timeIncrement},{driver},{company},{id},{price},{scenario}");
             }
         }
+
         /// <summary>
         /// Clears the previous data from the CSV so that new data can take its place.
         /// </summary>
