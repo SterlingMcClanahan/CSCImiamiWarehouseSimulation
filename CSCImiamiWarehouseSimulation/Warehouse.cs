@@ -65,7 +65,11 @@ namespace CSCImiamiWarehouseSimulation
                     ProcessDock(warehouse, dock);
             }
         }
-
+        /// <summary>
+        /// Allows the Run program to process each individual dock each time increment
+        /// </summary>
+        /// <param name="warehouse">the warehouse that needs its docks processed</param>
+        /// <param name="dock">the dock to be processed</param>
         static void ProcessDock(Warehouse warehouse, Dock dock)
         {
             Truck currentTruck;
@@ -107,7 +111,10 @@ namespace CSCImiamiWarehouseSimulation
             else
                 dock.TimeNotInUse++;
         }
-    
+        /// <summary>
+        /// Generates trucks before running the simulation
+        /// </summary>
+        /// <param name="warehouse">the warehouse that needs trucks</param>
         static void GenerateTrucks(Warehouse warehouse)
         {
             for (int i = 0; i < warehouse.numberOfDocks; i++) {
@@ -134,7 +141,10 @@ namespace CSCImiamiWarehouseSimulation
                     }
             }
         }
-        
+        /// <summary>
+        /// Assigns each truck to the dock with the shortest line (wait time)
+        /// </summary>
+        /// <param name="warehouse">the warehouse that trucks are assigned to docks at</param>
         static void AssignTrucksToDocks(Warehouse warehouse)
         {
             //Truck Arrivals at the Entrance
