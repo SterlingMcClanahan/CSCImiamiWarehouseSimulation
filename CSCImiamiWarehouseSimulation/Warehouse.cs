@@ -18,36 +18,19 @@ namespace CSCImiamiWarehouseSimulation
     internal class Warehouse
     {
         public List<Dock> docks = new List<Dock>();
-
         public Queue<Truck> entrance = new Queue<Truck>();
-
         public List<Truck> allTrucks = new List<Truck>();
-
         public List<int> allTruckIds = new List<int>();
-
         public List<Crate> allDeliveredCrates = new List<Crate>();
-
         public List<Truck> allProcessedTrucks = new List<Truck>();
-
-        
-
+        public List<Truck>[] trucks = new List<Truck>[48];
         public double dockCost { get; set; } = 100;
         public int timeIncrements { get; set; } = 48;
-
-       
-        ///////////////////////////////////////////////////////////
-       
-        List<Truck>[] trucks = new List<Truck>[48];
-
-        
-        //////////////////////////////////////////////////////////
-        
         public int currentTime = 0;
         public int numberOfDocks { get; set; }
         public int numberOfTrucks { get; set; } = 0;
-        public float chanceOfGeneratingTruck;
+        public float chanceOfGeneratingTruck {  get; set; }
         public int maxPossibleTrucksPerTimeIncrement { get; set; } = 2;
-
         public double allDockSales { get; set; } = 0;
         public int longestLine { get; set; } = 0;
         public int totalUsedDockTime { get; set; }
@@ -77,16 +60,10 @@ namespace CSCImiamiWarehouseSimulation
             GenerateTrucks(warehouse);
 
             //For loop that runs the actual simulation and updates every time increment.
-            for (warehouse.currentTime = 0; warehouse.currentTime < warehouse.timeIncrements; warehouse.currentTime++)
-            {
-                //Process the docks by unloading a crate.
-                //Handle the scenario of swapping to the next queued truck if last crate was unloaded.
+            for (warehouse.currentTime = 0; warehouse.currentTime < warehouse.timeIncrements; warehouse.currentTime++) {
                 AssignTrucksToDocks(warehouse);
-
                 foreach (Dock dock in warehouse.docks)
-                {
                     ProcessDock(warehouse, dock);
-                }
             }
         }
 
@@ -97,21 +74,16 @@ namespace CSCImiamiWarehouseSimulation
             Crate lastDeliveredCrate = null;
             
             if (warehouse.allDeliveredCrates.Count() > 0)
-            {
                 lastDeliveredCrate = warehouse.allDeliveredCrates.Last();
-            }
 
-            if (dock.Line.Count > 0)
-            {
+            if (dock.Line.Count > 0) {
                 currentTruck = dock.Line.Peek();
-                if (!warehouse.allTrucks.Contains(currentTruck))
-                {
+                if (!warehouse.allTrucks.Contains(currentTruck)) {
                     warehouse.allTrucks.Add(currentTruck);
                     warehouse.allTruckIds.Add(currentTruck.id);
                 }
 
-                if (currentTruck.HasMoreCrates())
-                {
+                if (currentTruck.HasMoreCrates()) {
                     currentCrate = currentTruck.Unload();
                     currentCrate.timeIncrementDelivered = warehouse.currentTime;
                     dock.TotalCrates++;
@@ -120,17 +92,13 @@ namespace CSCImiamiWarehouseSimulation
                     warehouse.allDeliveredCrates.Add(currentCrate);
 
                     if (currentTruck.HasMoreCrates())
-                    {
                         currentCrate.scenario = "HasMoreCrates";
-                    }
-                    else if (!currentTruck.HasMoreCrates() && dock.Line.Count() > 1)
-                    { 
+                    else if (!currentTruck.HasMoreCrates() && dock.Line.Count() > 1) { 
                         warehouse.allProcessedTrucks.Add(currentTruck);
                         currentCrate.scenario = "WaitingForNextTruck";
                         dock.SendOff();
                     }
-                    else
-                    {
+                    else {
                         currentCrate.scenario = "NoNextTruck";
                         dock.SendOff();
                     }
@@ -138,71 +106,49 @@ namespace CSCImiamiWarehouseSimulation
                 dock.TimeInUse++;
             }
             else
-            {
                 dock.TimeNotInUse++;
-            }
         }
     
         static void GenerateTrucks(Warehouse warehouse)
         {
-            for (int i = 0; i < warehouse.numberOfDocks; i++)
-            {
+            for (int i = 0; i < warehouse.numberOfDocks; i++) {
                 Dock dock = new Dock();
                 warehouse.docks.Add(dock);
             }
 
             for (int i = 0; i < 48; i++)
-            {
                 warehouse.trucks[i] = new List<Truck>();
-            }
 
-            for (int i = 0; i < warehouse.timeIncrements; i++)
-            {
+            for (int i = 0; i < warehouse.timeIncrements; i++) {
                 //This is where we need to do the normal distribution code. <--Might need this
-
                 if (i <= warehouse.timeIncrements / 2)
-                {
                     warehouse.chanceOfGeneratingTruck = i / warehouse.timeIncrements;
-                }
                 else
-                {
                     warehouse.chanceOfGeneratingTruck = (warehouse.timeIncrements - i) / (warehouse.timeIncrements / 2);
-                }
 
                 //Attempt to make a truck a number of times equal to the max number of trucks possible per time increment.
                 for (int j = 0; j < warehouse.maxPossibleTrucksPerTimeIncrement; j++)
-                {
-                    if (new Random().NextDouble() >= warehouse.chanceOfGeneratingTruck)
-                    {
+                    if (new Random().NextDouble() >= warehouse.chanceOfGeneratingTruck) {
                         //Generate a truck.
                         Truck truck = Truck.GenerateTruck();
                         warehouse.trucks[i].Add(truck);
                         warehouse.numberOfTrucks++;
                     }
-                }
             }
         }
 
         static void AssignTrucksToDocks(Warehouse warehouse)
         {
             //Truck Arrivals at the Entrance
-            foreach (Truck truck in warehouse.trucks[warehouse.currentTime])
-            {
+            foreach (Truck truck in warehouse.trucks[warehouse.currentTime]) 
                 warehouse.entrance.Enqueue(truck);
-            }
-
             //Trucks Assigned to Docks
-            foreach (Truck truck in warehouse.entrance)
-            {
+            foreach (Truck truck in warehouse.entrance) {
                 int indexOfDockWithSmallestLine = 0;
                 //Loop through each dock to find the one with the smallest line.
                 for (int j = 1; j < warehouse.docks.Count(); j++)
-                {
                     if (warehouse.docks[j].Line.Count < warehouse.docks[indexOfDockWithSmallestLine].Line.Count())
-                    {
                         indexOfDockWithSmallestLine = j;
-                    }
-                }
                 //Add the truck to the Dock
                 warehouse.docks[indexOfDockWithSmallestLine].JoinLine(truck);
                 //Note: Trucks can be added to a dock every time increment, but it doesn't say whether multiple trucks
@@ -328,4 +274,3 @@ namespace CSCImiamiWarehouseSimulation
         }
     }
 }
-
