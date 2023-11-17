@@ -26,7 +26,7 @@ namespace CSCImiamiWarehouseSimulation
         public List<Truck>[] trucks = new List<Truck>[48];
         public double dockCost { get; set; } = 100;
         public int timeIncrements { get; set; } = 48;
-        public int currentTime = 0;
+        public int currentTime { get; set; } = 0;
         public int numberOfDocks { get; set; }
         public int numberOfTrucks { get; set; } = 0;
         public float chanceOfGeneratingTruck {  get; set; }
