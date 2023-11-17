@@ -156,13 +156,8 @@ namespace CSCImiamiWarehouseSimulation
                 warehouse.trucks[i] = new List<Truck>();
             }
 
-            NormalDistribution truckArrivalDistribution = new NormalDistribution();
-
             for (int i = 0; i < warehouse.timeIncrements; i++)
             {
-                //Determine how many trucks per time increment using Normal Distribution.
-                int trucksThisIncrement = (int)Math.Round(truckArrivalDistribution.SampleRev2(new Random())); //Updated based on office hours w/ Gillenwater
-
                 //This is where we need to do the normal distribution code. <--Might need this
 
                 if (i <= warehouse.timeIncrements / 2)
