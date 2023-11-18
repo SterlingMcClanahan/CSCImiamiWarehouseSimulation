@@ -25,7 +25,9 @@ namespace CSCImiamiWarehouseSimulation
          * some variables keep track of similar information, which makes some redundant, 
          * but this was used to keep track of the data in a logical way 
          * and to make sure that multiple counters kept track of data in the same way, 
-         * as well as for testing. if we were to optimize the project we may be able to 
+         * as well as for testing. 
+         * 
+         * If we were to optimize the project we may be able to 
          * use variables in a more efficient way and not need as many.
          */
         public List<Dock> docks = new List<Dock>();
@@ -53,7 +55,6 @@ namespace CSCImiamiWarehouseSimulation
         public double revenue { get; set; }
         public double totalTruckValue { get; set; }
         public double avgValueOfTrucks { get; set; }
-
 
         ///////////////////////
         //      METHODS      //
