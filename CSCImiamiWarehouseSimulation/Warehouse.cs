@@ -86,6 +86,102 @@ namespace CSCImiamiWarehouseSimulation
         }
 
         /// <summary>
+        /// Generates trucks before running the simulation
+        /// </summary>
+        /// <param name="warehouse">the warehouse that needs trucks</param>
+        static void GenerateTrucks(Warehouse warehouse)
+        {
+            // creates specified number docks
+            for (int i = 0; i < warehouse.numberOfDocks; i++)
+            {
+                Dock dock = new Dock();
+                warehouse.docks.Add(dock);
+            }
+
+            // puts a list of trucks to line up each time increment
+            for (int i = 0; i < warehouse.timeIncrements; i++)
+                warehouse.trucks[i] = new List<Truck>();
+
+            for (int i = 0; i < warehouse.timeIncrements; i++)
+            {
+                // Normal distribution code
+                if (i <= warehouse.timeIncrements / 2)
+                    warehouse.chanceOfGeneratingTruck = i / warehouse.timeIncrements;
+                else
+                    warehouse.chanceOfGeneratingTruck = (warehouse.timeIncrements - i) / (warehouse.timeIncrements / 2);
+                //Attempt to make a truck a number of times equal to the max number of trucks possible per time increment.
+                for (int j = 0; j < warehouse.maxPossibleTrucksPerTimeIncrement; j++)
+                    if (new Random().NextDouble() >= warehouse.chanceOfGeneratingTruck)
+                    {
+                        //Generate a truck.
+                        Truck truck = Truck.GenerateTruck();
+                        warehouse.trucks[i].Add(truck);
+                        warehouse.numberOfTrucks++;
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Assigns each truck to the dock with the shortest line (wait time)
+        /// </summary>
+        /// <param name="warehouse">the warehouse that trucks are assigned to docks at</param>
+        static void AssignTrucksToDocks(Warehouse warehouse)
+        {
+            //Truck Arrivals at the Entrance
+            foreach (Truck truck in warehouse.trucks[warehouse.currentTime])
+                warehouse.entrance.Enqueue(truck);
+            //Trucks Assigned to Docks
+            foreach (Truck truck in warehouse.entrance) {
+                int indexOfDockWithSmallestLine = FindShortestLine(warehouse);
+                //Add the truck to the Dock
+                warehouse.docks[indexOfDockWithSmallestLine].JoinLine(truck);
+                /*
+                    Note: Trucks can be added to a dock every time increment, 
+                    but it doesn't say whether multiple trucks can be added to the same dock or not. 
+                    This is assuming that they can in cases of small numbers of docks and a lot of trucks.
+                */
+            }
+            warehouse.entrance.Clear();
+        }
+
+        /// <summary>
+        /// Allows the Run program to process each individual dock each time increment
+        /// </summary>
+        /// <param name="warehouse">the warehouse that needs its docks processed</param>
+        /// <param name="dock">the dock to be processed</param>
+        static void ProcessDock(Warehouse warehouse, Dock dock)
+        {
+            /*
+                processes each dock each time increment 
+                by processing the truck and updating the 
+                time statistics of the dock
+            */
+            if (dock.Line.Count > 0)
+            {
+                ProcessTruck(warehouse, dock);
+                dock.TimeInUse++;
+            }
+            else
+                dock.TimeNotInUse++;
+        }
+
+        /// <summary>
+        /// finds the dock with the shortest line 
+        /// so that the next truck at the warehouse entrance can be sent to that line
+        /// </summary>
+        /// <param name="warehouse">the warehouse</param>
+        /// <returns>the index of the dock with the shortest line</returns>
+        static int FindShortestLine(Warehouse warehouse)
+        {
+            //Loop through each dock to find the one with the smallest line.
+            int indexOfDockWithSmallestLine = 0;
+            for (int j = 1; j < warehouse.docks.Count(); j++)
+                if (warehouse.docks[j].Line.Count < warehouse.docks[indexOfDockWithSmallestLine].Line.Count())
+                    indexOfDockWithSmallestLine = j;
+            return indexOfDockWithSmallestLine;
+        }
+
+        /// <summary>
         /// Processes each truck at each dock at each time increment
         /// </summary>
         /// <param name="warehouse">the warehouse that trucks are being processed at</param>
@@ -155,98 +251,6 @@ namespace CSCImiamiWarehouseSimulation
                 currentCrate.scenario = "NoNextTruck";
                 dock.SendOff();
             }
-        }
-
-        /// <summary>
-        /// Allows the Run program to process each individual dock each time increment
-        /// </summary>
-        /// <param name="warehouse">the warehouse that needs its docks processed</param>
-        /// <param name="dock">the dock to be processed</param>
-        static void ProcessDock(Warehouse warehouse, Dock dock)
-        {
-            /*
-                processes each dock each time increment 
-                by processing the truck and updating the 
-                time statistics of the dock
-            */
-            if (dock.Line.Count > 0) {
-                ProcessTruck(warehouse, dock);
-                dock.TimeInUse++;
-            }
-            else
-                dock.TimeNotInUse++;
-        }
-
-        /// <summary>
-        /// Generates trucks before running the simulation
-        /// </summary>
-        /// <param name="warehouse">the warehouse that needs trucks</param>
-        static void GenerateTrucks(Warehouse warehouse)
-        {
-            // creates specified number docks
-            for (int i = 0; i < warehouse.numberOfDocks; i++) {
-                Dock dock = new Dock();
-                warehouse.docks.Add(dock);
-            }
-
-            // puts a list of trucks to line up each time increment
-            for (int i = 0; i < warehouse.timeIncrements; i++)
-                warehouse.trucks[i] = new List<Truck>();
-
-            for (int i = 0; i < warehouse.timeIncrements; i++) {
-                // Normal distribution code
-                if (i <= warehouse.timeIncrements / 2)
-                    warehouse.chanceOfGeneratingTruck = i / warehouse.timeIncrements;
-                else
-                    warehouse.chanceOfGeneratingTruck = (warehouse.timeIncrements - i) / (warehouse.timeIncrements / 2);
-                //Attempt to make a truck a number of times equal to the max number of trucks possible per time increment.
-                for (int j = 0; j < warehouse.maxPossibleTrucksPerTimeIncrement; j++)
-                    if (new Random().NextDouble() >= warehouse.chanceOfGeneratingTruck) {
-                        //Generate a truck.
-                        Truck truck = Truck.GenerateTruck();
-                        warehouse.trucks[i].Add(truck);
-                        warehouse.numberOfTrucks++;
-                    }
-            }
-        }
-
-        /// <summary>
-        /// Assigns each truck to the dock with the shortest line (wait time)
-        /// </summary>
-        /// <param name="warehouse">the warehouse that trucks are assigned to docks at</param>
-        static void AssignTrucksToDocks(Warehouse warehouse)
-        {
-            //Truck Arrivals at the Entrance
-            foreach (Truck truck in warehouse.trucks[warehouse.currentTime]) 
-                warehouse.entrance.Enqueue(truck);
-            //Trucks Assigned to Docks
-            foreach (Truck truck in warehouse.entrance) {
-                int indexOfDockWithSmallestLine = FindShortestLine(warehouse);
-                //Add the truck to the Dock
-                warehouse.docks[indexOfDockWithSmallestLine].JoinLine(truck);
-                /*
-                    Note: Trucks can be added to a dock every time increment, 
-                    but it doesn't say whether multiple trucks can be added to the same dock or not. 
-                    This is assuming that they can in cases of small numbers of docks and a lot of trucks.
-                */
-            }
-            warehouse.entrance.Clear();
-        }
-
-        /// <summary>
-        /// finds the dock with the shortest line 
-        /// so that the next truck at the warehouse entrance can be sent to that line
-        /// </summary>
-        /// <param name="warehouse">the warehouse</param>
-        /// <returns>the index of the dock with the shortest line</returns>
-        static int FindShortestLine(Warehouse warehouse)
-        {
-            //Loop through each dock to find the one with the smallest line.
-            int indexOfDockWithSmallestLine = 0;
-            for (int j = 1; j < warehouse.docks.Count(); j++)
-                if (warehouse.docks[j].Line.Count < warehouse.docks[indexOfDockWithSmallestLine].Line.Count())
-                    indexOfDockWithSmallestLine = j;
-            return indexOfDockWithSmallestLine;
         }
     }
 }
