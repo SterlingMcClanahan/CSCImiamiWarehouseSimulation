@@ -57,6 +57,10 @@ namespace CSCImiamiWarehouseSimulation
             }
         }
 
+        /// <summary>
+        /// updates all variables and calculates new ones.
+        /// </summary>
+        /// <param name="warehouse">the warehouse to pull data from</param>
         public static void CalculateData(Warehouse warehouse)
         {
             foreach (Dock dock in warehouse.docks)

@@ -14,12 +14,14 @@ namespace CSCImiamiWarehouseSimulation
         static void Main(string[] args)
         {
             Warehouse warehouse = new Warehouse();
-            warehouse.numberOfDocks = 1;
+            warehouse.numberOfDocks = 5;
             Warehouse.Run(warehouse);
 
-            //this will clear the csv, if you want to append then comment this out
+            // This will clear the csv. If you want to append, then comment this out.
             ReportGenerator.ClearCSV();
+            // Calculates the data but does nothing with it yet
             ReportGenerator.CalculateData(warehouse);
+            // Prints a report to command line and creates a csv file of the crates delivered
             ReportGenerator.GenerateReport(warehouse);
         }
     }

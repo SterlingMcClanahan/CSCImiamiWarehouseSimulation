@@ -15,8 +15,15 @@ namespace CSCImiamiWarehouseSimulation
         //      Variables     //
         ////////////////////////
       
+        /// <summary>
+        /// The current length of line at the dock, 
+        /// so the warehouse knows where to assign the next truck
+        /// </summary>
         public int lineLength { get { return Line.Count; } }
 
+        /// <summary>
+        /// Keeps track of how many trucks the dock has emptied
+        /// </summary>
         public int numberOfTrucksEmptied { get; set; } = 0;
 
         /// <summary>
@@ -64,7 +71,7 @@ namespace CSCImiamiWarehouseSimulation
         ///////////////////////
         
         /// <summary>
-        /// The dock ID representation
+        /// The dock constructor
         /// </summary>
         public Dock()
         {

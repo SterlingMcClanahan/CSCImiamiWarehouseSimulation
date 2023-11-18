@@ -15,14 +15,28 @@ namespace CSCImiamiWarehouseSimulation
         //      Variables     //
         ////////////////////////
         
-
+        /// <summary>
+        /// Keeps a list of the crates that this specific truck delivered
+        /// </summary>
         public List<Crate> deliveredCrates = new List<Crate>();
 
+        /// <summary>
+        /// Counts the total number of trucks.
+        /// Should workt the same way as id,
+        /// but still wanted to keep these seperate for future use
+        /// </summary>
         public static int truckCounter { get; set; } = 0;
 
+        /// <summary>
+        /// Each truck gets a unique id to be called by
+        /// </summary>
         public int id { get; set; }
 
+        /// <summary>
+        /// The value of all of the crates on the truck
+        /// </summary>
         public double truckWorth { get; set; } = 0;
+
         /// <summary>
         /// The name of the truck driver associated with the truck.
         /// </summary>
@@ -75,6 +89,10 @@ namespace CSCImiamiWarehouseSimulation
         /// </summary>
         public static int maximumCrateNumber { get; set; } = 8;
 
+        ///////////////////////
+        //      METHODS      //
+        ///////////////////////
+
         /// <summary>
         /// Default constructor for the truck.
         /// </summary>
@@ -98,10 +116,6 @@ namespace CSCImiamiWarehouseSimulation
             id = truckCounter++;
             Stack<Crate> Trailer = new Stack<Crate>();
         }
-
-        ///////////////////////
-        //      METHODS      //
-        ///////////////////////
 
         /// <summary>
         /// Generates a truck using the parameterized constructor and a random driver name and delivery company from a preset list of names.

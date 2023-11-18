@@ -25,7 +25,6 @@ namespace CSCImiamiWarehouseSimulation
         public List<Dock> docks = new List<Dock>();
         public Queue<Truck> entrance = new Queue<Truck>();
         public List<Truck> allTrucks = new List<Truck>();
-        public List<int> allTruckIds = new List<int>();
         public List<Crate> allDeliveredCrates = new List<Crate>();
         public List<Truck> allProcessedTrucks = new List<Truck>();
         public List<Truck>[] trucks = new List<Truck>[48];
@@ -54,12 +53,15 @@ namespace CSCImiamiWarehouseSimulation
         //      METHODS      //
         ///////////////////////
         
-
+        /// <summary>
+        /// warehouse constructor
+        /// </summary>
         public Warehouse()
         {
             docks.Clear();
             entrance.Clear();
         }
+
         /// <summary>
         /// Runs the simulation
         /// </summary>
@@ -76,17 +78,24 @@ namespace CSCImiamiWarehouseSimulation
             }
         }
 
+        /// <summary>
+        /// Processes each truck at each dock at each time increment
+        /// </summary>
+        /// <param name="warehouse">the warehouse that trucks are being processed at</param>
+        /// <param name="dock">the dock that is currently processing the truck</param>
         static void ProcessTruck(Warehouse warehouse, Dock dock)
         {
-            Truck currentTruck;
+            Truck currentTruck = dock.Line.Peek();
             Crate currentCrate;
 
-            currentTruck = dock.Line.Peek();
-            if (!warehouse.allTrucks.Contains(currentTruck)) {
+            // keeps a list of all the trucks that delivered to the factory
+            if (!warehouse.allTrucks.Contains(currentTruck))
                 warehouse.allTrucks.Add(currentTruck);
-                warehouse.allTruckIds.Add(currentTruck.id);
-            }
 
+            /*
+             * if the truck has more crates to unload,
+             * it unloads it and updates variables
+             */
             if (currentTruck.HasMoreCrates()) {
                 currentCrate = currentTruck.Unload();
                 currentCrate.timeIncrementDelivered = warehouse.currentTime;
@@ -98,8 +107,36 @@ namespace CSCImiamiWarehouseSimulation
             }
         }
 
+        /// <summary>
+        /// A helper method to ProcessTruck()
+        ///     - checks the status of the truck after a crate has been delivered
+        ///     There are 3 statuses a truck could have after a crate is delivered:
+        ///           HasMoreCrates - A crate was unloaded and there are more crates 
+        ///                                to be delivered in the truck
+        ///                                
+        ///           WaitingForNextTruck - The last crate out of the back of the truck 
+        ///                       has been delivered and anoter truck is in line behind this one.
+        ///                       
+        ///           NoNextTruck - The last crate has been delivered and there are no more truck in line
+        /// </summary>
+        /// <param name="warehouse">the wareohuse the truck is being processed at</param>
+        /// <param name="dock">the dock the truck is being processed at</param>
+        /// <param name="currentTruck">the current truck  to be processed</param>
+        /// <param name="currentCrate">the current status is what happens atyer the current crate is delivered</param>
         static void CheckNextTrucksStatus(Warehouse warehouse, Dock dock, Truck currentTruck, Crate currentCrate)
         {
+            /*
+             * There are 3 statuses a truck could have after a crate is delivered:
+             *      HasMoreCrates - A crate was unloaded and there are more crates 
+             *                      to be delivered in the truck
+             *          
+             *      WaitingForNextTruck - The last crate out of the back of the truck
+             *                            has been delivered and anoter truck is 
+             *                            in line behind this one.
+             *          
+             *      NoNextTruck - The last crate has been delivered and 
+             *                    there are no more truck in line
+             */
             if (currentTruck.HasMoreCrates())
                 currentCrate.scenario = "HasMoreCrates";
             else if (!currentTruck.HasMoreCrates() && dock.Line.Count() > 1) {
@@ -120,6 +157,11 @@ namespace CSCImiamiWarehouseSimulation
         /// <param name="dock">the dock to be processed</param>
         static void ProcessDock(Warehouse warehouse, Dock dock)
         {
+            /*
+                processes each dock each time increment 
+                by processing the truck and updating the 
+                time statistics of the dock
+            */
             if (dock.Line.Count > 0) {
                 ProcessTruck(warehouse, dock);
                 dock.TimeInUse++;
@@ -134,16 +176,18 @@ namespace CSCImiamiWarehouseSimulation
         /// <param name="warehouse">the warehouse that needs trucks</param>
         static void GenerateTrucks(Warehouse warehouse)
         {
+            // creates specified number docks
             for (int i = 0; i < warehouse.numberOfDocks; i++) {
                 Dock dock = new Dock();
                 warehouse.docks.Add(dock);
             }
 
+            // puts a list of trucks to line up each time increment
             for (int i = 0; i < warehouse.timeIncrements; i++)
                 warehouse.trucks[i] = new List<Truck>();
 
             for (int i = 0; i < warehouse.timeIncrements; i++) {
-                //This is where we need to do the normal distribution code. <--Might need this
+                // Normal distribution code
                 if (i <= warehouse.timeIncrements / 2)
                     warehouse.chanceOfGeneratingTruck = i / warehouse.timeIncrements;
                 else
@@ -170,18 +214,32 @@ namespace CSCImiamiWarehouseSimulation
                 warehouse.entrance.Enqueue(truck);
             //Trucks Assigned to Docks
             foreach (Truck truck in warehouse.entrance) {
-                int indexOfDockWithSmallestLine = 0;
-                //Loop through each dock to find the one with the smallest line.
-                for (int j = 1; j < warehouse.docks.Count(); j++)
-                    if (warehouse.docks[j].Line.Count < warehouse.docks[indexOfDockWithSmallestLine].Line.Count())
-                        indexOfDockWithSmallestLine = j;
+                int indexOfDockWithSmallestLine = FindShortestLine(warehouse);
                 //Add the truck to the Dock
                 warehouse.docks[indexOfDockWithSmallestLine].JoinLine(truck);
-                //Note: Trucks can be added to a dock every time increment, but it doesn't say whether multiple trucks
-                //can be added to the same dock or not. This is assuming that they can in cases of small numbers of docks and a lot of trucks.
+                /*
+                    Note: Trucks can be added to a dock every time increment, 
+                    but it doesn't say whether multiple trucks can be added to the same dock or not. 
+                    This is assuming that they can in cases of small numbers of docks and a lot of trucks.
+                */
             }
             warehouse.entrance.Clear();
         }
 
+        /// <summary>
+        /// finds the dock with the shortest line 
+        /// so that the next truck at the warehouse entrance can be sent to that line
+        /// </summary>
+        /// <param name="warehouse">the warehouse</param>
+        /// <returns>the index of the dock with the shortest line</returns>
+        static int FindShortestLine(Warehouse warehouse)
+        {
+            //Loop through each dock to find the one with the smallest line.
+            int indexOfDockWithSmallestLine = 0;
+            for (int j = 1; j < warehouse.docks.Count(); j++)
+                if (warehouse.docks[j].Line.Count < warehouse.docks[indexOfDockWithSmallestLine].Line.Count())
+                    indexOfDockWithSmallestLine = j;
+            return indexOfDockWithSmallestLine;
+        }
     }
 }
