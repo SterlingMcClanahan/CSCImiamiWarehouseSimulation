@@ -72,6 +72,8 @@ namespace CSCImiamiWarehouseSimulation
         //      METHODS      //
         ///////////////////////
         
+        // methods are organized in the order they happen and by submethods used by main methods
+        
         /// <summary>
         /// warehouse constructor
         /// </summary>
