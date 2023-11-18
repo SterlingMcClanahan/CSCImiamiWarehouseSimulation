@@ -30,31 +30,41 @@ namespace CSCImiamiWarehouseSimulation
          * If we were to optimize the project we may be able to 
          * use variables in a more efficient way and not need as many.
          */
+
+        // Lists, Stacks, Queues
         public List<Dock> docks = new List<Dock>();
         public Queue<Truck> entrance = new Queue<Truck>();
         public List<Truck> allTrucks = new List<Truck>();
         public List<Crate> allDeliveredCrates = new List<Crate>();
         public List<Truck> allProcessedTrucks = new List<Truck>();
         public List<Truck>[] trucks = new List<Truck>[48];
-        public double dockCost { get; set; } = 100;
+
+        // Warehouse
         public int timeIncrements { get; set; } = 48;
         public int currentTime { get; set; } = 0;
+        public double revenue { get; set; }
+
+        // Dock
         public int numberOfDocks { get; set; }
+        public double dockCost { get; set; } = 100;
+        public int totalUsedDockTime { get; set; }
+        public int totalUnusedDockTime { get; set; }
+        public int longestLine { get; set; } = 0;
+        public double allDockSales { get; set; } = 0;
+        public double avgDockTimeUse { get; set; }
+        public double totalCostOfOperatingEachDock { get; set; }
+
+        // Truck
         public int numberOfTrucks { get; set; } = 0;
         public float chanceOfGeneratingTruck {  get; set; }
         public int maxPossibleTrucksPerTimeIncrement { get; set; } = 2;
-        public double allDockSales { get; set; } = 0;
-        public int longestLine { get; set; } = 0;
-        public int totalUsedDockTime { get; set; }
-        public int totalUnusedDockTime { get; set; }
         public int totalProcessedTrucks { get; set; }
-        public int totalCratesProcessed { get; set; }
-        public double avgDockTimeUse { get; set; }
-        public double avgValueOfCrates { get; set; }
-        public double totalCostOfOperatingEachDock { get; set; }
-        public double revenue { get; set; }
         public double totalTruckValue { get; set; }
         public double avgValueOfTrucks { get; set; }
+
+        // Crate
+        public int totalCratesProcessed { get; set; }
+        public double avgValueOfCrates { get; set; }
 
         ///////////////////////
         //      METHODS      //
