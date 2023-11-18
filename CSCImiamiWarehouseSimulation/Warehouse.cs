@@ -86,6 +86,7 @@ namespace CSCImiamiWarehouseSimulation
             ///////////////////////
             // Run the Warehouse //
             ///////////////////////
+            
         /// <summary>
         /// Runs the simulation
         /// </summary>
@@ -116,6 +117,7 @@ namespace CSCImiamiWarehouseSimulation
                 /////////////////////////////////////////////
                 // The main methods used by the Run Method //
                 /////////////////////////////////////////////
+                
         /// <summary>
         /// Generates trucks before running the simulation
         /// </summary>
