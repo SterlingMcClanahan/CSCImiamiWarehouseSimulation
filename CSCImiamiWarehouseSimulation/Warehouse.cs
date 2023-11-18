@@ -69,6 +69,9 @@ namespace CSCImiamiWarehouseSimulation
             entrance.Clear();
         }
 
+            ///////////////////////
+            // Run the Warehouse //
+            ///////////////////////
         /// <summary>
         /// Runs the simulation
         /// </summary>
@@ -85,6 +88,9 @@ namespace CSCImiamiWarehouseSimulation
             }
         }
 
+                /////////////////////////////////////////////
+                // The main methods used by the Run Method //
+                /////////////////////////////////////////////
         /// <summary>
         /// Generates trucks before running the simulation
         /// </summary>
@@ -165,6 +171,9 @@ namespace CSCImiamiWarehouseSimulation
                 dock.TimeNotInUse++;
         }
 
+                    ////////////////////////////////////////////////////
+                    // Helper methods used by the main methods of Run //
+                    ////////////////////////////////////////////////////
         /// <summary>
         /// finds the dock with the shortest line 
         /// so that the next truck at the warehouse entrance can be sent to that line
