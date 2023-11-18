@@ -32,8 +32,8 @@ namespace CSCImiamiWarehouseSimulation
          */
 
         // Lists, Stacks, Queues
-        public List<Dock> docks = new List<Dock>();
         public Queue<Truck> entrance = new Queue<Truck>();
+        public List<Dock> docks = new List<Dock>();
         public List<Truck> allTrucks = new List<Truck>();
         public List<Crate> allDeliveredCrates = new List<Crate>();
         public List<Truck> allProcessedTrucks = new List<Truck>();
@@ -46,25 +46,26 @@ namespace CSCImiamiWarehouseSimulation
 
         // Dock
         public int numberOfDocks { get; set; }
-        public double dockCost { get; set; } = 100;
         public int totalUsedDockTime { get; set; }
         public int totalUnusedDockTime { get; set; }
         public int longestLine { get; set; } = 0;
+        public double dockCost { get; set; } = 100;
         public double allDockSales { get; set; } = 0;
         public double avgDockTimeUse { get; set; }
         public double totalCostOfOperatingEachDock { get; set; }
 
         // Truck
         public int numberOfTrucks { get; set; } = 0;
-        public float chanceOfGeneratingTruck {  get; set; }
         public int maxPossibleTrucksPerTimeIncrement { get; set; } = 2;
         public int totalProcessedTrucks { get; set; }
         public double totalTruckValue { get; set; }
         public double avgValueOfTrucks { get; set; }
+        public float chanceOfGeneratingTruck { get; set; }
 
         // Crate
         public int totalCratesProcessed { get; set; }
         public double avgValueOfCrates { get; set; }
+
 
         ///////////////////////
         //      METHODS      //
