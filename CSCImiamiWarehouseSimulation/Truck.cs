@@ -21,38 +21,6 @@ namespace CSCImiamiWarehouseSimulation
         public List<Crate> deliveredCrates = new List<Crate>();
 
         /// <summary>
-        /// Counts the total number of trucks.
-        /// Should workt the same way as id,
-        /// but still wanted to keep these seperate for future use
-        /// </summary>
-        public static int truckCounter { get; set; } = 0;
-
-        /// <summary>
-        /// Each truck gets a unique id to be called by
-        /// </summary>
-        public int id { get; set; }
-
-        /// <summary>
-        /// The value of all of the crates on the truck
-        /// </summary>
-        public double truckWorth { get; set; } = 0;
-
-        /// <summary>
-        /// The name of the truck driver associated with the truck.
-        /// </summary>
-        public string driver { get; private set; }
-
-        /// <summary>
-        /// The name of the delivery company associated with the truck.
-        /// </summary>
-        public string deliveryCompany { get; private set; }
-
-        /// <summary>
-        /// The stack of crates inside of the truck.
-        /// </summary>
-        public Stack<Crate> Trailer = new Stack<Crate>();
-       
-        /// <summary>
         /// A list of potential driver names from the 1994 Japanese Baseball game "Fighting Baseball".
         /// </summary>
         public static List<string> driverNames = new List<string>
@@ -81,13 +49,47 @@ namespace CSCImiamiWarehouseSimulation
             };
 
         /// <summary>
+        /// The stack of crates inside of the truck.
+        /// </summary>
+        public Stack<Crate> Trailer = new Stack<Crate>();
+
+        /// <summary>
+        /// Counts the total number of trucks.
+        /// Should workt the same way as id,
+        /// but still wanted to keep these seperate for future use
+        /// </summary>
+        public static int truckCounter { get; set; } = 0;
+
+        /// <summary>
+        /// Each truck gets a unique id to be called by
+        /// </summary>
+        public int id { get; set; }
+
+        /// <summary>
         /// Minimum number of crates for simulation
         /// </summary>
         public static int minimumCrateNumber { get; set; } = 3;
+
         /// <summary>
         /// Maximum number of crates for simulation
         /// </summary>
         public static int maximumCrateNumber { get; set; } = 8;
+
+        /// <summary>
+        /// The value of all of the crates on the truck
+        /// </summary>
+        public double truckWorth { get; set; } = 0;
+
+        /// <summary>
+        /// The name of the truck driver associated with the truck.
+        /// </summary>
+        public string driver { get; private set; }
+
+        /// <summary>
+        /// The name of the delivery company associated with the truck.
+        /// </summary>
+        public string deliveryCompany { get; private set; }
+
 
         ///////////////////////
         //      METHODS      //

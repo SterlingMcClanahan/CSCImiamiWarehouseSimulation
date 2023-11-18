@@ -14,7 +14,12 @@ namespace CSCImiamiWarehouseSimulation
         ////////////////////////
         //      Variables     //
         ////////////////////////
-      
+
+        /// <summary>
+        /// A queue of trucks 
+        /// </summary>
+        public Queue<Truck> Line { get; set; } = new Queue<Truck>();
+
         /// <summary>
         /// The current length of line at the dock, 
         /// so the warehouse knows where to assign the next truck
@@ -30,21 +35,6 @@ namespace CSCImiamiWarehouseSimulation
         /// A integer that counts docks
         /// </summary>
         private static int dockCounter { get; set; } = 1;
-
-        /// <summary>
-        /// A string of ID's gotten by dockCounter
-        /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
-        /// A queue of trucks 
-        /// </summary>
-        public Queue<Truck> Line { get; set; } = new Queue<Truck>();
-
-        /// <summary>
-        /// The total amount of sales as a double
-        /// </summary>
-        public double TotalSales { get;  set; }
 
         /// <summary>
         /// The integer total of crates
@@ -66,10 +56,20 @@ namespace CSCImiamiWarehouseSimulation
         /// </summary>
         public int TimeNotInUse { get; set; }
 
+        /// <summary>
+        /// The total amount of sales as a double
+        /// </summary>
+        public double TotalSales { get; set; }
+
+        /// <summary>
+        /// A string of ID's gotten by dockCounter
+        /// </summary>
+        public string Id { get; set; }
+
         ///////////////////////
         //      METHODS      //
         ///////////////////////
-        
+
         /// <summary>
         /// The dock constructor
         /// </summary>

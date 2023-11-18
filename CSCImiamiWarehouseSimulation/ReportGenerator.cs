@@ -12,6 +12,18 @@ namespace CSCImiamiWarehouseSimulation
         //      METHODS      //
         ///////////////////////
         
+        ///
+        /// <summary>
+        /// Clears the previous data from the CSV so that new data can take its place.
+        /// </summary>
+        public static void ClearCSV()
+        {
+            using (StreamWriter writer = new StreamWriter(@"crateData.csv", false))
+            {
+
+            }
+        }
+
         /// <summary>
         /// Logs information into a Comma Seperated list
         /// </summary>
@@ -26,7 +38,7 @@ namespace CSCImiamiWarehouseSimulation
             //Does not clear the previous CSV file before making a new one
 
             // Replace "yourfile.csv" with the actual path and filename you want to use
-            string filePath = "yourfile.csv";
+            string filePath = "crateData.csv";
 
             // Check if the file exists; if not, create it and write the header
 
@@ -42,18 +54,6 @@ namespace CSCImiamiWarehouseSimulation
             using (StreamWriter writer = new StreamWriter(filePath, true))
             {
                 writer.WriteLine($"{timeIncrement},{driver},{company},{id},{price},{scenario}");
-            }
-        }
-
-        /// <summary>
-        /// Clears the previous data from the CSV so that new data can take its place.
-        /// </summary>
-        public static void ClearCSV()
-        {
-            // Replace "yourfile.csv" with the actual path and filename you want to use
-            using (StreamWriter writer = new StreamWriter(@"yourfile.csv", false))
-            {
-
             }
         }
 
