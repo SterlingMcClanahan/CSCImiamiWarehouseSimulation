@@ -90,7 +90,18 @@ namespace CSCImiamiWarehouseSimulation
         /// <param name="warehouse">The warehouse the simulation is running</param>
         public static void Run(Warehouse warehouse)
         {
-            GenerateTrucks(warehouse);
+            // creates specified number docks
+            for (int i = 0; i < warehouse.numberOfDocks; i++)
+            {
+                Dock dock = new Dock();
+                warehouse.docks.Add(dock);
+            }
+
+            // puts a list of trucks to line up each time increment
+            for (int i = 0; i < warehouse.timeIncrements; i++)
+                warehouse.trucks[i] = new List<Truck>();
+        
+            GenerateTrucksForEachTimeIncrement(warehouse);
 
             //For loop that runs the actual simulation and updates every time increment.
             for (warehouse.currentTime = 0; warehouse.currentTime < warehouse.timeIncrements; warehouse.currentTime++) {
@@ -107,35 +118,11 @@ namespace CSCImiamiWarehouseSimulation
         /// Generates trucks before running the simulation
         /// </summary>
         /// <param name="warehouse">the warehouse that needs trucks</param>
-        static void GenerateTrucks(Warehouse warehouse)
+        static void GenerateTrucksForEachTimeIncrement(Warehouse warehouse)
         {
-            // creates specified number docks
-            for (int i = 0; i < warehouse.numberOfDocks; i++)
-            {
-                Dock dock = new Dock();
-                warehouse.docks.Add(dock);
-            }
-
-            // puts a list of trucks to line up each time increment
-            for (int i = 0; i < warehouse.timeIncrements; i++)
-                warehouse.trucks[i] = new List<Truck>();
-
             for (int i = 0; i < warehouse.timeIncrements; i++)
             {
-                // Normal distribution code
-                if (i <= warehouse.timeIncrements / 2)
-                    warehouse.chanceOfGeneratingTruck = i / warehouse.timeIncrements;
-                else
-                    warehouse.chanceOfGeneratingTruck = (warehouse.timeIncrements - i) / (warehouse.timeIncrements / 2);
-                //Attempt to make a truck a number of times equal to the max number of trucks possible per time increment.
-                for (int j = 0; j < warehouse.maxPossibleTrucksPerTimeIncrement; j++)
-                    if (new Random().NextDouble() >= warehouse.chanceOfGeneratingTruck)
-                    {
-                        //Generate a truck.
-                        Truck truck = Truck.GenerateTruck();
-                        warehouse.trucks[i].Add(truck);
-                        warehouse.numberOfTrucks++;
-                    }
+                GenerateTrucksBasedOnNormalDistribution(warehouse, i);
             }
         }
 
@@ -186,6 +173,30 @@ namespace CSCImiamiWarehouseSimulation
                     ////////////////////////////////////////////////////
                     // Helper methods used by the main methods of Run //
                     ////////////////////////////////////////////////////
+                    
+        /// <summary>
+        /// generates a number of trucks based on normal distribution for each increment of time
+        /// </summary>
+        /// <param name="warehouse">the warehouse that is requesting trucks</param>
+        /// <param name="i">the time increment to add the trucks</param>
+        static void GenerateTrucksBasedOnNormalDistribution(Warehouse warehouse, int i)
+        {
+            // Normal distribution code
+            if (i <= warehouse.timeIncrements / 2)
+                warehouse.chanceOfGeneratingTruck = i / warehouse.timeIncrements;
+            else
+                warehouse.chanceOfGeneratingTruck = (warehouse.timeIncrements - i) / (warehouse.timeIncrements / 2);
+            //Attempt to make a truck a number of times equal to the max number of trucks possible per time increment.
+            for (int j = 0; j < warehouse.maxPossibleTrucksPerTimeIncrement; j++)
+                if (new Random().NextDouble() >= warehouse.chanceOfGeneratingTruck)
+                {
+                    //Generate a truck.
+                    Truck truck = Truck.GenerateTruck();
+                    warehouse.trucks[i].Add(truck);
+                    warehouse.numberOfTrucks++;
+                }
+        }
+                    
         /// <summary>
         /// finds the dock with the shortest line 
         /// so that the next truck at the warehouse entrance can be sent to that line
