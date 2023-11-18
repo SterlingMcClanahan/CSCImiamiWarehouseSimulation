@@ -1,0 +1,12 @@
+-+|Warehouse Recommendation by CSCI-Miami: Chris Oaks, Sterling McClanahan, Curtis Reece, Daniel Foister|+-
+|-----------|
+|Assumptions|
+|-----------|
+- The Warehouse works on a 24/7 schedule, and the report is a snippet of an 8-hour shift within that schedule. 
+- Any trucks still unloading crates at the end of the 8-hour shift will be handled by the next shift.
+- The number of crates per truck is 3 to 8, as each crate represents a pallet. 
+- Multiple trucks can be queued to the same dock each time increment. 
+----------------------------------------------------------------------------------------------------------------
+The simulation was based on the list of assumptions above. Based on the simulation results, we recommend that the company should proceed with the construction of 10 docks at their new warehouse. 
+Through our testing, we observed that this setup consistently yielded the highest total revenue, with a margin ranging between 59,000 and 71,000 units. 
+This approach ensures efficient truck processing, minimizing truck backloads and maximizing the potential profits of unloaded crates.
