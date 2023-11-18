@@ -123,7 +123,7 @@ namespace CSCImiamiWarehouseSimulation
                 warehouse.docks.Add(dock);
             }
 
-            for (int i = 0; i < 48; i++)
+            for (int i = 0; i < warehouse.timeIncrements; i++)
                 warehouse.trucks[i] = new List<Truck>();
 
             for (int i = 0; i < warehouse.timeIncrements; i++) {
