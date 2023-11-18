@@ -11,9 +11,13 @@ namespace CSCImiamiWarehouseSimulation
 {
     internal class Dock
     {
+        ////////////////////////
+        //      Variables     //
+        ////////////////////////
+      
         public int lineLength { get { return Line.Count; } }
-        public int numberOfTrucksEmptied { get; set; } = 0;
 
+        public int numberOfTrucksEmptied { get; set; } = 0;
 
         /// <summary>
         /// A integer that counts docks
@@ -55,6 +59,10 @@ namespace CSCImiamiWarehouseSimulation
         /// </summary>
         public int TimeNotInUse { get; set; }
 
+        ///////////////////////
+        //      METHODS      //
+        ///////////////////////
+        
         /// <summary>
         /// The dock ID representation
         /// </summary>

@@ -11,8 +11,15 @@ namespace CSCImiamiWarehouseSimulation
 {
     internal class Truck
     {
+        ////////////////////////
+        //      Variables     //
+        ////////////////////////
+        
+
         public List<Crate> deliveredCrates = new List<Crate>();
+
         public static int truckCounter { get; set; } = 0;
+
         public int id { get; set; }
 
         public double truckWorth { get; set; } = 0;
@@ -91,6 +98,10 @@ namespace CSCImiamiWarehouseSimulation
             id = truckCounter++;
             Stack<Crate> Trailer = new Stack<Crate>();
         }
+
+        ///////////////////////
+        //      METHODS      //
+        ///////////////////////
 
         /// <summary>
         /// Generates a truck using the parameterized constructor and a random driver name and delivery company from a preset list of names.
