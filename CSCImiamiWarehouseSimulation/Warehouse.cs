@@ -113,7 +113,6 @@ namespace CSCImiamiWarehouseSimulation
             }
         }
 
-
         /// <summary>
         /// Allows the Run program to process each individual dock each time increment
         /// </summary>
