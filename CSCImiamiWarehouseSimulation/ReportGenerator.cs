@@ -91,7 +91,7 @@ namespace CSCImiamiWarehouseSimulation
         /// Creates a report for the Warehouse 
         /// </summary>
         /// <param name="warehouse">the warehouse being reported</param>
-        public static void GenerateReport(Warehouse warehouse)
+        public static void GenerateWarehouseReport(Warehouse warehouse)
         {
             Console.WriteLine("Report: \n" +
                 $"Number of Docks: {warehouse.numberOfDocks} \n" +
@@ -107,6 +107,24 @@ namespace CSCImiamiWarehouseSimulation
                 $"Total Cost of Operating Each Dock: {warehouse.totalCostOfOperatingEachDock} \n" +
                 $"Total Revenue: {warehouse.revenue} \n"
                 );
+            //this goes to the csv file
+            foreach (Truck truck in warehouse.allTrucks)
+            {
+                warehouse.totalTruckValue += truck.truckWorth;
+                foreach (Crate crate in truck.deliveredCrates)
+                    LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate.Id, crate.Price, crate.scenario);
+            }
+        }
+        
+        // Extra Methods to generate different kinds of reports
+        // Reports for Docks, Trucks, and each Crate
+
+        /// <summary>
+        /// Creates a report for each dock
+        /// </summary>
+        /// <param name="warehouse">the warehouse the report should come from</param>
+        public static void GenerateDockReport(Warehouse warehouse)
+        {
             Console.WriteLine("All Dock Reports: ");
             foreach (Dock dock in warehouse.docks)
                 Console.WriteLine
@@ -117,13 +135,38 @@ namespace CSCImiamiWarehouseSimulation
                     $"    Total Time Not Used: {dock.TimeNotInUse} \n" +
                     $"    Total Sales: {dock.TotalSales}"
                     );
-            //this goes to the csv file
-            foreach (Truck truck in warehouse.allTrucks)
-            {
-                warehouse.totalTruckValue += truck.truckWorth;
-                foreach (Crate crate in truck.deliveredCrates)
-                    LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate.Id, crate.Price, crate.scenario);
+
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Creates a report for each truck
+        /// </summary>
+        /// <param name="warehouse">the warehouse the report should come from</param>
+        public static void GenerateTruckReport(Warehouse warehouse)
+        {
+            Console.WriteLine("All Truck Reports: ");
+            Console.WriteLine("truck id, truck worth, driver name, delivery company, delivered crates");
+            foreach (Truck truck in warehouse.allTrucks) {
+                Console.Write($"{truck.id}, {truck.truckWorth}, {truck.driver}, {truck.deliveryCompany}, ");
+                foreach(Crate crate in truck.deliveredCrates)
+                    Console.Write($"{crate.Id}; ");
+                Console.WriteLine();
             }
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Creates a report for each crate
+        /// </summary>
+        /// <param name="warehouse">the warehouse the report should come from</param>
+        public static void GenerateCrateReport(Warehouse warehouse)
+        {
+            Console.WriteLine("All Crate Reports: ");
+            Console.WriteLine($"Time Increment Delivered, Crate Id, Crate Price, Status Of Truck");
+            foreach (Crate crate in warehouse.allDeliveredCrates)
+                Console.WriteLine($"{crate.timeIncrementDelivered}, {crate.Id}, {crate.Price}, {crate.scenario}");
+            Console.WriteLine();
         }
     }
 }

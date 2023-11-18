@@ -22,7 +22,22 @@ namespace CSCImiamiWarehouseSimulation
             // Calculates the data but does nothing with it yet
             ReportGenerator.CalculateData(warehouse);
             // Prints a report to command line and creates a csv file of the crates delivered
-            ReportGenerator.GenerateReport(warehouse);
+            ReportGenerator.GenerateWarehouseReport(warehouse);
+
+            ///////////////////////////////////////////////////
+            // Extra reports. uncomment what you want to see //
+            ///////////////////////////////////////////////////
+            
+            // Prints a report to command line of each dock
+            ReportGenerator.GenerateDockReport(warehouse);
+
+            // Prints a report to command line of each truck
+            //ReportGenerator.GenerateTruckReport(warehouse);
+
+            //Prints a report to command line of each crate
+            ReportGenerator.GenerateCrateReport(warehouse);
+
+
         }
     }
 }
