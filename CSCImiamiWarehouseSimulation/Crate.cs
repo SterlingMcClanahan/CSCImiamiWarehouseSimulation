@@ -11,13 +11,13 @@ namespace CSCImiamiWarehouseSimulation
 {
     public class Crate
     {
-        public string scenario = null;
+        public string scenario { get; set; } = null;
 
-        public int timeIncrementDelivered;
+        public int timeIncrementDelivered {get; set;}
         /// <summary>
         /// A integer that counts crates
         /// </summary>
-        public static int crateCounter = 0;
+        public static int crateCounter { get; set; } = 0;
 
         /// <summary>
         /// A string of ID's gotten by crateCounter

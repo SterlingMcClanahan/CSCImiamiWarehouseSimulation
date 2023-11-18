@@ -12,10 +12,10 @@ namespace CSCImiamiWarehouseSimulation
     internal class Truck
     {
         public List<Crate> deliveredCrates = new List<Crate>();
-        public static int truckCounter = 0;
-        public int id;
+        public static int truckCounter { get; set; } = 0;
+        public int id { get; set; }
 
-        public double truckWorth = 0;
+        public double truckWorth { get; set; } = 0;
         /// <summary>
         /// The name of the truck driver associated with the truck.
         /// </summary>
@@ -62,11 +62,11 @@ namespace CSCImiamiWarehouseSimulation
         /// <summary>
         /// Minimum number of crates for simulation
         /// </summary>
-        public static int minimumCrateNumber = 3;
+        public static int minimumCrateNumber { get; set; } = 3;
         /// <summary>
         /// Maximum number of crates for simulation
         /// </summary>
-        public static int maximumCrateNumber = 8;
+        public static int maximumCrateNumber { get; set; } = 8;
 
         /// <summary>
         /// Default constructor for the truck.

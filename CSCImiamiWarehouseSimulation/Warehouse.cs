@@ -96,7 +96,8 @@ namespace CSCImiamiWarehouseSimulation
 
                     if (currentTruck.HasMoreCrates())
                         currentCrate.scenario = "HasMoreCrates";
-                    else if (!currentTruck.HasMoreCrates() && dock.Line.Count() > 1) { 
+                    
+                    else if (!currentTruck.HasMoreCrates() && dock.Line.Count() > 1) {
                         warehouse.allProcessedTrucks.Add(currentTruck);
                         currentCrate.scenario = "WaitingForNextTruck";
                         dock.SendOff();
