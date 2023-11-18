@@ -82,36 +82,37 @@ namespace CSCImiamiWarehouseSimulation
             Crate currentCrate;
 
             currentTruck = dock.Line.Peek();
-            if (!warehouse.allTrucks.Contains(currentTruck))
-            {
+            if (!warehouse.allTrucks.Contains(currentTruck)) {
                 warehouse.allTrucks.Add(currentTruck);
                 warehouse.allTruckIds.Add(currentTruck.id);
             }
 
-            if (currentTruck.HasMoreCrates())
-            {
+            if (currentTruck.HasMoreCrates()) {
                 currentCrate = currentTruck.Unload();
                 currentCrate.timeIncrementDelivered = warehouse.currentTime;
                 dock.TotalCrates++;
                 dock.TotalSales += currentCrate.Price;
                 currentTruck.truckWorth += currentCrate.Price;
                 warehouse.allDeliveredCrates.Add(currentCrate);
-
-                if (currentTruck.HasMoreCrates())
-                    currentCrate.scenario = "HasMoreCrates";
-                else if (!currentTruck.HasMoreCrates() && dock.Line.Count() > 1)
-                {
-                    warehouse.allProcessedTrucks.Add(currentTruck);
-                    currentCrate.scenario = "WaitingForNextTruck";
-                    dock.SendOff();
-                }
-                else
-                {
-                    currentCrate.scenario = "NoNextTruck";
-                    dock.SendOff();
-                }
+                CheckNextTrucksStatus(warehouse, dock, currentTruck, currentCrate);
             }
         }
+
+        static void CheckNextTrucksStatus(Warehouse warehouse, Dock dock, Truck currentTruck, Crate currentCrate)
+        {
+            if (currentTruck.HasMoreCrates())
+                currentCrate.scenario = "HasMoreCrates";
+            else if (!currentTruck.HasMoreCrates() && dock.Line.Count() > 1) {
+                warehouse.allProcessedTrucks.Add(currentTruck);
+                currentCrate.scenario = "WaitingForNextTruck";
+                dock.SendOff();
+            }
+            else {
+                currentCrate.scenario = "NoNextTruck";
+                dock.SendOff();
+            }
+        }
+
 
         /// <summary>
         /// Allows the Run program to process each individual dock each time increment

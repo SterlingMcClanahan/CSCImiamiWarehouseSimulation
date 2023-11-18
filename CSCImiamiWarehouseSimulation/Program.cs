@@ -15,8 +15,8 @@ namespace CSCImiamiWarehouseSimulation
         {
             Warehouse warehouse = new Warehouse();
             warehouse.numberOfDocks = 1;
-
             Warehouse.Run(warehouse);
+
             //this will clear the csv, if you want to append then comment this out
             ReportGenerator.ClearCSV();
             ReportGenerator.CalculateData(warehouse);
