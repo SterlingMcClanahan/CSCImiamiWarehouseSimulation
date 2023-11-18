@@ -20,12 +20,13 @@ namespace CSCImiamiWarehouseSimulation
         ////////////////////////
         //      Variables     //
         ////////////////////////
+        
         /*
-         * I believe these are named and used logically so that they do not need XML comments
-         * some variables keep track of similar information, which makes some redundant, 
+         * I believe these are named and used logically so that they do not need XML comments.
+         * Some variables keep track of similar information, which makes them redundant, 
          * but this was used to keep track of the data in a logical way 
-         * and to make sure that multiple counters kept track of data in the same way, 
-         * as well as for testing. 
+         * and to make sure that multiple counters kept track of data in the same way. 
+         * These extra variables were also used for testing. 
          * 
          * If we were to optimize the project we may be able to 
          * use variables in a more efficient way and not need as many.
