@@ -74,10 +74,6 @@ namespace CSCImiamiWarehouseSimulation
         {
             Truck currentTruck;
             Crate currentCrate;
-            Crate lastDeliveredCrate = null;
-            
-            if (warehouse.allDeliveredCrates.Count() > 0)
-                lastDeliveredCrate = warehouse.allDeliveredCrates.Last();
 
             if (dock.Line.Count > 0) {
                 currentTruck = dock.Line.Peek();
