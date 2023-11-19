@@ -233,13 +233,25 @@ namespace CSCImiamiWarehouseSimulation
              */
             if (currentTruck.HasMoreCrates()) {
                 currentCrate = currentTruck.Unload();
-                currentCrate.timeIncrementDelivered = warehouse.currentTime;
-                dock.totalCrates++;
-                dock.totalSales += currentCrate.price;
-                currentTruck.truckWorth += currentCrate.price;
-                warehouse.allDeliveredCrates.Add(currentCrate);
+                UpdateVariables(warehouse, dock, currentTruck, currentCrate);
                 CheckNextTrucksStatus(warehouse, dock, currentTruck, currentCrate);
             }
+        }
+
+                        ///////////////////////////
+                        // Helper-Helper Methods //
+                        ///////////////////////////
+
+        /// <summary>
+        /// updates variables for ProcessTruck() when a truck unloads a crate
+        /// </summary>
+        static void UpdateVariables(Warehouse warehouse, Dock dock,Truck currentTruck, Crate currentCrate)
+        {
+            currentCrate.timeIncrementDelivered = warehouse.currentTime;
+            dock.totalCrates++;
+            dock.totalSales += currentCrate.price;
+            currentTruck.truckWorth += currentCrate.price;
+            warehouse.allDeliveredCrates.Add(currentCrate);
         }
 
         /// <summary>
@@ -274,15 +286,19 @@ namespace CSCImiamiWarehouseSimulation
              */
             if (currentTruck.HasMoreCrates())
                 currentCrate.scenario = "HasMoreCrates";
-            else if (!currentTruck.HasMoreCrates() && dock.line.Count() > 1) {
+            else if (!currentTruck.HasMoreCrates() && dock.line.Count() > 1)
+            {
                 warehouse.allProcessedTrucks.Add(currentTruck);
                 currentCrate.scenario = "WaitingForNextTruck";
                 dock.SendOff();
             }
-            else {
+            else
+            {
                 currentCrate.scenario = "NoNextTruck";
                 dock.SendOff();
             }
         }
     }
+
+   
 }
