@@ -37,7 +37,6 @@ namespace CSCImiamiWarehouseSimulation
             // Prints a report to command line of each crate //
             //ReportGenerator.GenerateCrateReport(warehouse);
 
-
         }
     }
 }
