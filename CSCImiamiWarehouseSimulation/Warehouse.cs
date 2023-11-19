@@ -89,16 +89,10 @@ namespace CSCImiamiWarehouseSimulation
         /// <param name="warehouse">The warehouse the simulation is running</param>
         public static void Run(Warehouse warehouse)
         {
-            // creates specified number docks
-            for (int i = 0; i < warehouse.numberOfDocks; i++) {
-                Dock dock = new Dock();
-                warehouse.docks.Add(dock);
-            }
+            // generates spcified number of docks
+            CreateDocks(warehouse);
 
-            // puts a list of trucks to line up each time increment
-            for (int i = 0; i < warehouse.timeIncrements; i++)
-                warehouse.trucks[i] = new List<Truck>();
-        
+            // generates how many trucks should arrive at each time increment
             GenerateTrucksForEachTimeIncrement(warehouse);
 
             //For loop that runs the actual simulation and updates every time increment.
@@ -114,11 +108,29 @@ namespace CSCImiamiWarehouseSimulation
                 /////////////////////////////////////////////
                 
         /// <summary>
+        /// creates specified number of docks for the warehouse to use
+        /// </summary>
+        /// <param name="warehouse">the warehouse that the docks should belong to</param>
+        static void CreateDocks(Warehouse warehouse)
+        {
+            // creates specified number docks
+            for (int i = 0; i < warehouse.numberOfDocks; i++)
+            {
+                Dock dock = new Dock();
+                warehouse.docks.Add(dock);
+            }
+        }
+
+        /// <summary>
         /// Generates trucks before running the simulation
         /// </summary>
         /// <param name="warehouse">the warehouse that needs trucks</param>
         static void GenerateTrucksForEachTimeIncrement(Warehouse warehouse)
         {
+            // puts a list of trucks to line up each time increment
+            for (int i = 0; i < warehouse.timeIncrements; i++)
+                warehouse.trucks[i] = new List<Truck>();
+
             for (int i = 0; i < warehouse.timeIncrements; i++) {
                 GenerateTrucksBasedOnNormalDistribution(warehouse, i);
             }
