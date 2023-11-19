@@ -14,7 +14,7 @@ namespace CSCImiamiWarehouseSimulation
         static void Main(string[] args)
         {
             Warehouse warehouse = new Warehouse();
-            warehouse.numberOfDocks = 5;
+            warehouse.numberOfDocks = 10;
             Warehouse.Run(warehouse);
 
             // This will clear the csv. If you want to append, then comment this out.

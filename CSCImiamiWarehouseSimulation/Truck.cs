@@ -51,7 +51,7 @@ namespace CSCImiamiWarehouseSimulation
         /// <summary>
         /// The stack of crates inside of the truck.
         /// </summary>
-        public Stack<Crate> Trailer = new Stack<Crate>();
+        public Stack<Crate> trailer = new Stack<Crate>();
 
         /// <summary>
         /// Counts the total number of trucks.
@@ -103,7 +103,7 @@ namespace CSCImiamiWarehouseSimulation
             driver = string.Empty;
             deliveryCompany = string.Empty;
             id = truckCounter++;
-            Stack<Crate> Trailer = new Stack<Crate>();
+            Stack<Crate> trailer = new Stack<Crate>();
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace CSCImiamiWarehouseSimulation
             this.driver = driver;
             this.deliveryCompany = deliveryCompany;
             id = truckCounter++;
-            Stack<Crate> Trailer = new Stack<Crate>();
+            Stack<Crate> trailer = new Stack<Crate>();
         }
 
         /// <summary>
@@ -131,8 +131,7 @@ namespace CSCImiamiWarehouseSimulation
             Truck truck = new Truck(driverNames[random.Next(0, Truck.driverNames.Count - 1)], deliveryCompanies[random.Next(0, Truck.deliveryCompanies.Count - 1)]);
             
             //Add a random amount of crates to the truck.
-            for (int i = 0; i < new Random().Next(minimumCrateNumber, maximumCrateNumber); i++)
-            {
+            for (int i = 0; i < new Random().Next(minimumCrateNumber, maximumCrateNumber); i++) {
                 Crate crate = new Crate();
                 truck.Load(crate);
             }
@@ -146,7 +145,7 @@ namespace CSCImiamiWarehouseSimulation
         /// <param name="crate">The crate that was pushed onto the stack.</param>
         public void Load(Crate crate)
         {
-            Trailer.Push(crate);
+            trailer.Push(crate);
         }
 
         /// <summary>
@@ -156,16 +155,12 @@ namespace CSCImiamiWarehouseSimulation
         /// <exception cref="IndexOutOfRangeException">An exception thrown when trying to remove crates from an empty stack.</exception>
         public Crate Unload()
         {
-            if (HasMoreCrates())
-            {
-                deliveredCrates.Add(Trailer.Peek());
-                return Trailer.Pop();
+            if (HasMoreCrates()) {
+                deliveredCrates.Add(trailer.Peek());
+                return trailer.Pop();
             }
             else
-            {
-                throw new IndexOutOfRangeException();
-            }
-            
+                throw new IndexOutOfRangeException();            
         }
 
         /// <summary>
@@ -174,10 +169,8 @@ namespace CSCImiamiWarehouseSimulation
         /// <returns>A boolean value of true if there are more crates and false if there are not any more crates.</returns>
         public bool HasMoreCrates()
         {
-            if (Trailer.Count > 0)
-            {
+            if (trailer.Count > 0)
                 return true;
-            }
             return false;
         }
     }

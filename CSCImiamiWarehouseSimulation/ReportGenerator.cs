@@ -20,7 +20,6 @@ namespace CSCImiamiWarehouseSimulation
         {
             using (StreamWriter writer = new StreamWriter(@"crateData.csv", false))
             {
-
             }
         }
 
@@ -45,16 +44,13 @@ namespace CSCImiamiWarehouseSimulation
             // Check if the file exists; if not, create it and write the header
 
             if (new FileInfo(filePath).Length == 0)
-            {
-                using (StreamWriter writer = new StreamWriter(filePath, true))
-                {
+                using (StreamWriter writer = new StreamWriter(filePath, true)) {
                     writer.WriteLine("Time Increment,Driver,Delivery Company,Crate ID,Crate Value,Scenario");
                 }
-            }
+            
 
             // Append the new log entry
-            using (StreamWriter writer = new StreamWriter(filePath, true))
-            {
+            using (StreamWriter writer = new StreamWriter(filePath, true)) {
                 writer.WriteLine($"{timeIncrement},{driver},{company},{id},{price},{scenario}");
             }
         }
@@ -65,28 +61,22 @@ namespace CSCImiamiWarehouseSimulation
         /// <param name="warehouse">the warehouse to pull data from</param>
         public static void CalculateData(Warehouse warehouse)
         {
-            foreach (Dock dock in warehouse.docks)
-            {
+            foreach (Dock dock in warehouse.docks) {
                 warehouse.allDockSales += dock.totalSales;
-                if (dock.lineLength > warehouse.longestLine)
-                {
+                if (dock.lineLength > warehouse.longestLine) 
                     warehouse.longestLine = dock.lineLength;
-                }
                 warehouse.totalUsedDockTime += dock.timeInUse;
                 warehouse.totalUnusedDockTime += dock.timeNotInUse;
                 warehouse.totalProcessedTrucks += dock.numberOfTrucksEmptied;
                 warehouse.totalCratesProcessed += dock.totalCrates;
             }
             foreach (Truck truck in warehouse.allTrucks)
-            {
                 warehouse.totalTruckValue += truck.truckWorth;
-            }
             warehouse.avgValueOfCrates = Math.Round(warehouse.allDockSales / warehouse.totalCratesProcessed, 2);
             warehouse.avgValueOfTrucks = Math.Round(warehouse.totalTruckValue / warehouse.allTrucks.Count, 2);
             warehouse.avgDockTimeUse = warehouse.totalUsedDockTime / warehouse.numberOfDocks;
             warehouse.totalCostOfOperatingEachDock = warehouse.dockCost * warehouse.numberOfDocks * warehouse.timeIncrements;
             warehouse.revenue = warehouse.allDockSales - warehouse.totalCostOfOperatingEachDock;
-
         }
 
         // Required warehouse report
@@ -97,7 +87,8 @@ namespace CSCImiamiWarehouseSimulation
         /// <param name="warehouse">the warehouse being reported</param>
         public static void GenerateWarehouseReport(Warehouse warehouse)
         {
-            Console.WriteLine("Report: \n" +
+            Console.WriteLine(
+                $"Report: \n" +
                 $"Number of Docks: {warehouse.numberOfDocks} \n" +
                 $"Longest Line: {warehouse.longestLine} \n" +
                 $"Toal Trucks Processed: {warehouse.totalProcessedTrucks} \n" +
@@ -112,8 +103,7 @@ namespace CSCImiamiWarehouseSimulation
                 $"Total Revenue: {warehouse.revenue} \n"
                 );
             //this goes to the csv file
-            foreach (Truck truck in warehouse.allTrucks)
-            {
+            foreach (Truck truck in warehouse.allTrucks) {
                 warehouse.totalTruckValue += truck.truckWorth;
                 foreach (Crate crate in truck.deliveredCrates)
                     LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate.id, crate.price, crate.scenario);
@@ -131,8 +121,8 @@ namespace CSCImiamiWarehouseSimulation
         {
             Console.WriteLine("All Dock Reports: ");
             foreach (Dock dock in warehouse.docks)
-                Console.WriteLine
-                    ($"  Dock: {dock.id}\n" +
+                Console.WriteLine(
+                    $"  Dock: {dock.id} \n" +
                     $"    Total Trucks Processed: {dock.numberOfTrucksEmptied} \n" +
                     $"    Total Crates Processed: {dock.totalCrates} \n" +
                     $"    Total Time Used: {dock.timeInUse} \n" +

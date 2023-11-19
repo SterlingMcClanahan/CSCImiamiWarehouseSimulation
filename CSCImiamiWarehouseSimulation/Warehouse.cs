@@ -90,8 +90,7 @@ namespace CSCImiamiWarehouseSimulation
         public static void Run(Warehouse warehouse)
         {
             // creates specified number docks
-            for (int i = 0; i < warehouse.numberOfDocks; i++)
-            {
+            for (int i = 0; i < warehouse.numberOfDocks; i++) {
                 Dock dock = new Dock();
                 warehouse.docks.Add(dock);
             }
@@ -120,8 +119,7 @@ namespace CSCImiamiWarehouseSimulation
         /// <param name="warehouse">the warehouse that needs trucks</param>
         static void GenerateTrucksForEachTimeIncrement(Warehouse warehouse)
         {
-            for (int i = 0; i < warehouse.timeIncrements; i++)
-            {
+            for (int i = 0; i < warehouse.timeIncrements; i++) {
                 GenerateTrucksBasedOnNormalDistribution(warehouse, i);
             }
         }
@@ -161,8 +159,7 @@ namespace CSCImiamiWarehouseSimulation
                 by processing the truck and updating the 
                 time statistics of the dock
             */
-            if (dock.line.Count > 0)
-            {
+            if (dock.line.Count > 0) {
                 ProcessTruck(warehouse, dock);
                 dock.timeInUse++;
             }
@@ -188,8 +185,7 @@ namespace CSCImiamiWarehouseSimulation
                 warehouse.chanceOfGeneratingTruck = (warehouse.timeIncrements - i) / (warehouse.timeIncrements / 2);
             //Attempt to make a truck a number of times equal to the max number of trucks possible per time increment.
             for (int j = 0; j < warehouse.maxPossibleTrucksPerTimeIncrement; j++)
-                if (new Random().NextDouble() >= warehouse.chanceOfGeneratingTruck)
-                {
+                if (new Random().NextDouble() >= warehouse.chanceOfGeneratingTruck) {
                     //Generate a truck.
                     Truck truck = Truck.GenerateTruck();
                     warehouse.trucks[i].Add(truck);
@@ -286,19 +282,15 @@ namespace CSCImiamiWarehouseSimulation
              */
             if (currentTruck.HasMoreCrates())
                 currentCrate.scenario = "HasMoreCrates";
-            else if (!currentTruck.HasMoreCrates() && dock.line.Count() > 1)
-            {
+            else if (!currentTruck.HasMoreCrates() && dock.line.Count() > 1) {
                 warehouse.allProcessedTrucks.Add(currentTruck);
                 currentCrate.scenario = "WaitingForNextTruck";
                 dock.SendOff();
             }
-            else
-            {
+            else {
                 currentCrate.scenario = "NoNextTruck";
                 dock.SendOff();
             }
         }
     }
-
-   
 }
