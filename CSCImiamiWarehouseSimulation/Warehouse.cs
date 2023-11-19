@@ -114,8 +114,7 @@ namespace CSCImiamiWarehouseSimulation
         static void CreateDocks(Warehouse warehouse)
         {
             // creates specified number docks
-            for (int i = 0; i < warehouse.numberOfDocks; i++)
-            {
+            for (int i = 0; i < warehouse.numberOfDocks; i++) {
                 Dock dock = new Dock();
                 warehouse.docks.Add(dock);
             }
