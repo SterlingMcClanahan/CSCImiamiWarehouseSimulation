@@ -21,7 +21,7 @@ namespace CSCImiamiWarehouseSimulation
             ReportGenerator.ClearCSV();
             // Calculates the data but does nothing with it yet
             ReportGenerator.CalculateData(warehouse);
-            // Prints a report to command line and creates a csv file of the crates delivered
+            // Prints a report to command line of the warehouse and creates a csv file of the crates delivered
             ReportGenerator.GenerateWarehouseReport(warehouse);
 
             ///////////////////////////////////////////////////
