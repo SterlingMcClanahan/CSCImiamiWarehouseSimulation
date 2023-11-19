@@ -25,17 +25,17 @@ namespace CSCImiamiWarehouseSimulation
             ReportGenerator.GenerateWarehouseReport(warehouse);
 
             ///////////////////////////////////////////////////
-            // Extra reports. uncomment what you want to see //
+            // Extra reports. Uncomment what you want to see //
             ///////////////////////////////////////////////////
             
-            // Prints a report to command line of each dock
+            // Prints a report to command line of each dock //
             ReportGenerator.GenerateDockReport(warehouse);
 
-            // Prints a report to command line of each truck
+            // Prints a report to command line of each truck //
             //ReportGenerator.GenerateTruckReport(warehouse);
 
-            //Prints a report to command line of each crate
-            ReportGenerator.GenerateCrateReport(warehouse);
+            // Prints a report to command line of each crate //
+            //ReportGenerator.GenerateCrateReport(warehouse);
 
 
         }

@@ -30,12 +30,12 @@ namespace CSCImiamiWarehouseSimulation
         /// <summary>
         /// The value of each crate, this is the warehouses profit
         /// </summary>
-        public double Price { get; private set; }
+        public double price { get; private set; }
 
         /// <summary>
         /// Each crates id in the form of a string to be printed to a csv later
         /// </summary>
-        public string Id { get; private set; }
+        public string id { get; private set; }
 
         /// <summary>
         /// There are 3 statuses a truck could have after a crate is delivered:
@@ -60,8 +60,8 @@ namespace CSCImiamiWarehouseSimulation
         /// </summary>
         public Crate()
         {
-            Id = $"Crate_{crateCounter++}";
-            Price = new Random().Next(50, 501); // Random value from $50 to $500
+            id = $"Crate_{crateCounter++}";
+            price = new Random().Next(50, 501); // Random value from $50 to $500
         }
     }
 }

@@ -39,12 +39,10 @@ namespace CSCImiamiWarehouseSimulation
         public List<Crate> allDeliveredCrates = new List<Crate>();
         public List<Truck> allProcessedTrucks = new List<Truck>();
         public List<Truck>[] trucks = new List<Truck>[48];
-
         // Warehouse
         public int timeIncrements { get; set; } = 48;
         public int currentTime { get; set; } = 0;
         public double revenue { get; set; }
-
         // Dock
         public int numberOfDocks { get; set; }
         public int totalUsedDockTime { get; set; }
@@ -54,7 +52,6 @@ namespace CSCImiamiWarehouseSimulation
         public double allDockSales { get; set; } = 0;
         public double avgDockTimeUse { get; set; }
         public double totalCostOfOperatingEachDock { get; set; }
-
         // Truck
         public int numberOfTrucks { get; set; } = 0;
         public int maxPossibleTrucksPerTimeIncrement { get; set; } = 2;
@@ -62,7 +59,6 @@ namespace CSCImiamiWarehouseSimulation
         public double totalTruckValue { get; set; }
         public double avgValueOfTrucks { get; set; }
         public float chanceOfGeneratingTruck { get; set; }
-
         // Crate
         public int totalCratesProcessed { get; set; }
         public double avgValueOfCrates { get; set; }
@@ -165,13 +161,13 @@ namespace CSCImiamiWarehouseSimulation
                 by processing the truck and updating the 
                 time statistics of the dock
             */
-            if (dock.Line.Count > 0)
+            if (dock.line.Count > 0)
             {
                 ProcessTruck(warehouse, dock);
-                dock.TimeInUse++;
+                dock.timeInUse++;
             }
             else
-                dock.TimeNotInUse++;
+                dock.timeNotInUse++;
         }
 
                     ////////////////////////////////////////////////////
@@ -212,7 +208,7 @@ namespace CSCImiamiWarehouseSimulation
             //Loop through each dock to find the one with the smallest line.
             int indexOfDockWithSmallestLine = 0;
             for (int j = 1; j < warehouse.docks.Count(); j++)
-                if (warehouse.docks[j].Line.Count < warehouse.docks[indexOfDockWithSmallestLine].Line.Count())
+                if (warehouse.docks[j].line.Count < warehouse.docks[indexOfDockWithSmallestLine].line.Count())
                     indexOfDockWithSmallestLine = j;
             return indexOfDockWithSmallestLine;
         }
@@ -224,7 +220,7 @@ namespace CSCImiamiWarehouseSimulation
         /// <param name="dock">the dock that is currently processing the truck</param>
         static void ProcessTruck(Warehouse warehouse, Dock dock)
         {
-            Truck currentTruck = dock.Line.Peek();
+            Truck currentTruck = dock.line.Peek();
             Crate currentCrate;
 
             // keeps a list of all the trucks that delivered to the factory
@@ -238,9 +234,9 @@ namespace CSCImiamiWarehouseSimulation
             if (currentTruck.HasMoreCrates()) {
                 currentCrate = currentTruck.Unload();
                 currentCrate.timeIncrementDelivered = warehouse.currentTime;
-                dock.TotalCrates++;
-                dock.TotalSales += currentCrate.Price;
-                currentTruck.truckWorth += currentCrate.Price;
+                dock.totalCrates++;
+                dock.totalSales += currentCrate.price;
+                currentTruck.truckWorth += currentCrate.price;
                 warehouse.allDeliveredCrates.Add(currentCrate);
                 CheckNextTrucksStatus(warehouse, dock, currentTruck, currentCrate);
             }
@@ -278,7 +274,7 @@ namespace CSCImiamiWarehouseSimulation
              */
             if (currentTruck.HasMoreCrates())
                 currentCrate.scenario = "HasMoreCrates";
-            else if (!currentTruck.HasMoreCrates() && dock.Line.Count() > 1) {
+            else if (!currentTruck.HasMoreCrates() && dock.line.Count() > 1) {
                 warehouse.allProcessedTrucks.Add(currentTruck);
                 currentCrate.scenario = "WaitingForNextTruck";
                 dock.SendOff();

@@ -24,8 +24,10 @@ namespace CSCImiamiWarehouseSimulation
             }
         }
 
+        // make sure this can log other reports too , or make multiple loggers
+
         /// <summary>
-        /// Logs information into a Comma Seperated list
+        /// Logs crate information into a Comma Seperated list
         /// </summary>
         /// <param name="timeIncrement">the time increment</param>
         /// <param name="driver">the truck driver</param>
@@ -65,15 +67,15 @@ namespace CSCImiamiWarehouseSimulation
         {
             foreach (Dock dock in warehouse.docks)
             {
-                warehouse.allDockSales += dock.TotalSales;
+                warehouse.allDockSales += dock.totalSales;
                 if (dock.lineLength > warehouse.longestLine)
                 {
                     warehouse.longestLine = dock.lineLength;
                 }
-                warehouse.totalUsedDockTime += dock.TimeInUse;
-                warehouse.totalUnusedDockTime += dock.TimeNotInUse;
+                warehouse.totalUsedDockTime += dock.timeInUse;
+                warehouse.totalUnusedDockTime += dock.timeNotInUse;
                 warehouse.totalProcessedTrucks += dock.numberOfTrucksEmptied;
-                warehouse.totalCratesProcessed += dock.TotalCrates;
+                warehouse.totalCratesProcessed += dock.totalCrates;
             }
             foreach (Truck truck in warehouse.allTrucks)
             {
@@ -86,6 +88,8 @@ namespace CSCImiamiWarehouseSimulation
             warehouse.revenue = warehouse.allDockSales - warehouse.totalCostOfOperatingEachDock;
 
         }
+
+        // Required warehouse report
 
         /// <summary>
         /// Creates a report for the Warehouse 
@@ -112,7 +116,7 @@ namespace CSCImiamiWarehouseSimulation
             {
                 warehouse.totalTruckValue += truck.truckWorth;
                 foreach (Crate crate in truck.deliveredCrates)
-                    LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate.Id, crate.Price, crate.scenario);
+                    LogToCSV(crate.timeIncrementDelivered, truck.driver, truck.deliveryCompany, crate.id, crate.price, crate.scenario);
             }
         }
         
@@ -128,12 +132,12 @@ namespace CSCImiamiWarehouseSimulation
             Console.WriteLine("All Dock Reports: ");
             foreach (Dock dock in warehouse.docks)
                 Console.WriteLine
-                    ($"  Dock: {dock.Id}\n" +
+                    ($"  Dock: {dock.id}\n" +
                     $"    Total Trucks Processed: {dock.numberOfTrucksEmptied} \n" +
-                    $"    Total Crates Processed: {dock.TotalCrates} \n" +
-                    $"    Total Time Used: {dock.TimeInUse} \n" +
-                    $"    Total Time Not Used: {dock.TimeNotInUse} \n" +
-                    $"    Total Sales: {dock.TotalSales}"
+                    $"    Total Crates Processed: {dock.totalCrates} \n" +
+                    $"    Total Time Used: {dock.timeInUse} \n" +
+                    $"    Total Time Not Used: {dock.timeNotInUse} \n" +
+                    $"    Total Sales: {dock.totalSales}"
                     );
 
             Console.WriteLine();
@@ -150,7 +154,7 @@ namespace CSCImiamiWarehouseSimulation
             foreach (Truck truck in warehouse.allTrucks) {
                 Console.Write($"{truck.id}, {truck.truckWorth}, {truck.driver}, {truck.deliveryCompany}, ");
                 foreach(Crate crate in truck.deliveredCrates)
-                    Console.Write($"{crate.Id}; ");
+                    Console.Write($"{crate.id}; ");
                 Console.WriteLine();
             }
             Console.WriteLine();
@@ -165,7 +169,7 @@ namespace CSCImiamiWarehouseSimulation
             Console.WriteLine("All Crate Reports: ");
             Console.WriteLine($"Time Increment Delivered, Crate Id, Crate Price, Status Of Truck");
             foreach (Crate crate in warehouse.allDeliveredCrates)
-                Console.WriteLine($"{crate.timeIncrementDelivered}, {crate.Id}, {crate.Price}, {crate.scenario}");
+                Console.WriteLine($"{crate.timeIncrementDelivered}, {crate.id}, {crate.price}, {crate.scenario}");
             Console.WriteLine();
         }
     }

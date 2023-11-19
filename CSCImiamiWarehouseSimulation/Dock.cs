@@ -18,13 +18,13 @@ namespace CSCImiamiWarehouseSimulation
         /// <summary>
         /// A queue of trucks 
         /// </summary>
-        public Queue<Truck> Line { get; set; } = new Queue<Truck>();
+        public Queue<Truck> line { get; set; } = new Queue<Truck>();
 
         /// <summary>
         /// The current length of line at the dock, 
         /// so the warehouse knows where to assign the next truck
         /// </summary>
-        public int lineLength { get { return Line.Count; } }
+        public int lineLength { get { return line.Count; } }
 
         /// <summary>
         /// Keeps track of how many trucks the dock has emptied
@@ -39,32 +39,32 @@ namespace CSCImiamiWarehouseSimulation
         /// <summary>
         /// The integer total of crates
         /// </summary>
-        public int TotalCrates { get; set; }
+        public int totalCrates { get; set; }
 
         /// <summary>
         /// The integer total of trucks
         /// </summary>
-        public int TotalTrucks { get; set; }
+        public int totalTrucks { get; set; }
 
         /// <summary>
         /// How long a dock has been in use as a int
         /// </summary>
-        public int TimeInUse { get; set; }
+        public int timeInUse { get; set; }
 
         /// <summary>
         /// How long a dock has not been used as a int
         /// </summary>
-        public int TimeNotInUse { get; set; }
+        public int timeNotInUse { get; set; }
 
         /// <summary>
         /// The total amount of sales as a double
         /// </summary>
-        public double TotalSales { get; set; }
+        public double totalSales { get; set; }
 
         /// <summary>
         /// A string of ID's gotten by dockCounter
         /// </summary>
-        public string Id { get; set; }
+        public string id { get; set; }
 
         ///////////////////////
         //      METHODS      //
@@ -75,7 +75,7 @@ namespace CSCImiamiWarehouseSimulation
         /// </summary>
         public Dock()
         {
-            Id = $"{dockCounter++}";
+            id = $"{dockCounter++}";
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace CSCImiamiWarehouseSimulation
         /// <param name="truck">The truck being added</param>
         public void JoinLine(Truck truck)
         {       
-            Line.Enqueue(truck);
+            line.Enqueue(truck);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace CSCImiamiWarehouseSimulation
         public Truck SendOff()
         {
             numberOfTrucksEmptied++;
-            return Line.Dequeue();
+            return line.Dequeue();
         }
     }
 }
